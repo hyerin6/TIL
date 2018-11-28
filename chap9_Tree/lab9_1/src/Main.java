@@ -1,9 +1,9 @@
 package lab9_1;
 
-//배열로 구현한 트리와 연결자료구조로 구현한 트리를 만들고 테스트하는 프로그램
 public class Main {
+
 	public static void main(String[] args) {
-		System.out.println("lab9_1: 박혜린\n");
+		System.out.println("lab9_1: 박혜린 \n");
 
 		// 연결자료구조로 구현한 노드 7개 예제 트리를 만들고 메소드 호출
 		System.out.println(" 연결자료구조 구현 트리1");
@@ -54,3 +54,4 @@ public class Main {
 		arrayTree2.printLeft();  // 왼쪽 자식들을 출력
 	}
 }
+
