@@ -87,18 +87,6 @@ public class MyBinarySearchTree {
 				t = t.rightChild;
 		}
 		return false; 
-		/*
-		 * 반복 알고리즘
-		 Node t = root;
-		 while(t != null) {
-			if(t.key == key) return true;
-			else if(t.key > key)
-				t = t.leftChild;
-			else 
-				t = t.rightChild;
-		}
-		return false;
-		 */
 	}
 
 	// (6) 트리에 키값 key를 삽입하는 메소드(반복 알고리즘) - 삽입 성공여부(true/false)를 리턴
