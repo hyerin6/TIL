@@ -1,18 +1,10 @@
-/*
- * 파일명: DirectedMatrixGraphTest.java
- * 작성일: 2018.11.22
- * 작성자: 박혜린
- * 설명: 방향 그래프를 생성하고 이용하는 프로그램
- */
 package lab10_1;
 
 import java.util.Scanner;
 
 public class DirectedMatrixGraphTest {
-
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("lab10_1 : 박혜린\n");
+		System.out.println("lab10_1 : 박혜린 \n");
 
 		// 정점 수 n 입력
 		Scanner scan = new Scanner(System.in);

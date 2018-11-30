@@ -1,31 +1,37 @@
+package lab10_2;
+
 /*
  * 파일명: UndirectedListGraph.java
  * 작성일: 2018.11.22
  * 작성자: 박혜린
  * 설명: 무방향 그래프를 생성하고 이용하는 프로그램
  */
-package lab10_2;
 
 public class UndirectedListGraph {
+
 	private class Node{
 		int vertex;
 		Node link;
 
 		Node(int vertex){
-			this.vertex  = vertex;
+			this.vertex = vertex;
 		}
 	}
 
 	private Node[] list;
-	private int n; // 정점 수를 저장하는 변수
+	private int vertexCount; // 정점 수를 저장하는 변수
 
-	// 정점수 n을 매개변수로 받아 정점은 n개이고 간선은 없는 초기 그래프를 생성
-	public UndirectedListGraph(int n) {
-		this.n = n;
-		this.list = new Node[n];
+
+	public UndirectedListGraph(int vertexCount) {
+		this.list = new Node[vertexCount];
+		this.vertexCount = vertexCount;
 	}
 
+	// 방향이 없기 때문에 v1과 v2중 하나만 검사하면됨
 	public boolean hasEdge(int v1, int v2) {
+		if(!isValid(v1) || !isValid(v2)) 
+			System.out.println("잘못된 정점입니다.");
+
 		Node t = list[v1];
 		while(t != null) {
 			if(t.vertex == v2) return true;
@@ -35,16 +41,17 @@ public class UndirectedListGraph {
 	}
 
 	public boolean isValid(int v) {
-		if(v < 0 || v > n-1) return false;
+		if(v < 0 || v >= vertexCount) return false;
 		return true;
 	}
 
+
 	public void addEdge(int v1, int v2) {
-		// 간선 삽입 오류 발생은 무시하면 됨. 예를 들어 7개의 간선 삽입 과정에서 2개가 오류이면 5개만 삽입하면 됨
 		if(!isValid(v1) || !isValid(v2)) 
-			System.out.println("잘못된 정점 번호입니다.");
+			System.out.print(String.format("잘못된 정점 번호입니다. <%d, %d>\n", v1, v2));
 		else if(hasEdge(v1, v2))
-			System.out.print(String.format("이미 존재하는 간선입니다. (%d, %d)\n", v1, v2));
+			System.out.print(String.format("이미 존재하는 간선입니다. <%d, %d>\n", v1, v2));
+
 		// 단순연결 리스트 addFirst - Null, notNull 전부 실행 가능
 		else { 
 			Node n1 = new Node(v1);
@@ -58,6 +65,9 @@ public class UndirectedListGraph {
 	}
 
 	public void printAdjacentVertices(int v) {
+		if(!isValid(v)) 
+			System.out.println("잘못된 정점입니다.");
+
 		Node t = list[v];
 		while(t != null) {
 			System.out.print(t.vertex + " ");

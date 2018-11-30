@@ -1,27 +1,25 @@
-/*
- * 파일명: UndirectedListGraphTest.java
- * 작성일: 2018.11.22
- * 작성자: 박혜린
- * 설명: 무방향 그래프를 생성하고 이용하는 프로그램
- */
+package hw10_1;
 
-package lab10_2;
+/*
+ * 파일명: DirectedMatrixGraphTest.java
+ * 작성자: 박혜린
+ * 작성일: 2018.11.29
+ * 프로그램 설명: adjacency matrix로 구현한 directed graph의 깊이우선탐색을 이해한다.
+ */
 
 import java.util.Scanner;
 
-public class UndirectedListGraphTest {
-
+public class DirectedMatrixGraphTest {
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("lab10_2 : 박혜린\n");
+		System.out.println("hw10_1 : 박혜린 \n");
 
 		// 정점 수 n 입력
 		Scanner scan = new Scanner(System.in);
 		System.out.print("정점 수 입력: ");
 		int n = scan.nextInt();
 
-		// 정점 수가 n인 무방향 그래프를 생성
-		UndirectedListGraph graph = new UndirectedListGraph(n);
+		// 정점 수가 n인 방향 그래프를 생성
+		DirectedMatrixGraph graph = new DirectedMatrixGraph(n);
 
 		// 간선 수 e 입력
 		System.out.print("간선 수 입력: ");
@@ -40,6 +38,11 @@ public class UndirectedListGraphTest {
 		for(int i = 0; i < n; i++) {
 			System.out.print("정점 " + i + "에 인접한 정점 = ");
 			graph.printAdjacentVertices(i);
-		}
+		}System.out.println();
+
+		// 각 정점을 시작한 정점으로 한 깊이우선탐색
+		for(int i = 0; i < n; i++) 
+			graph.depthFirstSearch(i);
+
 	}
 }
