@@ -68,10 +68,12 @@ public class UndirectedListGraph {
 		if(!isValid(v)) 
 			System.out.println("잘못된 정점입니다.");
 
-		Node t = list[v];
-		while(t != null) {
-			System.out.print(t.vertex + " ");
-			t = t.link;
-		}System.out.println();
+		else {
+			Node t = list[v];
+			while(t != null) {
+				System.out.print(t.vertex + " ");
+				t = t.link;
+			}System.out.println();
+		}
 	}
 }

@@ -41,10 +41,11 @@ public class DirectedMatrixGraph {
 		if(!isValid(v)) 
 			System.out.println("잘못된 정점입니다.");
 
-
-		for(int i = 0; i < vertexCount; ++i) {
-			if(matrix[v][i] == 1)
-				System.out.print(i + " ");
-		} System.out.println();
+		else {
+			for(int i = 0; i < vertexCount; ++i) {
+				if(matrix[v][i] == 1)
+					System.out.print(i + " ");
+			} System.out.println();
+		}
 	}
 }
