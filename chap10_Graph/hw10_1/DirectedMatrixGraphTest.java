@@ -1,12 +1,4 @@
 package hw10_1;
-
-/*
- * 파일명: DirectedMatrixGraphTest.java
- * 작성자: 박혜린
- * 작성일: 2018.11.29
- * 프로그램 설명: adjacency matrix로 구현한 directed graph의 깊이우선탐색을 이해한다.
- */
-
 import java.util.Scanner;
 
 public class DirectedMatrixGraphTest {
@@ -43,6 +35,8 @@ public class DirectedMatrixGraphTest {
 		// 각 정점을 시작한 정점으로 한 깊이우선탐색
 		for(int i = 0; i < n; i++) 
 			graph.depthFirstSearch(i);
+
+		
 
 	}
 }

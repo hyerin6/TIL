@@ -1,4 +1,11 @@
 package hw10_2;
+/*
+ * 파일명: UndirectedListGraphTest.java
+ * 작성일: 2018.12.01
+ * 작성자: 박혜린
+ * 설명: 무방향 그래프를 생성하고 이용하는 프로그램
+ */
+
 import java.util.Scanner;
 
 public class UndirectedListGraphTest {

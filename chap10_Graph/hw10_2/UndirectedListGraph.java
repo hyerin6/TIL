@@ -1,4 +1,13 @@
 package hw10_2;
+/*
+ * 파일명: UndirectedListGraph.java
+ * 작성일: 2018.12.01
+ * 작성자: 박혜린
+ * 설명: 무방향 그래프를 생성하고 이용하는 프로그램
+ */
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class UndirectedListGraph {
 	private class Node{
@@ -41,9 +50,9 @@ public class UndirectedListGraph {
 
 	public void addEdge(int v1, int v2) {
 		if(!isValid(v1) || !isValid(v2)) 
-			System.out.print(String.format("잘못된 정점 번호입니다. <%d, %d>\n", v1, v2));
+			System.out.print(String.format("잘못된 정점 번호입니다. (%d, %d)\n", v1, v2));
 		else if(hasEdge(v1, v2))
-			System.out.print(String.format("이미 존재하는 간선입니다. <%d, %d>\n", v1, v2));
+			System.out.print(String.format("이미 존재하는 간선입니다. (%d, %d)\n", v1, v2));
 
 		// 단순연결 리스트 addFirst - Null, notNull 전부 실행 가능
 		else { 
@@ -79,15 +88,29 @@ public class UndirectedListGraph {
 			for(int i = 0; i < n; ++i) 
 				visited[i] = 0; 		
 
+
 			// (3) v를 시작 정점으로 그래프를 너비우선 탐색하며 순서대로 정점 번호를 출력
+			// 선입선출 구조의 큐 생성
+			Queue<Integer> q = new LinkedList<>();
+
+			System.out.println();
+			// v에 방문
 			visited[v] = 1;
-			for(int i = 0; i < n; ++i) {
-				// v에 인접한 정점중에 방문한 것 출력
-				if(hasEdge(v, i) && visited[i] == 0)  {
-					System.out.printf("%d -> %d\n", v, i);
+			System.out.print(v + " ");
+
+			q.add(v);
+
+			while(!q.isEmpty()) {
+				int w = q.poll();
+				for(int i = 0; i < n; ++i) {
+					if(hasEdge(w, i) && visited[i] == 0) {
+						visited[i] = 1;
+						System.out.print(i + " ");
+						q.add(i);
+					}
+
 				}
 			}
-
 		}
 	}
 }

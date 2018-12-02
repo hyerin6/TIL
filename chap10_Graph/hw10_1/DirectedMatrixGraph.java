@@ -1,11 +1,5 @@
 package hw10_1;
 
-/*
- * 파일명: DirectedMatrixGraph.java
- * 작성자: 박혜린
- * 작성일: 2018.11.29
- * 프로그램 설명: adjacency matrix로 구현한 directed graph의 깊이우선탐색을 이해한다.
- */
 
 public class DirectedMatrixGraph {
 	private int[][] matrix; // 인접 행렬
@@ -62,6 +56,7 @@ public class DirectedMatrixGraph {
 				visited[i] = 0; 		
 
 			// (3) dfs 메소드 호출
+			System.out.println();
 			dfs(v);
 		}
 	}
@@ -69,13 +64,12 @@ public class DirectedMatrixGraph {
 	private void dfs(int v) {
 		// v 방문
 		visited[v] = 1;
+		System.out.print(v + " ");
 
 		// 출력
-		for(int i = 0; i < n; ++i) {
-			// v에 인접한 정점중에 방문한 것 출력
-			if(matrix[v][i] == 1 && visited[i] == 0)  {
-				System.out.printf("%d -> %d\n", v, i);
-			}
+		for(int i = 0; i < n; i++) {
+			if(hasEdge(v, i) && visited[i] == 0)
+				dfs(i);
 		}
 	}
 }
