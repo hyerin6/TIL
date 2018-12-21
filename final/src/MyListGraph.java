@@ -18,15 +18,12 @@ public class MyListGraph {
 	// (1) 정점 v의 진출 차수를 구하여 리턴 (정점 번호 v의 유효성 검사할 필요 없음)
 	public int outDegree(int v) {
 		int count = 0;
-
-		for(int i = 0; i < list.length; i++) {
-			Node p = list[v];
-			while(p != null) {
-				if(p.vertex == i)
-					count++;
-				p = p.link;
-			}
+		Node p = list[v];
+		while(p != null) {
+			count++;
+			p = p.link;
 		}
+
 		return count;
 	}
 
