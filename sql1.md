@@ -44,8 +44,8 @@ GRANT/REVOKE/DENY 구문
 
 DB가 존재한다면 지우고 다시 만들기 
 
-``` drop database if existes DB_name; ```
-```create database DB_name; ```
+>``` drop database if existes DB_name; ```  
+>```create database DB_name; ```  
 
 #### [ use 구문 ]   
 - 사용할 데이터베이스를 지정한다.   
