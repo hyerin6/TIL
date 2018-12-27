@@ -29,18 +29,46 @@ GRANT/REVOKE/DENY 구문
 #### [ 데이터베이스 복원/백업 ]  
 
 - 명령어 창에서 복원  
-``` mysql -u[user] -p[DB name] [TABLE name] < [FILE name.sql] ```
+``` mysql -u[user] -p[DB_name] [TABLE_name] < [FILE_name.sql] ```
   
 - mysql 명령창에서 복원   
 ``` source [FILE name.sql] ```
   
 - 명령어 창에서 백업  
-``` mysqldump -u[user] -p[DB name] [TABLE name] > [FILE name.sql] ``` 
+``` mysqldump -u[user] -p[DB_name] [TABLE_name] > [FILE_name.sql] ``` 
 
 
+#### [ 데이터 베이스 생성 ] 
 
+``` create database DB_name; ```
 
+DB가 존재한다면 지우고 다시 만들기 
 
+``` drop database if existes DB_name; ```
+```create database DB_name; ```
 
+#### [ use 구문 ]   
+- 사용할 데이터베이스를 지정한다.   
+``` use DB_name; ```
 
- 
+- 현재 사용 중인 데이터베이스 확인   
+ ``` select database(); ```
+
+- 현재 사용자 확인   
+``` select user(); ```  
+
+#### [ DB, TABLE 조회 ]
+##### 현재 서버에 어떤 DB가 있는지 확인  
+``` show databases; ```  
+
+##### 현재 서버에 어떤 TABLE이 있는지 확인  
+- 특정 데이터 베이스에 있는 데이블 정보 조회    
+``` SHOW TABLE STATUS; ```  
+
+- 테이블 이름만 간단하게 확인하기    
+``` SHOW TABLES; ```
+
+- 테이블의 구조 확인    
+``` DESC TABLE_name; ```  
+``` DESCRIBE TABLE_name; ```   
+
