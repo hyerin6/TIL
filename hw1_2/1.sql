@@ -1,0 +1,1 @@
+select last_name, department_id from employees where department_id between 20 AND 50;
