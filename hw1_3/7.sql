@@ -1,0 +1,1 @@
+select job_id, MIN(salary) from employees group by job_id having COUNT(employee_id) >= 5;

@@ -1,0 +1,1 @@
+select COUNT(distinct manager_id) from employees where manager_id IS NOT NULL;
