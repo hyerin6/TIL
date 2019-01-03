@@ -1,0 +1,2 @@
+insert into testemp(id, last_name, first_name, userid, salary) values(3, 'Biri', 'Ben', 'bbiri',1100 );
+insert into testemp(id, last_name, first_name, userid, salary) values(4, 'Newman', 'Chad', 'cnewman', 750);
