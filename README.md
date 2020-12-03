@@ -7,11 +7,11 @@
 
 <br />  
 
-- [자바 객체지향의 원리와 이해 (1)](https://hyerin6.github.io/2020-06-09/%EC%8A%A4%ED%94%84%EB%A7%81%EC%9E%85%EB%AC%B8%EC%9D%84%EC%9C%84%ED%95%9C(1)/)
+- [자바 객체지향의 원리와 이해 (1) - OOP 특징](https://hyerin6.github.io/2020-06-09/%EC%8A%A4%ED%94%84%EB%A7%81%EC%9E%85%EB%AC%B8%EC%9D%84%EC%9C%84%ED%95%9C(1)/)
 
-- [자바 객체지향의 원리와 이해 (2)](https://hyerin6.github.io/2020-06-09/%EC%8A%A4%ED%94%84%EB%A7%81%EC%9E%85%EB%AC%B8%EC%9D%84%EC%9C%84%ED%95%9C(2)/)   
+- [자바 객체지향의 원리와 이해 (2) - 객체지향 키워드](https://hyerin6.github.io/2020-06-09/%EC%8A%A4%ED%94%84%EB%A7%81%EC%9E%85%EB%AC%B8%EC%9D%84%EC%9C%84%ED%95%9C(2)/)   
 
-- [자바 객체지향의 원리와 이해 (3)](https://hyerin6.github.io/2020-06-10/%EC%8A%A4%ED%94%84%EB%A7%81%EC%82%BC%EA%B0%81%ED%98%95/)  
+- [자바 객체지향의 원리와 이해 (3) - POJO](https://hyerin6.github.io/2020-06-10/%EC%8A%A4%ED%94%84%EB%A7%81%EC%82%BC%EA%B0%81%ED%98%95/)  
 
 - [객체 지향 설계 5원칙 - SOLID](https://hyerin6.github.io/2020-01-08/solid/)   
 
