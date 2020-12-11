@@ -58,11 +58,23 @@ DAO와 DB 커넥션을 만드는 오브젝트 사이에 연결횟수를 카운�
 생성자를 보면 CountingConnectionMaker도 DI를 받는 것을 알 수 있다.   
 CountingConnectionMaker의 오브젝트가 DI 받을 오브젝트도 역시 ConnectionMaker 인터페이스를 구현한 오브젝트다.  
 
+생성자에서 실제로 사용할 `realConnectionMaker`를 파라미터로 받고      
+카운팅하는 메소드를 따로 만들어 카운팅 후 `realConnectionMaker`를 리턴해준다.     
+
 ```  
-public Connection makeConnection() throws ClassNotFoundException, SQLException {
-	this.counter++;
-	return realConnectionMaker.makeConnection();  
-}  
+public class CountingConnectionMaker implements ConnectionMaker {
+	int count = 0;
+	private ConnectionMaker realConnectionMaker;
+	
+	public CountingConnectionMaker(ConnectionMaker realConnectionMaker) {
+		this.realConnectionMaker = realConnectionMaker;
+	}
+	
+	public Connection makeConnection() throws ClassNotFoundException, SQLException {
+		this.counter++;
+		return realConnectionMaker.makeConnection();  
+	}  
+}
 ```  
 
 
