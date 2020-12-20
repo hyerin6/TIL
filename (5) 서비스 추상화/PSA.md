@@ -211,7 +211,7 @@ Connection 오브젝트를 일일이 만들어서 DAO 메소드를 호출하도�
 
 트랜잭션 동기화 방법을 구현하는 일이 간단하지 않은데   
 스프링은 JdbcTemplate와 더불어 이런 트랜잭션 동기화 기능을 지원하는 간단한 유틸리티를 제공하고 있다.   
-스프링이 제공하는 트랝개션 동기화 관리 클래스는 `TransactionSynchronizationManager`이고   
+스프링이 제공하는 트랜잭션 동기화 관리 클래스는 `TransactionSynchronizationManager`이고   
 구현은 다음과 같다.   
 
 ```
@@ -252,8 +252,7 @@ public void upgradeLevels() {
 
 **(1) 기술과 환경에 종속되는 트랜잭션 경계설정 코드**     
 
-지금까지 트랜잭션을 적용하며, 책임과 성격에 따라 비즈니스 로직과 데이터 액세스 부분을 잘 분리했지만   
-새로운 문제가 발생할 수 있다.          
+지금까지 트랜잭션을 적용하며, 책임과 성격에 따라 비즈니스 로직과 데이터 액세스 부분을 잘 분리했지만 새로운 문제가 발생할 수 있다.          
 
 이 사용자 관리 모듈을 구매해서 사용하기로 한 G 사에서 들어온 새로운 요구가 있다고 가정하자.       
 지금까지 만든 코드로 업체별로 DB 연결 방법을 자유롭게 변경해서 사용할 수 있는데   
@@ -262,41 +261,20 @@ public void upgradeLevels() {
 
 G사는 이미 여러 개의 DB를 사용하고 있다.           
 즉 한 개 이상의 DB로의 작업을 하나의 트랜잭션으로 넣는 작업을 해야 할 필요가 발생한 것이다.         
-그러나 이는 JDBC의 `Connection`을 이용한 트랜잭션 방식인 로컬 트랜잭션으로는 불가능하다.   
-로컬 트랜잭션은 하나의 DB `Connection`에 종속되기 때문이다.   
+그러나 로컬 트랜잭션은 하나의 DB `Connection`에 종속되기 때문에 불가능하다.         
 
 각 DB와 독립적으로 만들어지는 `Connection`을 통해서가 아니라   
 별도의 트랜잭션 관리자를 통해 트랜잭션을 관리하는 글로벌 트랜잭션 방식을 사용해야 한다.   
 글로벌 트랜잭션을 적용해야 트랜잭션 매니저를 통해 여러 개의 DB가 참여하는 작업을 하나의 트랜잭션으로 만들 수 있다.   
-
 자바는 JDBC 외에 이런 글로벌 트랜잭션을 지원하는 트랜잭션 매니저를 지원하기 위한 API인 JTA(Java Transaction API)를 제공하고 있다.   
 JTA를 이용한 트랜잭션 처리 코드의 전형적인 구조는 다음과 같다.   
 
-
-```
-// JNDI를 이용해 서버의 UserTransaction 오브젝트를 가져온다. 
-InitialContext ctx = new InitialContext();
-UserTransaction tx = (UserTransaction)ctx.lookup(USER_TX_JNDI_NAME);
-
-tx.begin();
-Connection c = dataSource.getConnection(); // JNDI로 가져온 dataSource를 사용해야 한다.   
-
-try{
-    // 데이터 액세스 코드 
-    
-    . . .
-
-```
-
-JTA를 이용한 방법으로 바뀌긴 했지만 트랜잭션 경계설정을 위한 구조는 JDBC를 사용했을 때와 비슷하다.   
-문제는 JDBC로컬 트랜잭션을 JTA를 이용하는 글로벌 트랜잭션으로 바꾸려면 `UserService` 코드를 수정해야 한다는 점이다.   
-로컬 트랜잭션을 사용해도 충분한 고객을 위해서는 JDBC를 이용한 트랜잭션 코드를,   
-글로벌 트랜잭션이 필요한 곳을 위해서는 JTA를 이용한 트랜잭션 관리 코드를 적용해야 한다는 문제가 생긴다.   
-`UserService`는 자신의 로직이 바뀌지 않았음에도 기술환경에 따라 코드가 바뀌는 코드가된 것이다.   
+JTA를 이용한 방법으로 바뀌긴 하지만 트랜잭션 경계설정을 위한 구조는 JDBC를 사용했을 때와 비슷하다.     
+문제는 글로벌 트랜잭션으로 `UserService` 코드를 수정해야 한다는 점이다.      
+`UserService`는 자신의 로직이 바뀌지 않았음에도 **기술환경에 따라 코드가 바뀌는 코드**가 되어버렸다.         
 
 여기서 Y사에서 하이버네이트를 사용한다고 연락이 왔다고 가정하자.    
-하이버네이트는 `Connection`을 직접 사용하지 않고 `Session`이라는 것을 사용하고   
-독자적인 트랜잭션 관리 API를 사용한다.   
+하이버네이트는 `Connection`을 직접 사용하지 않고 `Session`이라는 것을 사용하고 독자적인 트랜잭션 관리 API를 사용한다.     
 그렇다면 `UserService`는 하이버네이트의 `Session`과 `Transaction` 오브젝트를 사용하는 트랜잭션 경계설정 코드로 변경해야 한다.   
 
 
@@ -307,15 +285,65 @@ JTA를 이용한 방법으로 바뀌긴 했지만 트랜잭션 경계설정을 �
 ![스크린샷 2020-12-20 오후 5 29 34](https://user-images.githubusercontent.com/33855307/102708863-04300080-42e9-11eb-96fe-5637a09e43ca.png)     
 
 원래 `UserService`가 UserDao 인터페이스에만 의존하는 구조였다.       
-그런데 JDBC에 종속적인 `Connection`을 이용한 트랜잭션 코드가     
-`UserService`에 등장하면서부터 `UserService`는 `UserDaoJdbc`에 간접적으로 의존하는 코드가 되버렸다.       
+그런데 JDBC에 종속적인 `Connection`을 이용한 트랜잭션 코드가 `UserService`에 등장하면서부터     
+`UserService`는 `UserDaoJdbc`에 간접적으로 의존하는 코드가 되버렸다.         
 
 `UserService`의 코드가 특정 트랜잭션 방법에 의존적이지 않고 독립적일 수 있게 만들려면 어떻게 해야 할까?      
 특정 기술에 의존적인 `Connection`, `UserTransaction`, `Session/Transaction API` 등에 종속되지 않게 할 수 있는 방법이 있다.   
 
+트랜잭션의 경계설정을 담당하는 코드는 일정한 패턴을 갖는 유사한 구조다.   
+이렇게 여러 기술의 사용 방법에 공통점이 있다면 추상화를 생갹해볼 수 있다.   
+추상화란 하위 시스템의 공통점을 뽑아내서 분리시키는 것을 말한다.   
+하위 시스템이 어떤 것인지 알지 못해도, 또는 하위 시스템이 바뀌더라도 일관된 방법으로 접근할 수 있다.    
+
+트랜잭션 경계설정 방법에서 공통적인 특징을 모아서 추상화된 트랜잭션 관리 계층을 만들 수 있다.        
 
 
 
+**(3) 스프링의 트랜잭션 서비스 추상화**          
+
+스프링이 제공하는 트랜잭션 추상화 계층구조는 다음과 같다.      
+
+![스크린샷 2020-12-20 오후 10 13 08](https://user-images.githubusercontent.com/33855307/102714222-93044380-4310-11eb-851d-ef26f02601d0.png)        
 
 
+`UserService`에 적용하면 다음과 같은 코드로 작성된다.        
+
+
+```
+public void upgradeLevels() {
+    PlatformTransactionManeger tm = 
+                      new DataSourceTransactionManager(dataSource); // JDBC 트랜잭션 추상 오브젝트 생성   
+
+    TransactionStatus status = 
+        transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    try {
+        List<User> users = userDao.getAll();
+        for(User user : users) {    
+            if(canUpgradeLevel(user)) { 
+                upgradeLevel(user);
+            }
+        }
+        transactionManager.commit(status); // 트랜잭션 커밋 
+    } catch(RuntimeException e) {
+        transactionManager.rollback(status); // 트랜잭션 롤백  
+        throw e;  
+    }      
+}
+``` 
+
+
+**(4) 트랜잭션 기술 설정의 분리**      
+
+트랜잭션 추상화 API를 적용한 `UserService` 코드를 JTA를 이용하는 글로벌 트랜잭션으로 변경하려면 어떻게 해야 할까?       
+`JTATransactionManager`로 바꿔주기만 하면 된다.     
+
+`PlatformTransactionManager` 인터페이스를 구현한 클래스이기 때문에 원하는 구현 클래스로 바꿔주면 되는데      
+어떤 트랜잭션 매니저 구현 클래스를 사용할지 `UserService` 코드가 알고 있기 때문에 DI 원칙에 위배된다.      
+자신이 사용할 구체적인 클래스를 스스로 결정하고 생성하지 말고 컨테이너를 통해 외부에서 제공받게 하는 스프링 DI의 방식으로 바꾸자.            
+`DataSourceTransactionManager`는 스프링 빈으로 등록하고 `UserService`가 DI 방식으로 사용하게 해야 한다.         
+
+여기서 한번 더 고민해 봐야 할 점은 싱글톤으로 만들어져도 괜찮은가이다.      
+스프링이 제공하는 모든 `PlatformTransactionManager`의 구현 클래스는 싱글톤으로 사용이 가능하다.      
 
