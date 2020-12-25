@@ -177,3 +177,104 @@ JDK 다이내믹 프록시의 구조를 그대로 이용해서 만들었던 `TxP
 <br />     
 
 
+
+<details>  
+<summary>ProxyFactoryBean 적용 코드</summary>  
+<div markdown="1">  
+
+- 트랜잭션 어드바이스       
+```
+public class TransactionAdvice implements MethodInceptor {
+    PlatformTransactionManager tm;
+    
+    public void setTransactionManager(PlatformTransactionManager tm) {
+        this.tm = tm;
+    }
+
+    // 타깃을 호출하는 기능을 가진 콜백 오브젝트를 프록시로부터 받는다.  
+    public Object invoke(MethodInvocation incovation) throws Throwable {
+        TransactionStatus status = this.tm.getTransaction(new FefaultTransactionDefinition());
+        
+        try {
+            Object ref = invocation.proceed(); // 콜백 호출하여 타깃 메소드 실행 
+            this.tm.commit(status);
+            return ref;
+        // JDK 다이내믹 프록시가 제공하는 Method와 달리 스프링의 MethodInvocation은 예외가 포장되지 않고 타깃에서 보낸 예외 그대로 전달한다.
+        } catch(RuntimeException e) {  
+            this.tm.rollback(status); 
+            throw e;
+        }
+    }
+}
+```       
+
+- 트랜잭션 어드바이스 빈 설정            
+```       
+<bean id="transactionAdvice" class="springbook.user.service.TransactionAdvice">
+    <property neme="transactionManager" ref="transactionManager" />
+</bean>
+```        
+
+- 포인트컷 빈 설정         
+```       
+<bean id="transactionPointcut" 
+    class="org.springframework.aop.support.NameMatchMethodPointcut">
+    <property neme="mappedName" value="upgrade*" />
+</bean>
+```       
+
+- 어드바이저 빈 설정            
+```   
+<bean id="transactionAdvisor" 
+    class="org.springframework.aop.support.DefaultPointcutAdvisor">
+    <property neme="advice" ref="transactionAdvice" />
+    <property neme="pointcut" ref="transactionPointcut" />
+</bean>
+```      
+
+- ProxyFactoryBean 설정          
+```   
+<bean id="userService" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target" ref="userServiceImpl" />
+    <property name="interceptorNames">
+        <list>
+            <value>transactionAdvisor</value>
+        </list>
+    </property>
+</bean>
+```   
+
+- ProxyFactoryBean을 이용한 트랜잭션 테스트    
+```
+@Test
+@DirtiesContext 
+public void upgradeAllOrNothing() {
+    TestUserService testUserService = new TestUserService(users.get(3).getId());
+    testUserService.setUserDao(userDao);
+    testUserService.setMailSender(mailSender);
+
+    ProxyFactoryBean txProxyFacrotyBean =   
+        context.getBean("&userService", ProxyFactoryBean.class);
+    txProxyFacrotyBean.setTarget(testUserService);
+    UserService txUserService = (UserService) txProxyFactoryBean.getObject();
+
+    . . .
+
+}
+```
+
+</div>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
