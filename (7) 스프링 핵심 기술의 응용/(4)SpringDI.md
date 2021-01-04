@@ -1,11 +1,11 @@
 # 스프링 3.1의 DI      
 
-#### 자바 언어의 변화와 스프링       
+## 자바 언어의 변화와 스프링       
 스프링이 제공하는 모든 기술의 기초가 되는 DI의 원리는 변하지 않았지만,                 
 DI가 적용된 코드를 작성할 때 사용하는 핵심 도구인 자바 언어에는 그간 적지 않은 변화가 있었다.         
 이런 변화들이 DI 프레임워크로서 스프링의 사용 방식에도 여러 가지 영향을 줬다. 대표적인 두 가지 변화를 살펴보자.              
 
-#### - 어노테이션의 메타정보 활용             
+### - 어노테이션의 메타정보 활용             
 자바는 소스코드가 컴파일된 후 클래스 파일에 저장됐다가 JVM에 의해 메모리로 로딩되어 실행된다.       
 그런데 때로는 자바 코드가 실행되는 것이 목적이 아니라 다른 자바 코드에 의해 데이터처럼 취급되기도 한다.                      
 
@@ -46,7 +46,7 @@ public class MyClass {
 
 <br />    
 
-#### - 정책과 관례를 이용한 프로그래밍        
+### - 정책과 관례를 이용한 프로그래밍        
 어노테이션은 작성하는 코드의 양에 비해 부가적으로 얻을 수 있는 정보가 많기 때문에 일정한 패턴을 따르는 경우        
 관례를 부여해 명시적인 설정을 최대한 배제하면 애플리케이션의 코드가 매우 간략해진다.       
 
@@ -54,6 +54,7 @@ public class MyClass {
 
 스프링은 점차 어노테이션으로 메타정보를 작성하고, 미리 정해진 정책과 관례를 활용해서 간결한 코드에 많은 내용을 담을 수 있는 방식을 적극 도입하고 있다.           
 
+<br />    
 
 ### 프로파일 `@Profile` `@ActiveProfiles`         
 프로파일이 지정되어 있지 않은 빈 설정은 default 프로파일로 취급되어 항상 적용된다.              
@@ -76,7 +77,7 @@ public void beanTest() throws Exception {
 `BeanFactory`의 구현 클래스 중에 `DefaultListableBeanFactory`가 있는데 거의 대부분의 스프링 컨테이너는 이 클래스를 이용해 빈을 등록하고 관리한다.      
 
     
-
+<br />    
 
 ### `@PropertySource`      
 스프링 3.1은 빈 설정 작업에 필요한 프로퍼티 정보를 컨테이너가 관리하고 제공해준다.   
@@ -106,6 +107,7 @@ public DataSource dataSource() {
 }
 ```  
 
+<br />    
 
 ### PropertySourcesPlaceholderConfigurer     
 Environment 오브젝트 대신 프로퍼티 값을 직접 DI 받는 방법도 가능하다. `@Value` 어노테이션을 이용하면 된다.     
@@ -134,6 +136,8 @@ public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
 }
 ```
 
+<br />    
+
 ### Enable* 어노테이션    
 `@Component`는 빈 자동등록 대상을 지정할 때 사용하는 어노테이션인데,         
 많은 경우 `@Component`를 직접 사용하기보다는 `@Service`, `@Repository`처럼 좀 더 의미있는 이름의 어노테이션을 만들어 사용한다.      
@@ -149,7 +153,4 @@ public @interface EnableTransactionManagement {
 
 `@EnableTransactionManagement` 어노테이션도 `@Import`를 메타 어노테이션으로 갖고 있다.      
 `@EnableTransactionManagement`를 사용한다는 것은 결국 TransactionManagementConfigurationSelector 설정 클래스를 `@Import` 하는 셈이다.      
-
-
-
 
