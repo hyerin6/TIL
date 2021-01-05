@@ -154,3 +154,13 @@ public @interface EnableTransactionManagement {
 `@EnableTransactionManagement` 어노테이션도 `@Import`를 메타 어노테이션으로 갖고 있다.      
 `@EnableTransactionManagement`를 사용한다는 것은 결국 TransactionManagementConfigurationSelector 설정 클래스를 `@Import` 하는 셈이다.      
 
+<br />       
+
+### 설정 메타데이터의 장단점      
+
+| |XML|Annotation|JavaConfig|
+|:---|:---|:---|:---|
+|장점|사용자가 작성하는 POJO 자바 코드에 침투하지 않음(비침투적 기술)|설정이 적고, 간편함|타입 세이프(type-safe)를 보장함|
+|단점|리소스 파일(XML)이 많아짐| - 애노테이션이 붙은 클래스들은 POJO가 아님(침투적인 기술) |일부 기능은 제공하지 않을 수 있음|
+
+ 
