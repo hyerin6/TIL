@@ -333,9 +333,16 @@ Item item = orderItem.getItem();
 
 Item을 지연로딩으로 설정했기 때문에 `item instanceof Book` 연산도 false를 반환한다.     
 
+<br />     
+
 상속관계에서 발생하는 프록시 문제는 다음과 같은 방법으로 해결할 수 있다.    
-* JPQL로 대상 직접 조회        
-* 프록시 벗기기      
+
+### 방법1. JPQL로 대상 직접 조회           
+처음부터 자식 타입을 조회하면 된다.   
+그러나 이 방법은 다형성을 활용할 수 없다.
+<br />   
+
+### 방법2. 프록시 벗기기         
 
 하이버네이트가 제공하는 기능을 사용해서 프록시에서 원본 엔티티를 가져올 수 있다.
 
@@ -351,9 +358,150 @@ item == unProxyItem
 
 이 방법을 사용할 때는 원본 엔티티가 꼭 필요한 곳에서 잠깐 사용하고 다른 곳에서 사용되지 않도록 하는 것이 중요하다.    
 원본 엔티티의 값을 직접 변경해도 변경 감지 기능은 동작한다.   
+<br />         
 
 
+
+### 방법3. 기능을 위한 인터페이스 제공   
+
+```
+public interface TitleView {
+    String getTitle();
+}
+```
+
+TitleView라는 공통 인터페이스를 만들고 자식 클래스들은 인터페이스의 `getTitle()` 메소드를 구현한다.     
+
+```
+OrderItem orderItem = em.find(OrderItem.class, saveOrderItem.getId());
+orderItem.printItem();
+```
+
+Item의 구현체에 따라 각각 다른 `getTitle()` 메소드가 호출된다.   
+
+이처럼 인터페이스를 제공하고 각각의 클래스가 자신에 맞는 기능을 구현하는 것은 다형성의 좋은 방법이다.   
+* 다양한 Item 타입이 추가되어도 OrderItem은 수정할 필요가 없다.    
+* 클라이언트는 대상 객체가 프록시인지 아닌지 고려할 필요가 없다.    
+
+이 방법을 사용할 때는 프록시의 특징 때문에 프록시의 대상이되는 타입에 인터페이스를 적용해야 한다.    
+이 예제에서는 Item이 프록시의 대상이므로 Item이 인터페이스를 받아야 한다.        
+<br />                  
+
+### 방법4. 비지터 패턴 사용       
+![스크린샷 2021-03-26 오후 2 09 01](https://user-images.githubusercontent.com/33855307/112585350-fbe1e700-8e3c-11eb-9a4a-33f41b02e931.png)     
+
+비지터 패턴은 Visitor와 Visitor를 받아들이는 대상 클래스로 구성된다.     
+여기서는 Item이 `accept(visitor)` 메소드를 사용해서 Visitor를 받아들인다.    
+그리고 Item은 단순히 Visitor를 받아들이기만 하고 실제 로직은 visitor가 처리한다.      
+<br />       
+
+* 비지터 대상 클래스    
+```
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DTYPE")
+public abstract class Item {
+    
+    @Id
+    @GeneratedValue
+    private Long id;
+    
+    private String name;
+    
+    ...
+    
+    public abstract void accept(Visitor visitor);
+}
+
+
+@Entity
+@DiscriminatorValue(name = "B")
+public class Book extends Item {
+    
+    private String author;
+    private String isbn;
+    
+    // Getter, Setter
+    
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    } 
+}
+```
+
+Item에 Visitor를 받아들일 수 있도록 `accept(visitor)` 메소드를 추가한다.        
+
+각각의 자식 클래스들은 부모에 젖의한 `accept(visitor)` 메소드를 구현했는데,   
+구현 내용은 단순히 파라미터로 넘어온 Visitor의 `visit(this)` 메소드를 호출하면서 자신(this)을 파라미터로 넘기는 것이 전부다.    
+이렇게 실제 로직 처리를 visitor에 위임한다.   
+<br />       
+
+* 비지터 패턴 실행    
+```
+@Test
+public void 상속관계와_프록시_VisitorPattern() {
+    
+    ...
+    
+    OrderItem orderItem = em.find(OrderItem.class, orderItemId);
+    Item item = orderItem.getItem();
+    
+    // PrintVisitor
+    item.accept(new PrintVisitor());
+}
+```
+
+출력 결과는 다음과 같다.   
+
+```
+book.class = class jpabook.advanced.item.Book 
+[PrintVisitor] [제목:jpabook 저자:kim]
+```
 <br />      
+
+![스크린샷 2021-03-26 오후 2 27 52](https://user-images.githubusercontent.com/33855307/112586615-76136b00-8e3f-11eb-94ff-53f5298eaab1.png)     
+
+먼저 `item.accept()` 메소드를 호출하면서 파라미터로 PrintVisitor를 넘겨주었다.      
+item은 프록시이므로 먼저 프록시(ProxyItem)가 `accept()` 메소드를 받고 원본 엔티티의(book) `accept()`를 실행한다.      
+원본 엔티티는 자신(this)을 Visitor에 파라미터로 넘겨준다.       
+```
+public void accept(Visitor visitor) {
+    visitor.visit(this); // this는 프록시가 아닌 원본이다.    
+}
+```
+<br />    
+
+* 비지터 패턴과 확장성    
+```
+// TitleVisitor
+TitleVisitor titleVisitor = new TitleVisitor();
+item.accept(titleVisitor);
+
+String title = titleVisitor.getTitle();
+System.out.println("TITLE = " + title);
+
+// 출력 결과 
+book.class = class jpabook.advanced.item.Book 
+TITLE = [제목:jpabook 저자:kim]
+```
+
+비지터 패턴은 새로운 기능이 필요할 때 Visitor만 추가하면 된다.    
+따라서 기존 코드의 구조를 변경하지 않고 기능을 추가할 수 있는 장점이 있다.    
+
+* 비지터 패턴 정리  
+  **장점**       
+  - 프록시에 대한 걱정 없이 안전하게 원본 엔티티에 접근할 수 있다.    
+  - `instanceof`와 타입 캐스팅 없이 코드를 구현할 수 있다.   
+  - 알고리즘과 객체 구조를 분리해서 구조를 수정하지 않고 새로운 동작을 추가할 수 있다.    
+  
+  **단점**  
+  - 너무 복잡하고 더블 디스패치를 사용하기 때문에 이해하기 어렵다.    
+  - 객체 구조가 변경되면 모든 Visitor을 수정해야 한다.   
+  
+
+<br />       
+
 
 
 
