@@ -650,7 +650,8 @@ FROM salaries s
 * 첫 번째 쿼리는 LEFT OUTER JOIN을 사용했는데 LEFT OUTER JOIN 키워드의 왼쪽에 employees 테이블이 사용됐고   
 오른쪽에 salaries 테이블이 사용됐기 때문에 employees가 OUTER 테이블이 된다.    
 따라서 최종 결과는 salaries 테이블의 레코드 존재 여부에 관계없이 employees 테이블의 레코드에 의해 결정된다.   
-<br />  
+<br />         
+
 * 두 번째 쿼리는 RIGHT OUTER JOIN이 사용됐으며 RIGHT OUTER JOIN 키워드를 기준으로 오른쪽 employees 테이블이 사용됐고   
 왼쪽에 salaries 테이블이 사용됐으므로 employees 테이블이 OUTER 테이블이 된다.   
 따라서 최종 결과도 salaries 테이블의 레코드의 존재 여부에 관계없이 employees 테이블의 레코드에 의해 결정된다.    
