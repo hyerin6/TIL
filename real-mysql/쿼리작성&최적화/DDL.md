@@ -948,4 +948,129 @@ WHERE de.emp_no=
 
 이 쿼리는 dept_emp 테이블을 풀 테이블 스캔으로 레코드를 한 건씩 읽으면서 서브 쿼리를 매번 실행해서 서브 쿼리가 포함된 조건이 참인지 비교한다.   
 
+MySQL 5.5에서 위 예제 쿼리의 실행계획은 다음과 같다.    
+첫 번째 라인에서 dept_emp 테이블을 읽기 위해 ix_empno_fromdate 인덱스를 필요한 부분만 레인지 스캔으로 읽고    
+두 번째 라인의 서브 쿼리가 먼저 실행되어 그 결과를 외부 쿼리 비교 조건의 입력으로 전달한다.    
+서브 쿼리가 최적화된 것이다.   
+
+<br />   
+
+### WHERE 절에 IN과 함께 사용된 서브 쿼리 - IN (subquery)   
+WHERE 절에 IN 연산자를 상수와 함께 사용할 때는 동등 비교와 똑같이 처리되기 때문에 상당히 최적화돼서 실행된다.     
+하지만 IN의 입력으로 상수가 아니라 서브 쿼리를 사용하면 처리 방식이 많이 달라진다.       
+
+```
+SELECT * FROM dept_emp de
+WHERE de.dept_no IN 
+  (SELECT d.dept_no FROM departments d WHERE d.dept_name='Finance');
+```
+
+위 쿼리 실행계획은 다음과 같다.   
+
+|id|select_type|Table|type|key|key_len|ref|rows|Extra|
+|---|---|---|---|---|---|---|---|---|  
+|1|PRIMARY|de|ALL| | | |334868|Using where|  
+|2|DEPENDENT<br /> SUBQUERY|d|unique_subquery|PRIMARY|12|func|1|Using index|    
+
+
+* dpet_emp 테이블: 풀 테이블 스캔   
+* departments 테이블: DEPENDENT SUBQUERY (의존적 서브 쿼리, 상위 테이블의 매 레코드마다 서브 쿼리의 결과와 비교)      
+<br />    
+  
+왜 서브 쿼리는 외부 쿼리와 전혀 연관이 없는 독립된 서브 쿼리인데 `DEPENDENT SUBQUERY`로 표시됐을까?        
+
+이 쿼리는 MySQL 옵티마이저에 의해 IN(subquery) 형태로 변환되기 때문에 실제로는 다음 쿼리를 실행하는 것과 동일하게 처리된다.   
+다음 쿼리에서 서브 쿼리 부분에 de.dept_no라는 칼럼이 조건으로 사용됐는데 이는 옵티마이저가 독립 서브 쿼리를 상관 서브 쿼리로 변경해서 실행했기 때문이다.    
+
+```
+SELECT * FROM dept_emp de
+WHERE EXISTS
+  (SELECT 1 FROM departments d WHERE d.dept_name='Finance' AND d.dept_no=de.dept_no);
+```
+
+서브 쿼리가 상관 서브 쿼리롤 변경됐기 때문에 외부 쿼리는 풀 테이블 스캔을 사용할 수밖에 없는 것이다.    
+<br />  
+
+**바깥 쪽 테이블(dept_emp)과 서브 쿼리 테이블(departments)의 관계가 1:1이거나 M:1인 경우**    
+바깥 쪽 쿼리와 서브 쿼리를 조인으로 풀어서 작성해도 같은 결과가 보장되기 때문에 다음과 같이 조인으로 풀어서 작성하면 쉽게 성능을 개선할 수 있다.    
+```
+SELECT de.*
+FROM dept_emp de INNER JOIN departments d
+  ON d.dept_name='Finance' AND d.dept_no=de.dept_no;
+```
+
+<br />   
+
+**바깥 쪽 테이블과 서브 쿼리 테이블의 관계가 1:M인 경우**     
+바깥쪽 쿼리와 서브 쿼리를 조인으로 풀어서 작성하면 최종 결과의 건수가 달라질 수 있기 때문에 단순히 서브 쿼리를 조인으로 변경할 수 없다.    
+이럴 때는 다시 두 가지 방법으로 개선할 수 있다.   
+1. 조인 후 조인 칼럼으로 그룹핑해서 결과를 가져오는 방법   
+2. 원본 쿼리에서 서브 쿼리를 분리시켜서 2개의 쿼리를 실행한다.    
+
+그러나 첫 번째 방법은 GROUP BY를 추가해서 조인 때문에 발생한 중복 레코드를 강제로 제거한다.      
+GROUP BY가 인덱스를 이용해 처리되면 서브 쿼리보다 성능이 향상될 수도 있고 이용하지 못하면 더 느려질 가능성도 있다.      
+
+<br />  
+
+### FROM 절에 사용된 서브 쿼리      
+FROM 절에 사용된 서브 쿼리는 항상 임시 테이블을 사용하므로 제대로 최적화되지 못하고 비효율적일 때가 많으며, 불필요하게 사용되는 경우가 많다.    
+
+```
+-- // (1)
+SELECT SQL_NO_CACHE * 
+FROM (SELECT * FORM employees WHERE emp_no IN (10001, 10002, 10100, 10201)) y;
+
+-- // (2)
+SELECT * FROM ( 
+  SELECT * FROM ( 
+    SELECT * FROM employees WHERE emp_no IN (10001, 10002, 10100, 10201)) x
+    ) y;
+```
+
+위 쿼리들은 모두 별다른 조작이나 가공 없이 괄호로 묶기만 했다.    
+(1)번 쿼리는 중첩되지 않게 서브 쿼리를 한 번만 사용했고 상태 변수의 임시 테이블 생성 횟수는 0에서 1로 증가됐다.    
+(2)번 쿼리는 중첩된 서브 쿼리를 가지는 서브 쿼리를 FROM 절에 사용했다. 괄호만 사용했는데 임시 테이블 생성 횟수가 1에서 3으로 증가했다.    
+
+(2)번 쿼리의 실행 계획에 DERIVED가 2번 표시되는데, 여기서 DERIVED는 FROM 절에 사용된 서브 쿼리에만 나타나며, 인라인 뷰라고 하는 것을 의미한다.     
+MySQL 옵티마이저는 인라인 뷰를 항상 메모리나 디스크에 임시 테이블 형태로 구체화(Materializing)한다.    
+
+서브 쿼리가 반환하는 결과가 크거나 대용량 칼럼이 포함돼 있다면 메모리가 아닌 디스크에 임시 테이블을 만들게 되고      
+그로 인해 디스크 읽고 쓰는 작업이 더 병목 지점이 될 수 있다.      
+
+<br />   
+
+## 10. 집합 연산   
+조인이 여러 테이블의 칼럼을 연결하는 것이라면 집합 연산은 여러 테이블의 레코드를 연결하는 방법이다.   
+집합 연산자로 UNION과 INTERSECT, MINUS가 있다.    
+
+* UNION은 두 개의 집합을 하나로 묶는 역할을 한다.             
+  UNION 연산자는 다시 두 집합에서 중복되는 레코드를 제거할지 말지에 따라 UNION DISTINCT와 UNION ALL로 나뉜다.         
+  
+* INTERSECT는 두 집합의 교집합을 반환한다.       
+
+* MINUS 연산자는 첫 번째 집합에서 두 번째 집합을 뺀 나머지 결과만 반환한다.       
+
+
+집합 연산도 모두 임시 테이블이 필요한 작업이다.    
+MySQL에서 INTERSECT, MINUS는 제공하지 않지만 구현할 수는 있다.   
+
+<br />   
+
+
+## 11. LOCK IN SHARE MODE와 FOR UPDATE    
+InnoDB 테이블에 대해서는 레코드를 SELECT할 때 레코드에 아무런 잠금도 걸지 않는다.    
+하지만 SELECT 쿼리를 이용해 읽은 칼럼의 값을 애플리케이션에서 가공해서 다시 업데이트하고자 할 때는 다른 트랜잭션이 그 칼럼의 값을 변경하지 못하게 해야 할 때도 있다.   
+이때는 레코드를 읽으면서 강제로 잠금을 걸어둘 필요가 있는데, 이때 사용하는 명령이 LOCK IN SHARE MODE와 FOR UPDATE다.     
+이 명령어는 SELECT 쿼리 문장의 마지막에 추가해서 사용하면 된다.        
+  
+이 두 가지 명령 전부 AUTO-COMMIT이 비활성화된 상태 또는 BEGIN 명령이나 START TRANSACTION 명령으로 트랜잭션이 시작된 상태에서만 잠금이 유지된다.      
+
+* LOCK IN SHARE MODE는 SELECT된 레코드에 대해 읽기 잠금 (공유 잠금, Shared lock)을 설정하고 다른 세션에서 해당 레코드를 변경하지 못하게 한다.      
+물론 다른 세션에서 잠금이 걸린 레코드를 읽는 것은 가능하다.      
+  
+* FOR UPDATE 롭션은 쓰기 잠금(배타 잠금, Exclusive lock)을 설정하고 다른 트랜잭션에서는 그 레코드를 변경하는 것뿐만 아니라 읽지도 못하게 한다.       
+<br />         
+
+잠긴 레코드는 COMMIT이나 ROLLBACK 명령과 함께 해제되는데, 그 밖에 이 잠금만 해제하는 명령은 없다.    
+잠금 경합을 꽤 많이 유발하고 데드락을 일으키는 경우도 많기 때문에 데드락이 발생하는지 모니터링하는 것이 좋다.   
 
