@@ -1,0 +1,1 @@
+delete from testemp where last_name = 'Dancs' and first_name = 'Betty';

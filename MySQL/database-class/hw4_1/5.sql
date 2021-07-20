@@ -1,0 +1,1 @@
+revoke all on *.* from 'emp_user'@'%';  

@@ -1,0 +1,1 @@
+grant all privileges on employees.departments to 'emp_user' with grant option;  

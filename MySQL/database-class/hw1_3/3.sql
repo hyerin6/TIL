@@ -1,0 +1,1 @@
+select last_name, hire_date, job_id from employees where last_name IN ('Matos', 'Taylor', 'Fay', 'Baer');
