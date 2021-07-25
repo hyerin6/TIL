@@ -9,13 +9,13 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 <br />     
 
-:octocat: &nbsp; 해당 Repository는 Issue와 Projects의 칸반보드를 활용하여 관리되고 있습니다.        
+:octocat: 해당 Repository는 Issue와 Projects의 칸반보드를 활용하여 관리되고 있습니다.        
 <https://github.com/hyerin6/TIL/projects/1>       
  
 <br />  
 
 블로그와 함께 기록되며 카테코리와 태그별로 원하는 포스팅을 쉽게 찾아볼 수 있습니다.   
-:sparkler: &nbsp; [blog 바로가기](https://hyerin6.github.io/)              
+:mag: [blog 바로가기](https://hyerin6.github.io/)              
 
 <br />       
 <br />    
