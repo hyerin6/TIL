@@ -31,6 +31,11 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 <br />        
 
+## 객체지향 설계    
+* [객체 & 설계: 캡슐화와 응집도](https://github.com/hyerin6/TIL/blob/main/Object/%EA%B0%9D%EC%B2%B4%26%EC%84%A4%EA%B3%84.md)     
+
+<br />      
+
 ## Spring      
 토비의 스프링 3.1 <https://github.com/hyerin6/toby-spring>  
 
