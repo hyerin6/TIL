@@ -27,7 +27,8 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 * [HTTP API & RESTful API](https://hyerin6.github.io/2021-07-23/restfulapi/)
 * [Token 인증 방식이 생긴 이유](https://hyerin6.github.io/2021-07-23/session-token/)
 * [모놀리틱 서비스 vs. 마이크로 서비스](https://hyerin6.github.io/2021-07-24/msa/)
-* [Web Server & Web Application Server](https://hyerin6.github.io/2021-07-24/ws-was/)
+* [Web Server & Web Application Server](https://hyerin6.github.io/2021-07-24/ws-was/)     
+* [Session은 어떻게 같은 key 값을 구분할까?](https://hyerin6.github.io/2021-07-26/session-how-do-they-work/)            
 
 <br />        
 
