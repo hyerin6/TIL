@@ -6,9 +6,6 @@ import java.util.List;
 public class BreadBox {
 	private List<Bread> breadBox = new ArrayList();
 
-	public BreadBox() {
-	}
-
 	public List<Bread> getBreadBox() {
 		return this.breadBox;
 	}

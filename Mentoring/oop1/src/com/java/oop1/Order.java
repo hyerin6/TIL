@@ -7,20 +7,20 @@ public class Order {
 	private Map<Flavor, Integer> order = new HashMap();
 
 	public Order() {
+		this.order.put(Flavor.CREAM, 1);
+		this.order.put(Flavor.RED_BEAN, 1);
+		this.order.put(Flavor.SPICY, 1);
 	}
 
 	public Map<Flavor, Integer> getOrder() {
 		return this.order;
 	}
 
-	public void addOrder(Flavor flavor, int n) {
-		this.order.put(flavor, n);
-	}
-
 	public long getAllAmount() {
-		return this.order.entrySet().stream().mapToLong((x) -> {
-			return (long)(((Flavor)x.getKey()).getAmount() * (Integer)x.getValue());
-		}).sum();
+		return order.entrySet()
+			.stream()
+			.mapToLong(x -> x.getKey().getAmount() * x.getValue())
+			.sum();
 	}
 }
 

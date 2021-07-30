@@ -1,23 +1,24 @@
 package com.java.oop1;
 
 public class Customer {
-	private long amount;
+	private Bag bag;
 
 	public Customer(long amount) {
-		this.amount = amount;
+		this.bag = new Bag(amount);
 	}
 
-	public long getAmount() {
-		return this.amount;
+	public Bag getBag() {
+		return bag;
 	}
 
-	private void minusAmount(long amount) {
-		this.amount -= amount;
+	public void buy(Order order) {
+		long allAmount = order.getAllAmount();
+		bag.minAmount(allAmount);
 	}
 
-	public long buy(Order order) {
-		long sum = order.getAllAmount();
-		this.minusAmount(sum);
-		return sum;
+	public void receive(BreadBox breadBox) {
+		bag.hold(breadBox);
 	}
+
+
 }
