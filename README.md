@@ -35,7 +35,9 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 * [Gradle 사용법](https://hyerin6.github.io/2021-07-31/gradle/)            
 * [Gradle에서 Qureydsl 사용](https://hyerin6.github.io/2021-08-02/querydsl/)         
 * [Git-flow 란? (+ 인텔리제이 플러그인 사용법)](https://hyerin6.github.io/2021-07-30/gitflow/)      
-* [DbSchema 사용하기](https://hyerin6.github.io/2021-07-31/dbschema/)      
+* [DbSchema 사용하기](https://hyerin6.github.io/2021-07-31/dbschema/)          
+* [Enum `@Enumerated` vs `@Converter`](https://hyerin6.github.io/2021-08-06/enum-converter/)       
+
 
 
 <br />       <br />       
