@@ -36,15 +36,19 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 * [Gradle에서 Qureydsl 사용](https://hyerin6.github.io/2021-08-02/querydsl/)         
 * [Git-flow 란? (+ 인텔리제이 플러그인 사용법)](https://hyerin6.github.io/2021-07-30/gitflow/)      
 * [DbSchema 사용하기](https://hyerin6.github.io/2021-07-31/dbschema/)          
-* [Enum `@Enumerated` vs `@Converter`](https://hyerin6.github.io/2021-08-06/enum-converter/)       
-
+* [Enum `@Enumerated` vs `@Converter`](https://hyerin6.github.io/2021-08-06/enum-converter/)         
+* [createdAt, updatedAt 자동으로 저장하기](https://hyerin6.github.io/2021-08-14/createdAt/)  
 
 
 <br />       <br />       
 
-## 객체지향 설계    
-* [객체 & 설계: 캡슐화와 응집도](https://github.com/hyerin6/TIL/blob/main/Object/%EA%B0%9D%EC%B2%B4%26%EC%84%A4%EA%B3%84.md)     
+## 객체지향 설계      
+* [오브젝트](https://github.com/hyerin6/TIL/tree/main/Object/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8)     
+    - [객체 & 설계: 캡슐화와 응집도](https://github.com/hyerin6/TIL/blob/main/Object/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8/%EA%B0%9D%EC%B2%B4%26%EC%84%A4%EA%B3%84.md)     
 
+* [객체지향의 사실과 오해](https://github.com/hyerin6/TIL/tree/main/Object/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%98%EC%82%AC%EC%8B%A4%EA%B3%BC%EC%98%A4%ED%95%B4)   
+    - [협력, 역할, 책임](https://github.com/hyerin6/TIL/blob/main/Object/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%98%EC%82%AC%EC%8B%A4%EA%B3%BC%EC%98%A4%ED%95%B4/(1)%ED%98%91%EB%A0%A5%ED%95%98%EB%8A%94%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%98%EA%B3%B5%EB%8F%99%EC%B2%B4.md)    
+ 
 <br />         
 
 ## Docker      
