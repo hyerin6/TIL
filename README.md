@@ -56,7 +56,7 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 * SpringSecurity란?      
      - [Spring Security Architecture 살펴보기](https://hyerin6.github.io/2021-08-22/springsecurity(1)/)         
      - [Spring Security 로그인 절차](https://hyerin6.github.io/2021-08-22/springsecurity(2)/)         
-
+     - [Spring Security + OAuth2.0 + Kakao 로그인 절차](https://hyerin6.github.io/2021-08-24/springsecurity(3)/)    
 
 
 
