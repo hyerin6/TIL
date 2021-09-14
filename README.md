@@ -59,9 +59,13 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
      - [Spring Security + OAuth2.0 + Kakao 로그인 절차](https://hyerin6.github.io/2021-08-24/springsecurity(3)/)    
      - [Spring Security OAuth2.0에서 JWT를 사용하는 이유](https://hyerin6.github.io/2021-08-26/springsecurity(4)/)    
 
+* [로그인한 유저 정보 가져오기](https://hyerin6.github.io/2021-09-12/login-success/)   
+
+* [직렬화란?](https://hyerin6.github.io/2021-09-13/serialize/)   
 
 
 <br />       <br />       
+
 
 ## 객체지향 설계      
 * [오브젝트](https://github.com/hyerin6/TIL/tree/main/Object/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8)     
