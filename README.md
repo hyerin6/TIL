@@ -61,7 +61,11 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 * [로그인한 유저 정보 가져오기](https://hyerin6.github.io/2021-09-12/login-success/)   
 
-* [직렬화란?](https://hyerin6.github.io/2021-09-13/serialize/)   
+* [직렬화란?](https://hyerin6.github.io/2021-09-13/serialize(1)/)   
+
+* [직렬화가 품고 있는 위험](https://hyerin6.github.io/2021-09-13/serialize(2)/)
+
+
 
 
 <br />       <br />       
