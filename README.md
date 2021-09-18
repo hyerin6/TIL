@@ -65,7 +65,9 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 * [직렬화가 품고 있는 위험](https://hyerin6.github.io/2021-09-13/serialize(2)/)
 
+* [ElasticSearch란?](https://hyerin6.github.io/2021-09-17/es/)  
 
+* [JPA JOIN 어떻게 할까? (타임라인 구현)](https://hyerin6.github.io/2021-09-17/jpa-join/)  
 
 
 <br />       <br />       
