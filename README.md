@@ -69,6 +69,7 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 * [JPA JOIN 어떻게 할까? (타임라인 구현)](https://hyerin6.github.io/2021-09-17/jpa-join/)  
 
+* [JUnit5 테스트 코드 작성해보자 (+BDD)](https://hyerin6.github.io/2021-09-20/junit5-bdd/)  
 
 <br />       <br />       
 
