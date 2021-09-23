@@ -71,6 +71,9 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 * [JUnit5 테스트 코드 작성해보자 (+BDD)](https://hyerin6.github.io/2021-09-20/junit5-bdd/)  
 
+* [로깅 기능 개발하고 슬랙으로 알림 받기](https://hyerin6.github.io/2021-09-22/log-slack/)  
+
+
 <br />       <br />       
 
 
