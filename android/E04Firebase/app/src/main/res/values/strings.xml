@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">E04Firebase</string>
+    <string name="saveIntoServer">서버에 저장</string>
+    <string name="action_remove">삭제</string>
+    <string name="confirm">확인</string>
+    <string name="doYouWantToDelete">삭제하시겠습니까?</string>
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+    <string name="title">제목</string>
+    <string name="date">날짜</string>
+    <string name="save">저장</string>
+    <string name="cancel">취소</string>
+</resources>

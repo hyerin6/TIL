@@ -15,9 +15,54 @@
 
 
 프레임워크는 개발자가 만든 클래스에 대한 제어 권한을 넘겨 받아 주도적으로 애플리케이션의 흐름을 제어한다.
+
 따라서 `main()` 메소드를 만들 필요가 없고 오브젝트를 만들어 실행시키는 코드를 만들지 않아도 된다.
 
 
+<br />
+
+
+### `@Before`
+중복되는 코드를 `setUp()` 메소드를 만들어 구현하고
+
+`@Before` 어노테이션을 붙여주면 `@Test` 메소드가 실행되기 전에 먼저 실행된다.
+
+
+<br />
+
+
+```
+public class UserDaoTest {
+    private UserDao userDao;
+
+    @Before
+    public void setUp() {
+        ApplicationContext context =
+            new GenericXmlApplicationContext("applicationContext.xml");
+        this.userDao = context.getBean("userDao", UserDao.class);
+    }
+
+    . . .
+
+
+}
+```
+
+
+
+중복되는 테스트 코드를 정리하면서 어느 정도 깔끔해졌다.
+
+하지만 찜찜한 부분이 남아있는데, 애플리케이션 컨텍스트 생성 방식이다.
+
+
+`@Before` 메소드가 테스트 메소드 개수만큼 반복되기 때문에 애플리케이션 컨텍스트도 세 번 만들어진다.
+애플리케이션 컨텍스트가 만들어질 때는 모든 싱글톤 빈 오브젝트를 초기화한다.
+
+
+
+
+
+<br />
 <br />
 
 

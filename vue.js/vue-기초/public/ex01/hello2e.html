@@ -1,0 +1,63 @@
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+    <style>
+        body { padding: 20px; }
+        input, button { padding: 5px; margin: 5px; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>{{ title }}</h1>
+    <p>{{ body }}</p>
+    <button type="button" v-on:click="edit" v-show="!editing">수정</button>
+    <hr />
+    <div v-show="editing">
+        <input type="text" v-model="title_edit" /> <br />
+        <input type="text" v-model="body_edit" /> <br />
+        <button type="button" v-on:click="save">저장</button>
+        <button type="button" v-on:click="cancel">취소</button>
+    </div>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            title: 'hello world',
+            body: 'good morning',
+            title_edit: '',
+            body_edit: '',
+            editing: false
+        },
+        methods: {
+            edit: function() {
+                this.title_edit = this.title;
+                this.body_edit = this.body;
+                this.editing = true;
+            },
+            save: function () {
+                let helloRef = firebase.database().ref("hello");
+                helloRef.set({ title: this.title_edit, body: this.body_edit });
+                this.editing = false;
+            },
+            cancel: function() {
+                this.editing = false;
+            }
+        }
+    })
+
+    window.onload = function() {
+        let helloRef = firebase.database().ref("hello");
+        helloRef.on('value', (snapshot) => {
+            let hello = snapshot.val();
+            app.title = hello.title;
+            app.body = hello.body;
+        });
+    };
+</script>
+</body>
+</html>

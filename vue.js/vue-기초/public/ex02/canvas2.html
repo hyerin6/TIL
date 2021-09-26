@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+    </style>
+</head>
+<body>
+<canvas id="clock" width="600" height="600"></canvas>
+
+<script type="text/javascript">
+    let canvas = document.getElementById("clock");
+    context = canvas.getContext("2d");
+
+    // 삼각형 그리기
+    context.beginPath();
+    context.moveTo(50, 200);
+    context.lineTo(150, 50);
+    context.lineTo(250, 200);
+    context.lineTo(50, 200);
+    context.strokeStyle = "#f00"
+    context.stroke();
+
+    // 삼각형 그리기
+    context.beginPath();
+    context.moveTo(350, 200);
+    context.lineTo(450, 50);
+    context.lineTo(550, 200);
+    context.closePath();
+    context.strokeStyle = "#00a"
+    context.stroke();
+
+    // 삼각형 그리기
+    context.beginPath();
+    context.moveTo(50, 250);
+    context.lineTo(150, 400);
+    context.lineTo(250, 250);
+    context.closePath();
+    context.fillStyle = "#f00"
+    context.fill();
+
+    // 삼각형 그리기
+    context.beginPath();
+    context.moveTo(350, 250);
+    context.lineTo(450, 400);
+    context.lineTo(550, 250);
+    context.closePath();
+    context.fillStyle = "#0aa"
+    context.fill();
+    context.strokeStyle = "#00a"
+    context.stroke();
+
+</script>
+</body>
+</html>

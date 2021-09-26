@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">E20181219</string>
+    <string name="InputStudentId">학번을 입력하세요.</string>
+    <string name="InputName">이름을 입력하세요.</string>
+    <string name="action_remove">삭제</string>
+    <string name="action_add">등록</string>
+    <string name="ok">확인</string>
+</resources>

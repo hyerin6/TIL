@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FinalExam</string>
+    <string name="action_remove">삭제</string>
+    <string name="action_create">등록</string>
+    <string name="test">닫기</string>
+    <string name="studentNo">학번을 입력하세요</string>
+    <string name="name">이름을 입력하세요</string>
+</resources>

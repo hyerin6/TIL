@@ -1,0 +1,70 @@
+<html lang="ko" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+    <link rel="stylesheet" type="text/css" href="todo3.css">
+</head>
+<body>
+<div id="app">
+    <div id="main">
+        <h1>할 일</h1>
+        <table>
+            <tr>
+                <td>제목</td>
+                <td>날짜</td>
+            </tr>
+            <tr v-for="todo in todoList">
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.due_date }}</td>
+            </tr>
+            <tr v-if="todoList.length == 0">
+                <td colspan="2">등록된 자료가 없습니다.</td>
+            </tr>
+        </table>
+        <button type="button" v-on:click="showDialog = true">추가</button>
+    </div>
+
+    <div id="backdrop" v-show="showDialog"></div>
+    <div id="dialog" v-show="showDialog">
+        <h1>할일 등록</h1>
+        <input type="text" v-model.trim="todo.title" placeholder="제목을 입력하세요"/>
+        <textarea v-model.trim="todo.body" placeholder="내용을 입력하세요"></textarea>
+        <div>
+            <label>날짜:</label>
+            <input type="date" v-model="todo.due_date" />
+            <button type="button" v-on:click="save" v-bind:disabled="!todo.title">저장</button>
+            <button type="button" v-on:click="showDialog = false">취소</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            todoList: [],
+            todo: {},
+            showDialog: false
+        },
+        methods: {
+            save: function() {
+                this.todoList.push(this.todo);
+                this.todo3Ref.set(this.todoList);
+                this.todo = {};
+                this.showDialog = false;
+            },
+        }
+    })
+
+    window.onload = function() {
+        app.todo3Ref = firebase.database().ref("todo3");
+        app.todo3Ref.on('value', (snapshot) => {
+            app.todoList  = snapshot.val() || [];
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        div#app { padding: 30px; margin: 30px auto; max-width: 300px; text-align: center;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; }
+        div#timer { font-size: 25pt; padding: 5px; margin: 0px auto; background: #ccc;
+            max-width: 200px; border: 1px solid black; }
+        input[type=text] { font-size: 15pt; padding: 5px; width: 50px; text-align: center; }
+        button { padding: 0.5em 2em; margin: 30px 5px 0px 5px; font-size: 12pt; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>타이머</h1>
+    <div>
+        <input type="text" v-model="h" /> :
+        <input type="text" v-model="m" /> :
+        <input type="text" v-model="s" />
+    </div>
+    <button type="button" v-on:click="start" v-bind:disabled="run">시작</button>
+    <button type="button" v-on:click="stop" v-bind:disabled="!run">정지</button>
+</div>
+
+<script type="text/javascript">
+    const SS = 1000, MM = 1000 * 60, HH = 1000 * 60 * 60;
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            h : "00",
+            m : "00",
+            s : "00",
+            stopTime: null,
+            run: false
+        },
+        methods: {
+            start() {
+                let now = new Date();
+                let h = Number(this.h), m = Number(this.m), s = Number(this.s);
+                let milisec = ((h * 60 + m) * 60 + s + 1) * 1000;
+                this.stopTime = new Date(now.getTime() + milisec);
+                let callback = () => {
+                    let milisec = this.stopTime - new Date();
+                    this.h = Math.floor(milisec / HH);
+                    this.m = Math.floor(milisec % HH / MM);
+                    this.s = Math.floor(milisec % MM / SS);
+                    if (this.h < 10) this.h = "0" + this.h;
+                    if (this.m < 10) this.m = "0" + this.m;
+                    if (this.s < 10) this.s = "0" + this.s;
+                    if (milisec < 1000) {
+                        clearInterval(this.timerId);
+                        this.run = false;
+                    }
+                };
+                this.timerId = setInterval(callback, 500);
+                this.run = true;
+            },
+            stop() {
+                clearInterval(this.timerId);
+                this.run = false;
+            }
+        }
+    })
+</script>
+</body>
+</html>
+

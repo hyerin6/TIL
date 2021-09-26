@@ -1,0 +1,93 @@
+<html lang="ko" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+    <script src="https://kit.fontawesome.com/68abb170e0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="todo3.css">
+</head>
+<body>
+<div id="app">
+    <div id="main">
+        <h1><i class="fas fa-clipboard-check"></i> 할일</h1>
+        <table>
+            <tr>
+                <td>제목</td>
+                <td>날짜</td>
+            </tr>
+            <tr v-for="(todo, index) in todoList" v-on:click="edit(index)" class="clickable">
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.due_date }}</td>
+            </tr>
+            <tr v-if="todoList.length == 0">
+                <td colspan="2">등록된 자료가 없습니다.</td>
+            </tr>
+        </table>
+        <button type="button" v-on:click="create"><i class="fas fa-plus"></i> 추가</button>
+    </div>
+
+    <div id="backdrop" v-show="showDialog"></div>
+    <div id="dialog" v-show="showDialog">
+        <h1><i class="fas fa-edit"></i> 할일 {{ showDialog }}</h1>
+        <input type="text" v-model.trim="todo.title" placeholder="제목을 입력하세요"/>
+        <textarea v-model.trim="todo.body" placeholder="내용을 입력하세요"></textarea>
+        <div>
+            <label>날짜:</label>
+            <input type="date" v-model="todo.due_date" />
+            <button type="button" v-on:click="save"><i class="fas fa-check"></i> 저장</button>
+            <button type="button" v-on:click="remove"><i class="fas fa-trash-alt"></i> 삭제</button>
+            <button type="button" v-on:click="cancel"><i class="fas fa-ban"></i> 취소</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            todoList: [],
+            todo: {},
+            showDialog: false,
+            selectedIndex: -1
+        },
+        methods: {
+            create: function() {
+                this.showDialog = "등록";
+                this.todo = {};
+            },
+            edit: function(index) {
+                this.showDialog = "수정";
+                this.todo = Object.assign({}, this.todoList[index]);
+                this.selectedIndex = index;
+            },
+            save: function() {
+                if (this.showDialog == "등록")
+                    this.todoList.push(this.todo);
+                else
+                    this.todoList[this.selectedIndex] = this.todo;
+                this.todo3Ref.set(this.todoList);
+                this.showDialog = false;
+            },
+            remove: function() {
+                if (confirm("삭제하시겠습니까?") == false) return;
+                this.todoList.splice(this.selectedIndex, 1);
+                this.todo3Ref.set(this.todoList);
+                this.showDialog = false;
+            },
+            cancel: function() {
+                this.showDialog = false;
+            }
+        }
+    })
+
+    window.onload = function() {
+        app.todo3Ref = firebase.database().ref("todo3");
+        app.todo3Ref.on('value', (snapshot) => {
+            app.todoList  = snapshot.val() || [];
+        });
+    }
+</script>
+</body>
+</html>

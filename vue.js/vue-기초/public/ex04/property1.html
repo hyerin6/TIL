@@ -1,0 +1,33 @@
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        div#app { padding: 50px; margin: 30px auto; max-width: 600px;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; font-size: 11pt; }
+        button { padding: 0.5em 2em; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>value1: {{ value1 }}</h1>
+    <h1>value2: {{ value2 }}</h1>
+    <button type="button" v-on:click="changeValue">값 변경</button>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            value1: 7
+        },
+        methods: {
+            changeValue: function() {
+                this.value1++;
+                if (!this.value2) this.value2 = 0;
+                this.value2++;
+            }
+        }
+    })
+</script>
+</body>
+</html>

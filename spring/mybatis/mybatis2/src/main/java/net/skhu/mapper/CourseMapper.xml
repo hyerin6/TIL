@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.skhu.mapper.CourseMapper">
+
+    <select id="findAll" resultMap="resultMap_Course1">
+        SELECT c.*, d.departmentName, p.professorName
+        FROM Course c
+        JOIN Department d ON c.departmentId = d.id
+        JOIN Professor p ON c.professorId = p.id
+    </select>
+
+    <select id="findAllWithStudents" resultMap="resultMap_Course2">
+        SELECT c.*, d.departmentName, p.professorName,
+        s.id studentId, s.studentNumber, s.name
+        FROM Course c
+        JOIN Department d ON c.departmentId = d.id
+        JOIN Professor p ON c.professorId = p.id
+        JOIN Register r ON c.id = r.courseId
+        JOIN Student s ON r.studentId = s.id
+    </select>
+
+    <resultMap id="resultMap_Course1" type="Course" autoMapping="true">
+        <id property="id" column="id" />
+        <association property="department" javaType="Department" autoMapping="true">
+            <id property="id" column="departmentId" />
+        </association>
+        <association property="professor" javaType="Professor" autoMapping="true">
+            <id property="id" column="professorId" />
+        </association>
+    </resultMap>
+
+    <resultMap id="resultMap_Course2" type="Course" autoMapping="true">
+        <id property="id" column="id" />
+        <association property="department" javaType="Department" autoMapping="true">
+            <id property="id" column="departmentId" />
+        </association>
+        <association property="professor" javaType="Professor" autoMapping="true">
+            <id property="id" column="professorId" />
+        </association>
+        <collection property="students" ofType="Student" autoMapping="true">
+            <id property="id" column="studentId" />
+        </collection>
+    </resultMap>
+
+</mapper>

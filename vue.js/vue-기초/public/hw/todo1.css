@@ -1,0 +1,7 @@
+h1 { border-bottom: 1px solid gray; }
+div { padding: 30px; margin: 30px auto; max-width: 600px;
+    border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa;
+}
+li { margin-bottom: 10px; }
+input[type=text] { padding: 5px;  }
+button { padding: 0.4em 1.5em; }

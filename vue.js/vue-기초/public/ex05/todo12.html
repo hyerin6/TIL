@@ -1,0 +1,51 @@
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+    <style>
+        h1 { border-bottom: 1px solid gray; }
+        div { padding: 30px; margin: 30px auto; max-width: 600px;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; }
+        li { margin-bottom: 10px; }
+        input[type=text] { padding: 5px;  }
+        button { padding: 0.4em 1.5em; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>할 일</h1>
+    <ul>
+        <li v-for="todo in todoList">
+            {{ todo }}
+        </li>
+    </ul>
+    <input type="text" v-model="todo" />
+    <button type="button" v-on:click="addTodo">할일 추가</button>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            todoList: [],
+            todo: ""
+        },
+        methods: {
+            addTodo: function() {
+                this.todoList.push(this.todo);
+            }
+        }
+    })
+
+    window.onload = function() {
+        app.todo1Ref = firebase.database().ref("todo1");
+        app.todo1Ref.on('value', (snapshot) => {
+            app.todoList  = snapshot.val();
+        });
+    }
+</script>
+</body>
+</html>

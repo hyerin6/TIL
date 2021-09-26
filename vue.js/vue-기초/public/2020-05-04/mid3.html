@@ -1,0 +1,41 @@
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        div#app { padding: 50px; margin: 30px auto; max-width: 600px;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; font-size: 11pt; text-align: center }
+        input { padding: 6px; width: 250px; }
+        span { display: inline-block; margin: 5px; padding: 8px 15px; border: 1px solid black; cursor: pointer; }
+        button { padding: 0.5em 2em; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="num" />
+    <button type="button" v-on:click="addNum"> 생성 </button>
+    <br/><br/>
+    <span v-for="i in a">
+        {{ i }}
+    </span>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            a: [],
+            num: 0
+        },
+        methods: {
+            addNum: function(){
+                let i = this.a.length;
+                for(let i = 0; i < this.num; ++i){
+                    let ran = Math.floor(Math.random() * 10);
+                    Vue.set(this.a, i, ran);
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

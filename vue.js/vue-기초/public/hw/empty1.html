@@ -1,0 +1,32 @@
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        div#app { padding: 50px; margin: 30px auto; max-width: 600px;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; font-size: 11pt; }
+        input { padding: 6px; width: 500px; }
+        div.error { background-color: #fcc; border: 1px solid red;
+            padding: 10px; max-width: 500px; margin-top: 30px; }
+    </style>
+</head>
+<body>
+<div id="app">
+    제목:
+    <input type="text" v-model="title" />
+    <!-- 공백인 경우에도 error 메시지가 보입니다. -->
+    <div class="error" v-show="!title.trim()">
+        제목 입력은 필수입니다.
+    </div>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            title: '',
+            isEmpty: true
+        }
+    })
+</script>
+</body>
+</html>

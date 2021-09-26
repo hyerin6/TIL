@@ -1,0 +1,84 @@
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        div { padding: 30px; margin: 30px auto; max-width: 600px;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; }
+        table { border-collapse: collapse; margin: 40px auto; }
+        td { width: 50px; height: 50px; border: 1px solid gray; font-size: 20pt;
+            text-align: center; cursor: pointer; }
+        button { padding: 0.5em 2em; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h2>{{ sec }} 초 {{ message }}</h2>
+    <table>
+        <tr v-for="(row, index1) in matrix" v-bind:key="index1">
+            <td v-for="(value, index2) in row" v-bind:key="index2"
+                v-on:click="onClick(index1, index2)"
+                v-bind:style="{ backgroundColor: color(value) }">
+                {{ value }}
+            </td>
+        </tr>
+    </table>
+    <button type="button" onclick="location.reload()" v-show="message">재도전</button>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            size: 6,
+            matrix: [],
+            currentNumber: 1,
+            sec: 0,
+            message: ""
+        },
+        created: function() {
+            this.lastNumber = this.size * this.size;
+            let a = [];
+            for (let i = 0; i < this.lastNumber; ++i)
+                a[i] = i + 1;
+            shuffleArray(a);
+            for (let r = 0; r < this.size; ++r) {
+                this.matrix[r] = [];
+                for (let c = 0; c < this.size; ++c)
+                    this.matrix[r][c] = a.pop();
+            }
+        },
+        methods: {
+            onClick: function(r, c) {
+                if (this.currentNumber == 1) this.initTimer();
+                if (this.matrix[r][c] == this.currentNumber) {
+                    this.matrix[r][c] = "";
+                    this.currentNumber++;
+                    if (this.currentNumber > this.lastNumber) {
+                        clearInterval(this.timerId);
+                        this.message = "(성공)";
+                    }
+                }
+            },
+            initTimer() {
+                this.startTime = new Date();
+                this.timerId = setInterval(() => {
+                    this.sec = ((new Date() - this.startTime) / 1000).toFixed(1);
+                }, 100);
+            },
+            color(value) {
+                const a = ["#ffa", "#bfb", "#8df", "#fbb"];
+                return a[Math.floor(value / 10)];
+            },
+        }
+    })
+
+    function shuffleArray(a) {
+        for (let i = 0; i < a.length; ++i) {
+            let j = Math.floor(Math.random() * a.length);
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+    }
+</script>
+</body>
+</html>

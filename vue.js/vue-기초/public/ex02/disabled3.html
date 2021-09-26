@@ -1,0 +1,35 @@
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        div#app { padding: 30px; margin: 30px auto; max-width: 400px; text-align: center;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; }
+        button { padding: 0.5em 2em; margin: 30px 5px 0px 5px; font-size: 12pt; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>disabled</h1>
+    <button type="button" v-on:click="start" v-bind:disabled="run">시작</button>
+    <button type="button" v-on:click="stop" v-bind:disabled="!run">정지</button>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            run: false
+        },
+        methods: {
+            start() {
+                this.run = true;
+            },
+            stop() {
+                this.run = false;
+            }
+        }
+    })
+</script>
+</body>
+</html>

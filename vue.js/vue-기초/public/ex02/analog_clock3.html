@@ -1,0 +1,60 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        div#app { padding: 30px; margin: 30px auto; max-width: 600px; text-align: center;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; }
+        div#time { font-size: 25pt; padding: 5px; margin: 0px auto; background: #ccc;
+            max-width: 200px; border: 1px solid black; }
+        canvas {
+            background-image: url(clock.png);
+            background-size: 400px; background-position: center center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <canvas id="clock" width="400" height="400"></canvas>
+</div>
+
+<script type="text/javascript">
+    const centerX = 200, centerY = 200;
+    var context;
+
+    function drawClock() {
+        clearCanvas();
+        let now = new Date();
+        let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+        let h_angle = h * 360 / 12 + m * 360 / 12 / 60;
+        drawClockHand(h_angle - 90, 6, 130);
+        let m_angle = m * 360 / 60 + s * 360 / 60 / 60;
+        drawClockHand(m_angle - 90, 3, 150);
+        let s_angle = s * 360 / 60;
+        drawClockHand(s_angle - 90, 1, 160);
+    }
+
+    function clearCanvas() {
+        context.clearRect(0, 0, centerX * 2, centerY * 2);
+    }
+
+    function drawClockHand(angle, width, radius) {
+        let radian = Math.PI / 180 * angle;
+        let x = centerX + Math.cos(radian) * radius;
+        let y = centerY + Math.sin(radian) * radius;
+        context.beginPath();
+        context.lineWidth = width;
+        context.moveTo(centerX, centerY);
+        context.lineTo(x, y);
+        context.strokeStyle = "#008";
+        context.stroke();
+    }
+
+    window.onload = function() {
+        let canvas = document.getElementById("clock");
+        context = canvas.getContext("2d");
+        setInterval(() => drawClock(), 1000);
+    }
+</script>
+</body>
+</html>

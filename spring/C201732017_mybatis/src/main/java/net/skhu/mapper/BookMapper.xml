@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.skhu.mapper.BookMapper">
+
+  <select id="findById" resultType="Book">
+    SELECT *
+    FROM book 
+    WHERE id = #{id}
+  </select>
+
+  <select id="findAll" resultMap="findAll_resultMap">
+    <bind name="start" value="(pg - 1) * sz" />
+    SELECT b.*, c.categoryName
+    FROM Book b 
+      LEFT JOIN category c ON b.categoryId = c.id
+    ORDER BY b.id
+    LIMIT #{start}, #{sz}
+  </select> 
+
+  <resultMap id="findAll_resultMap" type="Book">
+    <id property="id" column="id" />
+    <result property="title" column="title" />
+    <result property="author" column="author" />
+    <result property="price" column="price" />
+    <association property="category" javaType="Category">
+      <id property="id" column="categoryId" />
+    <result property="categoryName" column="categoryName" />      
+    </association>
+  </resultMap>
+  
+  <select id="count" resultType="int">
+    SELECT COUNT(id) FROM Book
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT Book (title, author, categoryId, price, publisherId, available)
+    VALUES (#{title}, #{author}, #{categoryId}, #{price}, #{publisherId}, #{available})
+  </insert>
+
+  <update id="update">
+    UPDATE Book SET
+      title = #{title},
+      author = #{author},
+      categoryId = #{categoryId},
+      price = #{price},
+      publisherId = #{publisherId},
+      available = #{available} 
+    WHERE id = #{id}
+  </update>
+
+  <delete id="delete">
+    DELETE FROM Book WHERE id = #{id}
+  </delete>
+  
+</mapper>
+

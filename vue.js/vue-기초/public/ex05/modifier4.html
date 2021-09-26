@@ -1,0 +1,26 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        div#app { padding: 30px; margin: 30px auto; max-width: 400px;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa; }
+        input[type=text] { padding: 4px; }
+        div#app div { font-size: 20pt; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model.number="number" />
+    <div>{{ number + number }}</div>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            number: 0
+        }
+    })
+</script>
+</body>
+</html>

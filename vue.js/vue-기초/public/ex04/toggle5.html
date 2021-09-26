@@ -1,0 +1,42 @@
+<html lang="ko" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        div#app { padding: 30px; margin: 30px auto; max-width: 600px;
+            border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa;  }
+        span { display: inline-block; margin: 20px; padding: 20px 40px;
+            border: 1px solid black; }
+        input[type=checkbox] { width: 20px; height: 20px; }
+        .yellow { background-color: #ffa; }
+        .yellow::before { content: "(노랑)"}
+        .green { background-color: #bfb; }
+        .green::after { content: "(녹색)"}
+    </style>
+</head>
+<body>
+<div id="app">
+    <span class="yellow"> static style1 </span>
+    <span class="green"> static style2 </span>
+    <span v-bind:class="getCssClass()"> dynamic style </span>
+    <label>
+        <input type="checkbox" v-model="value" />
+        toggle
+    </label>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            value: false
+        },
+        methods: {
+            getCssClass() {
+                return this.value ? "yellow" : "green";
+            }
+        }
+    })
+</script>
+</body>
+</html>

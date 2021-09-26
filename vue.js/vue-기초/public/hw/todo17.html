@@ -1,0 +1,73 @@
+<html xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://kit.fontawesome.com/68abb170e0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="todo1.css">
+    <style> ul { list-style-type: none; } </style>
+</head>
+<body>
+<div id="app">
+    <h1>할 일</h1>
+    <ul>
+        <li v-for="(todo, index) in todoList" v-bind:key="index">
+            <input type="checkbox" v-model="checked[index]" />
+            {{ todo.content }}
+        </li>
+    </ul>
+    <input type="text" v-model.trim="todo.content" />
+    <button type="button" v-on:click="addTodo" v-bind:disabled="!todo.content">할일 추가</button>
+    <button type="button" v-on:click="deleteTodo" v-show="checkedCount > 0">삭제</button>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            todoList: [],
+            checked: [],
+            todo: {},
+            selectedKey: null
+        },
+        computed: {
+            checkedCount: function() {
+                let count = 0;
+                for (let i in this.checked){
+                    if (this.checked[i]) ++count;
+                }
+                return count;
+            }
+        },
+        methods: {
+            reload: function() {
+                axios.get('https://skhu-hyerin.firebaseio.com/todo.json')
+                    .then(response => app.todoList = response.data);
+                this.todo = {};
+            },
+            addTodo: function() {
+                axios.post('https://skhu-hyerin.firebaseio.com/todo.json', this.todo)
+                    .then(response => this.reload());
+                this.showDialog = false;
+            },
+            deleteTodo: function() {
+                if (confirm("삭제하시겠습니까?") == false) return;
+                for (let i in this.todoList) {
+                    if (this.checked[i] != null) {
+                        this.selectedKey = i;
+                        axios.delete('https://skhu-hyerin.firebaseio.com/todo/' + this.selectedKey + '.json')
+                            .then(response => this.reload());
+                        this.checked[i] = null;
+                    }
+                }
+            }
+        }
+    })
+
+    window.onload = function() {
+        app.reload();
+    }
+
+</script>
+</body>
+</html>

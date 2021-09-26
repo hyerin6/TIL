@@ -1,0 +1,36 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+    </style>
+</head>
+<body>
+<canvas id="clock" width="700" height="700"></canvas>
+
+<script type="text/javascript">
+    let canvas = document.getElementById("clock");
+    let context = canvas.getContext("2d");
+
+    var x = 200, y = 100, radius = 100, radian1 = 0, radian2 = 0.5 * Math.PI;
+    context.beginPath();
+    context.arc(x, y, radius, radian1, radian2);
+    context.stroke();
+
+    var x = 500, y = 100, radius = 100, radian1 = 0, radian2 = 1 * Math.PI;
+    context.beginPath();
+    context.arc(x, y, radius, radian1, radian2);
+    context.stroke();
+
+    var x = 200, y = 400, radius = 100, radian1 = 0, radian2 = 1.5 * Math.PI;
+    context.beginPath();
+    context.arc(x, y, radius, radian1, radian2);
+    context.stroke();
+
+    var x = 500, y = 400, radius = 100, radian1 = 0, radian2 = 2 * Math.PI;
+    context.beginPath();
+    context.arc(x, y, radius, radian1, radian2);
+    context.stroke();
+
+</script>
+</body>
+</html>

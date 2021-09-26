@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">E02Views</string>
+    <string name="action_signUp">회원가입</string>
+    <string name="action_memo">메모장</string>
+    <string name="action_buttons">버튼</string>
+    <string name="loginId">로그인 아이디</string>
+    <string name="input_loginId">로그인 아이디를 입력하세요.</string>
+    <string name="password">비밀번호</string>
+    <string name="input_password">비밀번호를 입력하세요.</string>
+    <string name="password2">비밀번호 확인</string>
+    <string name="editText_password2">비밀번호를 한 번 더 입력하세요.</string>
+    <string name="email">이메일</string>
+    <string name="input_email">이메일 주소를 입력하세요.</string>
+    <string name="signUp">회원가입</string>
+    <string name="input_title">제목을 입력하세요.</string>
+    <string name="input_content">내용을 입력하세요.</string>
+    <string name="save">저장</string>
+    <string name="refresh">새로고침</string>
+    <string name="autologin">자동로그인</string>
+    <string name="red">빨간색</string>
+    <string name="yellow">노란색</string>
+    <string name="blue">파란색</string>
+    <string name="cat">고양이</string>
+    <string name="dog">강아지</string>
+    <string name="owl">부엉이</string>
+    <string name="action_checkboxes">Checkboxes</string>
+    <string name="inputPhone">전화번호를 입력하세요.</string>
+    <string name="inputAddress">주소를 입력하세요.</string>
+    <string-array name="phoneTypes">
+        <item>집전화</item>
+        <item>사무실전화</item>
+        <item>휴대폰</item>
+        <item>기타</item>
+    </string-array>
+    <string name="action_spinners">Spinners</string>
+    <string-array name="animals">
+        <item>고양이</item>
+        <item>강아지</item>
+        <item>부엉이</item>
+    </string-array>
+    <string name="action_alerts">Alerts</string>
+    <string name="saveSuccess">저장 성공</string>
+    <string name="close">닫기</string>
+    <string name="confirm">확인</string>
+    <string name="doYouWantToDelete">삭제하시겠습니까?</string>
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+    <string name="selectAnimal">동물 선택</string>
+    <string name="cancel">취소</string>
+
+</resources>
