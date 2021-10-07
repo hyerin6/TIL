@@ -74,6 +74,13 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 * [로깅 기능 개발하고 슬랙으로 알림 받기](https://hyerin6.github.io/2021-09-22/log-slack/)  
 
 
+* 내가 정의해보는 Spring 
+     - [스프링이란?](https://hyerin6.github.io/2021-09-24/spring/)
+     - [Spring Transaction으로 알아보는 AOP](https://hyerin6.github.io/2021-10-06/aop/)
+     - [Spring IoC/DI 란?](https://hyerin6.github.io/2021-10-06/ioc-di/)  
+
+* [엘라스틱서치로 검색기능 개발하기](https://hyerin6.github.io/2021-09-27/search/)
+
 <br />       <br />       
 
 
