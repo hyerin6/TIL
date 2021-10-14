@@ -81,6 +81,9 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 * [엘라스틱서치로 검색기능 개발하기](https://hyerin6.github.io/2021-09-27/search/)
 
+* [엘라스틱서치 부분 검색 기능 개발](https://hyerin6.github.io/2021-10-08/es-search/)
+
+
 <br />       <br />       
 
 
