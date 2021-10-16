@@ -3,7 +3,8 @@
 <br />
 
 
-[자바 네트워크 프로그래밍](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791185890074&orderClick=LAG&Kc=)을 참고하여 학습한다.
+[자바 네트워크 프로그래밍](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791185890074&orderClick=LAG&Kc=)을
+참고하여 학습한다.
 
 
 <br />
@@ -19,9 +20,6 @@
 * non blocking IO
 
 * UDP, IP multicast
-
-
-
 
 <br />
 
