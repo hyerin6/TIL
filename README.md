@@ -22,7 +22,7 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 ## Study      
 다양한 주제로 학습한다.     
-<https://github.com/hyerin6/TIL/tree/main/Mentoring>    
+<https://github.com/hyerin6/TIL/tree/main/TIL>    
 <br />     
 
 * [OAuth 2.0](https://hyerin6.github.io/2021-07-23/OAuth2/)    
