@@ -20,7 +20,7 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 <br />       
 <br />    
 
-## Mentoring      
+## Study      
 다양한 주제로 학습한다.     
 <https://github.com/hyerin6/TIL/tree/main/Mentoring>    
 <br />     
