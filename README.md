@@ -85,6 +85,10 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 * [SSH 명칭 & 인증 과정 정리](https://hyerin6.github.io/2021-10-14/ssh/) 
 
+* [Nginx 로드 밸런싱 구성](https://hyerin6.github.io/2021-10-18/loadbalancing/)
+
+* [무중단 배포 환경 이해](https://hyerin6.github.io/2021-10-17/deploy/)
+
 <br />       <br />       
 
 
