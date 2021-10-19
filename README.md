@@ -10,20 +10,17 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 <br />     
 
 :octocat: 해당 Repository는 Issue와 Projects의 칸반보드를 활용하여 관리되고 있습니다.        
-<https://github.com/hyerin6/TIL/projects/1>       
- 
-<br />  
-
-블로그와 함께 기록되며 카테코리와 태그별로 원하는 포스팅을 쉽게 찾아볼 수 있습니다.   
-:mag: [blog 바로가기](https://hyerin6.github.io/)              
+<https://github.com/hyerin6/TIL/projects/1>               
 
 <br />       
-<br />    
+ 
 
 ## Study      
-다양한 주제로 학습한다.     
-<https://github.com/hyerin6/TIL/tree/main/TIL>    
-<br />     
+:mag:  &nbsp;  <https://hyerin6.github.io/>        
+
+블로그와 함께 기록되며 카테코리와 태그별로 원하는 포스팅을 쉽게 찾아볼 수 있습니다.   
+
+<br />   
 
 * [OAuth 2.0](https://hyerin6.github.io/2021-07-23/OAuth2/)    
  
@@ -89,7 +86,9 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 * [무중단 배포 환경 이해](https://hyerin6.github.io/2021-10-17/deploy/)
 
-<br />       <br />       
+
+<br />      
+<br />       
 
 
 ## 객체지향 설계      
