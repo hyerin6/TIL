@@ -86,6 +86,7 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 * [무중단 배포 환경 이해](https://hyerin6.github.io/2021-10-17/deploy/)
 
+* [CI/CD란? (Jenkins)](https://hyerin6.github.io/2021-10-20/jenkins/)  
 
 <br />      
 <br />       
