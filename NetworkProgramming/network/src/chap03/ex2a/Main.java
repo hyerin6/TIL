@@ -11,6 +11,7 @@ class SumTask implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println("123");
 		long sum = 0;
 		for (int i = from; i <= to; ++i) {
 			sum += i;
