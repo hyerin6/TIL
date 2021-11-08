@@ -64,6 +64,10 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 |[무중단 배포 환경 이해](https://hyerin6.github.io/2021-10-17/deploy/)|
 |[CI/CD 구축 (Jenkins)](https://hyerin6.github.io/2021-10-20/jenkins/)|
 |[Template Engine & JAR vs. WAR](https://hyerin6.github.io/2021-11-02/Thymeleaf/)|
+|[artillery란?](https://hyerin6.github.io/2021-11-05/artillery/)|
+|[어떤 부분을 테스트하고 분석해야 할까?](https://hyerin6.github.io/2021-11-05/stress-test/)|
+|[CQRS란?](https://hyerin6.github.io/2021-11-08/cqrs1/)|
+|[CQRS 구현](https://hyerin6.github.io/2021-11-08/cqrs2/)|
 
 
 </div>
