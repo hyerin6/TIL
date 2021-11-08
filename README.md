@@ -68,6 +68,7 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 |[어떤 부분을 테스트하고 분석해야 할까?](https://hyerin6.github.io/2021-11-05/stress-test/)|
 |[CQRS란?](https://hyerin6.github.io/2021-11-08/cqrs1/)|
 |[CQRS 구현](https://hyerin6.github.io/2021-11-08/cqrs2/)|
+|[Message Queue란?](https://hyerin6.github.io/2021-11-08/rabbitmq/)|
 
 
 </div>
