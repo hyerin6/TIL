@@ -223,18 +223,22 @@ public static void main(String[] args) throws SocketException {
 
 이 예제는, "eth7" 이름의 네트워크 인터페이스 장치의 MAC 주소와 IP 주소 목록을 출력한다.
 
+<br />  
 
 * `NetworkInterface ni = NetworkInterface.getByName("eth7");`
-   장치 이름으로 NetowkrInterface 객체를 생성한다.
-   이 객체이는 네트워크 인터페이스 장치에 대한 정보가 들어있다.
+   
+장치 이름으로 NetowkrInterface 객체를 생성한다.
+이 객체이는 네트워크 인터페이스 장치에 대한 정보가 들어있다.
 
 
 * `NetworkInterface.getHardwareAddress()`
-   네트워크 인터페이스 장치의 MAC 주소를 byte[] 타입으로 리턴한다.
+   
+네트워크 인터페이스 장치의 MAC 주소를 byte[] 타입으로 리턴한다.
 
 
 * `NetworkInterface.getInetAddresses()`
-   네트워크 인터페이스 장치에 할당된 IP 주소 목록을 리턴한다.
+   
+네트워크 인터페이스 장치에 할당된 IP 주소 목록을 리턴한다.
 
 
 <br />
