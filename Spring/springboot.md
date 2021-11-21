@@ -3,6 +3,7 @@
 Springboot는 Spring Framework 뿐만 아니라 Third-party librarie(내장 톰캣)에 대한 설정도 자동으로 해준다.   
 
 <br />
+<br />
 
 ## Springboot 의존성 관리 
 Gradle이 Maven보다 빌드 속도가 빠르고 Groovy로 작성하기 때문에 직관적이고 간편하게 작성할 수 있다.     
@@ -18,6 +19,7 @@ Gradle의 목적은 다음과 같다.
 스프링부트 레퍼러느에서 `io.spring.dependency-management`라는 플러그인을 같이 사용할 것을 권장하고 있다.    
 `io.spring.dependency-management`의 주요 기능은 현재 사용 중인 Springboot 버전에 따라 의존성을 자동으로 관리해준다.    
 
+<br />
 <br />
 
 ## Springboot 자동 설정 
@@ -41,6 +43,7 @@ spring.factories 파일에 설정된 키값들을 보고 여기에 있는 값들
 `@EnableAutoConfiguration` 덕분에 내장 톰캣을 포함한 다양한 기능들을 자동으로 사용할 수 있게 되는 것이다.   
 
 <br />
+<br />
 
 ## Springboot 내장 웹 서버     
 스프링부트는 서버가 아니다.   
@@ -62,6 +65,7 @@ spring.factories 파일에 설정된 키값들을 보고 여기에 있는 값들
 * DispatcherServlet을 만들고 서블릿 컨테이너에 등록: DispatcherServletAutoConfiguration      
 
 <br />
+<br />
 
 ## Springboot 독립적으로 실행 가능한 JAR    
 Gradle Wrapper를 통해 빌드를 하면 `.jar` 파일을 생성할 수 있다.       
@@ -70,6 +74,7 @@ jar 파일을 실행하기만 하면 스프링 내부의 수많은 의존성들�
 jar 파일을 만드는 것을 패키징한다고 한다.     
 jar 내부에 프로젝트 실행을 위한 모든 의존성들이 패키징되어 들어간다.      
 
+<br />
 <br />
 
 ## Springboot 목적  
@@ -82,6 +87,7 @@ jar 내부에 프로젝트 실행을 위한 모든 의존성들이 패키징되�
 
 이러한 사용 또한 사용자가 특별히 설정 없이 자동 설정으로 설정되어져 있고 실행만 하면 바로 웹서버를 실행할 수 있게 되었다.  
 
+<br />
 <br />
 
 ## Controller / RestController   
@@ -125,6 +131,50 @@ Client > HTTP Request > Dispatcher Servlet > Handler Mapping
 View의 유무에 따라 사용 용도가 다르다.     
 
 <br />
+<br />
+
+## Spring Rest Client   
+Springboot가 Rest Client에 관해 직접적인 기능을 제공하는 것은 아니며,  
+Rest Client는 스프링 프레임워크에서 제공하는 기능이다.    
+
+스프링부트는 RestTemplateBuilder와 WebClient.Builder를 빈으로 등록해준다.   
+
+<br />
+
+#### RestTemplate 
+Blocking I/O 기반의 Synchronous API   
+
+<br />
+
+#### WebClient 
+* Non-Blocking I/O 기반의 Asynchronous API
+* Webflux 의존성을 추가해주어야 사용 가능 
+
+<br />
+<br />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
