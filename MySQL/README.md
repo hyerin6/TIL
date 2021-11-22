@@ -7,4 +7,8 @@
   
 * database-class : Query 작성 연습                
 
+* performance: MySQL 퍼포먼스 최적화 정리    
+
 * real-mysql : Real MySQL 정리                   
+
+
