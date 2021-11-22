@@ -83,17 +83,26 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 ## 객체지향 설계      
 * [오브젝트](https://github.com/hyerin6/TIL/tree/main/Object/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8)     
-    - [객체 & 설계: 캡슐화와 응집도](https://github.com/hyerin6/TIL/blob/main/Object/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8/%EA%B0%9D%EC%B2%B4%26%EC%84%A4%EA%B3%84.md)     
-
 * [객체지향의 사실과 오해](https://github.com/hyerin6/TIL/tree/main/Object/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%98%EC%82%AC%EC%8B%A4%EA%B3%BC%EC%98%A4%ED%95%B4)   
-    - [협력, 역할, 책임](https://github.com/hyerin6/TIL/blob/main/Object/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%98%EC%82%AC%EC%8B%A4%EA%B3%BC%EC%98%A4%ED%95%B4/(1)%ED%98%91%EB%A0%A5%ED%95%98%EB%8A%94%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%98%EA%B3%B5%EB%8F%99%EC%B2%B4.md)    
- 
+
 <br />         
 
 ## Docker      
 * [도커를 사용하는 의의, 도커 탄생 배경, 이전의 기술과의 차이점, 컨테이너나 가상화에 대한 개념](https://github.com/hyerin6/TIL/blob/main/Docker%26K8s/docker.md)    
 
-<br />     
+<br /> 
+
+## MySQL    
+* [MySQL](https://github.com/hyerin6/MySQL)   
+* [MySQL 퍼포먼스 최적화](https://github.com/hyerin6/TIL/tree/main/MySQL/performance)   
+* [Real MySQL](https://github.com/hyerin6/TIL/tree/main/MySQL/real-mysql)
+
+<br /> 
+
+## Architecture 
+* [Systems Design](https://github.com/hyerin6/TIL/tree/main/Architecture)    
+
+<br /> 
 
 ## Spring      
 * [토비의 스프링 3.1](https://github.com/hyerin6/toby-spring)  
@@ -102,11 +111,6 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 ## JPA     
 * [Java Persistence API](https://github.com/hyerin6/JPA)     
-
-<br />     
-
-## MySQL    
-* [MySQL](https://github.com/hyerin6/MySQL)   
 
 <br />       
 
