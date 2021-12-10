@@ -96,4 +96,194 @@ information expert 패턴은 객체가 자신이 소유하고 있는 정보와 �
 <br />
 
 ### 높은 응집도와 낮은 결합도   
+예) 할인 요금 계산을 위해 Movie가 DiscountCondition에 `할인 여부를 판단해라` 메시지를 전송한다.   
+이 설계의 대안으로 Movie 대신 Screening이 직접 DiscountCondition과 협력하게 하는 것은 어떨까?   
+이를 위해서는 Screening이 DiscountCondition에게 `할인 여부를 판단해라` 메시지를 전송하고 반환받은 할인 여부를    
+Movie에 전송하는 메시지의 인자로 전달하도록 수정해야 한다.   
+Movie는 전달된 할인 여부 값을 이용해 요금을 어떻게 계산할지 결정할 것이다.   
+
+위 설계는 기능적인 측면에서만 보면 Movie와 DiscountCondition이 직접 상호작용하는 앞의 설계와 동일하다.   
+차이점은 DiscountCondition과 협력하는 객체가 Movie가 아니라 Screening이라는 것이다.   
+왜 위 설계 대신 Movie와 DiscountCondition과 협력하는 방법을 선택했을까?  
+
+이유는 응집도와 결합도에 있다.   
+두 협력 패턴 중에서 높은 응집도와 낮은 결합도로 얻을 수 있는 설계가 있다면 그 설계를 선택해야 한다.   
+GRASP에서 이를 LOW COUPLING(낮은 결합도) 패턴과 HIGH COHESION(높은 응집도) 패턴이라고 부른다.    
+
+
+Screening의 가장 중요한 책임은 예매를 생성하는 것이다.       
+Screening이 DiscountCondition과 협력하면 Screening은 영화 요금 계산과 관련된 책임 일부를 떠안아야 한다.        
+이 경우 Screening이 DiscountCondition이 할인 여부 판단, Movie가 할인 여부를 필요로 한다는 사실을 알고 있어야 한다.        
+결과적으로 서로 다른 이유로 변경되는 책임을 짊어지게 되므로 응집도가 낮아진다.        
+
+
+<br />
+
+### 창조자에게 객체 생성 책임을 할당하라   
+영화 예매 협력의 최종 결과물은 Reservation 인스턴스를 생성하는 것이다.   
+GRASP의 CREATOR(창조자) 패턴은 이 같은 경우에 사용할 수 있는 책임 할당 패턴으로서 객체를 생성할 책임을 어떤 객체에게 할당할지에 대한 지침을 제공한다.   
+
+```
+객체 A를 생성해야 할 때 아래 조건을 최대한 많이 만족하는 B에게 객체 생성 책임을 할당하라. 
+
+- B가 A 객체를 포함하거나 참조한다. 
+- B가 A 객체를 기록한다.   
+- B가 A 객체를 긴밀하게 사용한다. 
+- B가 A 객체를 초기화하는 데 필요한 데이터를 가지고 있다. 
+
+이미 결합돼 있는 객체에게 생성을 할당하는 것은 설계의 전체적인 결합도에 영향을 미치지 않아 
+낮은 결합도를 유지할 수 있게 한다. 
+```
+
+<br />
+<br />
+
+# 03 구현을 통한 검증 
+협력의 관점에서 Screening은 `예매하라` 메시지에 응답할 수 있어야 한다.   
+
+```java
+public class Screening {
+    public Reservation reserve(Customer customer, int audienceCount) {
+    }
+}
+```
+
+책임을 결정했기 때문에 책임을 수행하는 데 필요한 인스턴스 변수를 결정해야 한다.    
+Screening은 상영 시간, 상영 순번을 인스턴스 변수로 포함한다.   
+또한 Movie에 `가격을 계산하라` 메시지를 전송해야 하기 때문에 영화에 대한 참조도 포함해야 한다.   
+
+```java
+public class Screening {
+    private Movie movie;
+    private int sequence;
+    private LocalDateTime whenScreened;
+
+    public Reservation reserve(Customer customer, int audienceCount) {
+        return new Reservation(customer, this, calculateFee(audienceCount), audienceCount);
+    }
+
+    private Money calculateFee(int audienceCount) {
+        return movie.calculateMovieFee(this).times(audienceCount);
+    }
+
+    public LocalDateTime getWhenScreened() {
+        return whenScreened;
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
+}
+```
+
+Screening을 구현하는 과정에서 Movie에 전송하는 메시지의 시그니처를 `movie.calculateMovieFee(Screening screening)`로 선언했음에 주목하자.   
+이 메시지는 수신자인 Movie가 아니라 송신자인 Screening의 의도를 표현한다.    
+Screening이 Movie의 내부 구현에 대한 어떤 지식도 없이 전송할 메시지를 결정했다는 것이다.   
+이처럼 Movie의 구현을 고려하지 않고 필요한 메시지를 결정하면 Movie의 내부 구현을 깔끔하게 캡슐화할 수 있다.    
+
+<br />
+
+```java
+public class Movie {
+    private String title;
+    private Duration runningTime;
+    private Money fee;
+    private List<DiscountCondition> discountConditions;
+
+    private MovieType movieType;
+    private Money discountAmount;
+    private double discountPercent;
+
+    public Money calculateMovieFee(Screening screening) {
+        if (isDiscountable(screening)) {
+            return fee.minus(calculateDiscountAmount());
+        }
+
+        return fee;
+    }
+
+    private boolean isDiscountable(Screening screening) {
+        return discountConditions.stream()
+                .anyMatch(condition -> condition.isSatisfiedBy(screening));
+    }
+
+    private Money calculateDiscountAmount() {
+        switch(movieType) {
+            case AMOUNT_DISCOUNT:
+                return calculateAmountDiscountAmount();
+            case PERCENT_DISCOUNT:
+                return calculatePercentDiscountAmount();
+            case NONE_DISCOUNT:
+                return calculateNoneDiscountAmount();
+        }
+
+        throw new IllegalStateException();
+    }
+
+    private Money calculateAmountDiscountAmount() {
+        return discountAmount;
+    }
+
+    private Money calculatePercentDiscountAmount() {
+        return fee.times(discountPercent);
+    }
+
+    private Money calculateNoneDiscountAmount() {
+        return Money.ZERO;
+    }
+}
+```
+
+Movie는 각 DiscountCondition에 `할인 여부를 판단하라` 메시지를 전송한다.    
+DiscountCondition은 이 메시지를 처리하기 위한 `isSatisfiedBy` 메서드를 구현해야 한다.   
+
+```java
+public class DiscountCondition {
+    private DiscountConditionType type;
+    private int sequence;
+    private DayOfWeek dayOfWeek;
+    private LocalTime startTime;
+    private LocalTime endTime;
+
+    public boolean isSatisfiedBy(Screening screening) {
+        if (type == DiscountConditionType.PERIOD) {
+            return isSatisfiedByPeriod(screening);
+        }
+
+        return isSatisfiedBySequence(screening);
+    }
+    
+    . . .
+
+}
+```
+
+
+[전체 코드 보러가기](https://github.com/eternity-oop/object/tree/master/chapter05/src/main/java/org/eternity/movie/step01)   
+
+위 코드 안에는 몇 가지 문제점이 있다.   
+
+<br />
+
+### DiscountCondition 개선  
+가장 큰 문제점은 변경에 취약한 클래스를 포함하고 있다는 것이다.    
+변경의 이유가 다양한 클래스는 DiscountCondition이다.   
+다음과 같은 이유로 변경될 수 있다.  
+
+* 새로운 할인 조건 추가 
+* 순번 조건을 판단하는 로직 변경 
+* 기간 조건을 판단하는 로직이 변경되는 경우
+
+낮은 응집도가 초래하는 문제를 해결하기 위해서는 **변경의 이유에 따라 클래스를 분리해야 한다.**  
+
+일반적으로 설계를 개선하는 작업은 변경의 이유가 하나 이상인 클래스를 찾는 것으로부터 시작하는 것이 좋다.    
+
+코드를 통해 변경의 이유를 파악할 수 있는 방법은 다음과 같다.   
+
+* 인스턴스 변수가 초기화되는 시점   
+* 메서드들이 인스턴스 변수를 사용하는 방식 
+    - 모든 메서드가 객체의 모든 속성을 사용한다면 클래스의 응집도가 높다고 볼 수 있다. 
+    - 메서드들이 사용하는 속성에 따라 그룹이 나뉜다면 클래스의 응집도가 낮다고 볼 수 있다. 
+
+<br />
 
