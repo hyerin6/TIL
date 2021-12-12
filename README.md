@@ -2,82 +2,23 @@
 
 # Today I Learned.💡     
 
+:octocat: 해당 Repository는 [Issue와 Projects의 칸반보드](https://github.com/hyerin6/TIL/projects/1)를 활용하여 관리되고 있습니다.                    
+
 commit에 집착하지 않고 다음 내용들을 문서화합니다.           
 * 개발 도서 요약     
 * 학습 내용 문서화     
 * Q&A 학습         
 
-<br />     
-
-:octocat: 해당 Repository는 [Issue와 Projects의 칸반보드](https://github.com/hyerin6/TIL/projects/1)를 활용하여 관리되고 있습니다.                    
 
 <br />       
  
 
-## Tech Blog      
+## Tech Blog       
+블로그와 함께 기록되며 카테코리와 태그별로 원하는 포스팅을 쉽게 찾아볼 수 있습니다.
+
 :mag:  &nbsp;  [블로그 바로가기](https://hyerin6.github.io/)          
 
-
-
-<br />   
-
-<details>
-<summary>블로그와 함께 기록되며 카테코리와 태그별로 원하는 포스팅을 쉽게 찾아볼 수 있습니다.</summary>
-<div markdown="1">
-
- <br />
- 
-|posting|
-|--|
-|[OAuth 2.0](https://hyerin6.github.io/2021-07-23/OAuth2/)|
-|[HTTP API & RESTful API](https://hyerin6.github.io/2021-07-23/restfulapi/)|
-|[Token 인증 방식이 생긴 이유](https://hyerin6.github.io/2021-07-23/session-token/)|
-|[모놀리틱 서비스 vs. 마이크로 서비스](https://hyerin6.github.io/2021-07-24/msa/)|
-|[Web Server & Web Application Server](https://hyerin6.github.io/2021-07-24/ws-was/)|      
-|[Session은 어떻게 같은 key 값을 구분할까?](https://hyerin6.github.io/2021-07-26/session-how-do-they-work/)|            
-|[Gradle vs. Maven](https://hyerin6.github.io/2021-01-06/buildtool/)|      
-|[Gradle 사용법](https://hyerin6.github.io/2021-07-31/gradle/)|            
-|[Gradle에서 Qureydsl 사용](https://hyerin6.github.io/2021-08-02/querydsl/)|         
-|[Git-flow 란? (+ 인텔리제이 플러그인 사용법)](https://hyerin6.github.io/2021-07-30/gitflow/)|      
-|[DbSchema 사용하기](https://hyerin6.github.io/2021-07-31/dbschema/)|          
-|[Enum `@Enumerated` vs `@Converter`](https://hyerin6.github.io/2021-08-06/enum-converter/)|         
-|[createdAt, updatedAt 자동으로 저장하기](https://hyerin6.github.io/2021-08-14/createdAt/)|     
-|[스프링 예외 발생 위치와 처리 방법](https://hyerin6.github.io/2021-08-16/spring-exception/)|      
-|[Spring Security Architecture 살펴보기](https://hyerin6.github.io/2021-08-22/springsecurity(1)/)|         
-|[Spring Security 로그인 절차](https://hyerin6.github.io/2021-08-22/springsecurity(2)/)|         
-|[Spring Security + OAuth2.0 + Kakao 로그인 절차](https://hyerin6.github.io/2021-08-24/springsecurity(3)/)|    
-|[Spring Security OAuth2.0에서 JWT를 사용하는 이유](https://hyerin6.github.io/2021-08-26/springsecurity(4)/)||    
-|[로그인한 유저 정보 가져오기](https://hyerin6.github.io/2021-09-12/login-success/)|   
-|[직렬화란?](https://hyerin6.github.io/2021-09-13/serialize(1)/)|   
-|[직렬화가 품고 있는 위험](https://hyerin6.github.io/2021-09-13/serialize(2)/)|
-|[ElasticSearch란?](https://hyerin6.github.io/2021-09-17/es/)| 
-|[JPA JOIN 어떻게 할까? (타임라인 구현)](https://hyerin6.github.io/2021-09-17/jpa-join/)|  
-|[JUnit5 테스트 코드 작성해보자 (+BDD)](https://hyerin6.github.io/2021-09-20/junit5-bdd/)|  
-|[로깅 기능 개발하고 슬랙으로 알림 받기](https://hyerin6.github.io/2021-09-22/log-slack/)|
-|[스프링이란?](https://hyerin6.github.io/2021-09-24/spring/)|
-|[Spring Transaction으로 알아보는 AOP](https://hyerin6.github.io/2021-10-06/aop/)|
-|[Spring IoC/DI 란?](https://hyerin6.github.io/2021-10-06/ioc-di/)|
-|[엘라스틱서치로 검색기능 개발하기](https://hyerin6.github.io/2021-09-27/search/)|
-|[엘라스틱서치 부분 검색 기능 개발](https://hyerin6.github.io/2021-10-08/es-search/)||
-|[SSH 명칭 & 인증 과정 정리](https://hyerin6.github.io/2021-10-14/ssh/)| 
-|[Nginx 로드 밸런싱 구성](https://hyerin6.github.io/2021-10-18/loadbalancing/)|
-|[무중단 배포 환경 이해](https://hyerin6.github.io/2021-10-17/deploy/)|
-|[CI/CD 구축 (Jenkins)](https://hyerin6.github.io/2021-10-20/jenkins/)|
-|[Template Engine & JAR vs. WAR](https://hyerin6.github.io/2021-11-02/Thymeleaf/)|
-|[artillery란?](https://hyerin6.github.io/2021-11-05/artillery/)|
-|[어떤 부분을 테스트하고 분석해야 할까?](https://hyerin6.github.io/2021-11-05/stress-test/)|
-|[CQRS란?](https://hyerin6.github.io/2021-11-08/cqrs1/)|
-|[CQRS 구현](https://hyerin6.github.io/2021-11-08/cqrs2/)|
-|[Message Queue란?](https://hyerin6.github.io/2021-11-08/rabbitmq/)|
-
-
-</div>
-</details>
-
- 
- 
- 
-<br />      
+  
 <br />       
 
 
@@ -98,6 +39,11 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 * [Real MySQL](https://github.com/hyerin6/TIL/tree/main/MySQL/real-mysql)
 
 <br /> 
+
+## Interview
+* [Q&A](https://github.com/hyerin6/TIL/tree/main/Interview)
+
+<br />
 
 ## Architecture 
 * [Systems Design](https://github.com/hyerin6/TIL/tree/main/Architecture)    
