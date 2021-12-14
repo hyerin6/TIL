@@ -41,17 +41,23 @@
 <br />
 
 
-# Database 
-* [정규화(1~3차, BCNF)]()
-* [트랜잭션이란?]() 
-    - [트랜잭션의 성질(ACID)]()
-    - [트랜잭션의 필요성]()
-    - [트랜잭션의 상태]()
-    - [트랜잭션의 성질(ACID)]()
-
-    
-
-
+# [Database](https://github.com/hyerin6/TIL/tree/main/Interview/Database) 
+* [정규화(1~3차, BCNF)](https://github.com/hyerin6/TIL/tree/main/Interview/Database#정규화13차-bcnf)
+* [트랜잭션이란?](https://github.com/hyerin6/TIL/tree/main/Interview/Database#트랜잭션이란) 
+    - [트랜잭션의 성질(ACID)](https://github.com/hyerin6/TIL/tree/main/Interview/Database#트랜잭션의-성질-acid) 
+    - [트랜잭션의 필요성](https://github.com/hyerin6/TIL/tree/main/Interview/Database#트랜잭션의-필요성) 
+    - [트랜잭션의 상태](https://github.com/hyerin6/TIL/tree/main/Interview/Database#트랜잭션의-상태) 
+    - [트랜잭션 격리 수준](https://github.com/hyerin6/TIL/tree/main/Interview/Database#트랜잭션-격리-수준) 
+* [데이터베이스 풀](https://github.com/hyerin6/TIL/tree/main/Interview/Database#데이터베이스-풀)
+* [Join](https://github.com/hyerin6/TIL/tree/main/Interview/Database#join)
+* [Index](https://github.com/hyerin6/TIL/tree/main/Interview/Database#index)
+* [Statement와 PrepareStatement](https://github.com/hyerin6/TIL/tree/main/Interview/Database#statement와-preparestatement)
+* [RDBMS vs NoSQL](https://github.com/hyerin6/TIL/tree/main/Interview/Database#rdbms-vs-nosql)
+* [Replication](https://github.com/hyerin6/TIL/tree/main/Interview/Database#replication)
+* [DB 파티셔닝](https://github.com/hyerin6/TIL/tree/main/Interview/Database#db-파티셔닝)
+* [샤딩(Sharding)](https://github.com/hyerin6/TIL/tree/main/Interview/Database#샤딩sharding)
+* [ORM](https://github.com/hyerin6/TIL/tree/main/Interview/Database#orm)
+* [JDBC](https://github.com/hyerin6/TIL/tree/main/Interview/Database#jdbc) 
 
 
 
