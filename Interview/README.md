@@ -53,7 +53,7 @@
 * [Index](https://github.com/hyerin6/TIL/tree/main/Interview/Database#index)
 * [Statement와 PrepareStatement](https://github.com/hyerin6/TIL/tree/main/Interview/Database#statement와-preparestatement)
 * [RDBMS vs NoSQL](https://github.com/hyerin6/TIL/tree/main/Interview/Database#rdbms-vs-nosql)
-* [Replication](https://github.com/hyerin6/TIL/tree/main/Interview/Database#replication)
+* [Replication vs Clustering](https://github.com/hyerin6/TIL/tree/main/Interview/Database#replication-vs-clustering)  
 * [DB 파티셔닝](https://github.com/hyerin6/TIL/tree/main/Interview/Database#db-파티셔닝)
 * [샤딩(Sharding)](https://github.com/hyerin6/TIL/tree/main/Interview/Database#샤딩sharding)
 * [ORM](https://github.com/hyerin6/TIL/tree/main/Interview/Database#orm)
