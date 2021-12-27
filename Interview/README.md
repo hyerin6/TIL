@@ -73,7 +73,7 @@
 * [DAO와 DTO의 차이](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#dao와-dto의-차이)
 * [Filter와 Interceptor 차이](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#filter와-interceptor-차이)
 * [MVC 패턴](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#mvc-패턴)
-* [싱글톤 패턴(Singleton pattern)]()
+* [싱글톤 패턴(Singleton pattern)](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#싱글톤-패턴singleton-pattern)
 
 <br />
 
@@ -92,7 +92,7 @@
 <br />
 
 # Server 
-* [was & web server]
+* [was & web server](https://github.com/hyerin6/TIL/tree/main/Interview/Server#was--web-server)
 
 <br />
 
