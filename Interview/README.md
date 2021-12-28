@@ -36,7 +36,9 @@
 * [Process & Thread](https://github.com/hyerin6/TIL/tree/main/Interview/Java#process--thread)  
 * [volatile](https://github.com/hyerin6/TIL/tree/main/Interview/Java#volatile)  
 * [ThreadLocal](https://github.com/hyerin6/TIL/tree/main/Interview/Java#threadLocal)  
-
+* [객체지향](https://github.com/hyerin6/TIL/tree/main/Interview/Java#객체지향)
+* [객체지향 특징](https://github.com/hyerin6/TIL/tree/main/Interview/Java#객체지향-특징)
+* [람다에서 사용되는 지역 변수가 final 혹은 effectively final 이어야 하는 이유](https://github.com/hyerin6/TIL/tree/main/Interview/Java#람다에서-사용되는-지역-변수가-final-혹은-effectively-final-이어야-하는-이유)
 
 <br />
 
