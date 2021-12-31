@@ -76,7 +76,7 @@
 * [Filter와 Interceptor 차이](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#filter와-interceptor-차이)
 * [MVC 패턴](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#mvc-패턴)
 * [싱글톤 패턴(Singleton pattern)](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#싱글톤-패턴singleton-pattern)
-* [`@Transactional` Propagation]()
+* [`@Transactional` Propagation](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#transactional-propagation)  
 
 
 <br />
