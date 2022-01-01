@@ -467,26 +467,180 @@ Nested(중첩)한 방식으로 메소드 호출이 이루어지더라도 Rollbac
 
 
 <br />
+<br />
+
+## Spring에서 CORS 
+#### CORS
+CORS(cross-origin resource sharing)는 교차 출처 리소스 공유이다.      
+교차 출처는 다른 출처를 의미한다. 브라우저가 막고 있기 때문에 CORS를 허용해주어야 접근이 가능한 것이다.     
+
+<br />
+
+#### 출처(origin)  
+`https://hyerin6.github.io:8080/2021-12-28?lambda`
+
+* https : protocol
+* hyerin.githun.io: host
+* 8080: port
+* 2021-12-28: path 
+* lambda: query string
+
+도메인에서 protocol, host, port가 같으면 동일한 출처라고 한다.    
+3개 중에 하나라도 다르면 다른 출처라고 한다.   
+
+<br />
+
+#### React에서 Spring 호출하면?
+* React: `http://localhost:3000`
+* Spring: `http://localhost:8080`  
+
+React에서 Spring API를 호출하면 두 도메인은 Port가 다르기 때문에 SOP 문제가 발생할 수 있다.   
+
+<img width="500" src="https://user-images.githubusercontent.com/45676906/147180255-116fb4fd-5740-402c-a051-f2bdc29cdcda.png">
+
+<br />
+
+#### SOP(same origin policy) 
+동일 근원에서만 접근이 가능하게 하는 정책이다.   
+
+<img width=500 src="https://user-images.githubusercontent.com/33855307/147845143-136111dc-1326-433e-a4fc-bae0f8fa5e58.jpg">
+
+별도의 도메인에 ajax 요청을 하게 되면 SOP 위반에 의해 오류를 발생시킨다.    
+
+SOP를 해결하기 위해서는 Spring Server에서 출처가 다른 React 자원이     
+Spring Server 자원에 접근할 수 있도록 권한을 주는 작업이 필요합니다.(CORS 작업)    
+
+<br />
+
+#### `WebMvcConfigurer`
+Spring에서 CORS를 해결하는 여러 방법 중 `WebMvcConfigurer` 인터페이스를 이용해서 해결하는 방법을 적용해본 경험이 있다.
 
 
+```java
+@RequiredArgsConstructor
+@Configuration
+public class WebMvcConfig implements WebMvcConfigurer {
+
+    private final LoginUserIdArgumentResolver loginUserIdArgumentResolver;
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+            .allowedOrigins("http://localhost:3000")
+            .allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE");
+    }
+}
+```
+
+`http://localhost:3000`에 대해서 접근할 수 있는 권한을 주는 설정이다.    
+그러나 Spring Security를 사용한다면 이 방법으로 해결할 수 없다.  
+
+<br />
+
+#### Spring Security를 사용하고 있다면?  
+<img width=500 src="https://user-images.githubusercontent.com/45676906/147133435-04ce30cc-e68f-45bc-a396-610076b1b84f.png">
+
+Interceptor, Controller 이전에 Filter에서 걸리기 때문에 위 방법을 CORS를 해결할 수 없었다.  
+
+<br />
+
+#### Preflight Request   
+Preflight Request는 OPTIONS 메소드를 통해 다른 도메인의 리소스로 HTTP 요청을 보내 실제 요청을 전송하기에 안전한지 확인한다.    
+Preflight Request 요청의 응답이 200이 리턴되어야 다음 실제 요청을 진행할 수 있다.   
+그러나 Spring Security Filter에서 Preflight Request에 대한 응답을 401로 내려주기 대문에 CORS 문제가 여전히 해결되지 않는 것이다.   
 
 
+Preflight Request가 401로 응답받는 문제를 해결하기 위해 Security Config 설정을 추가해야 한다.   
+
+```java
+@RequiredArgsConstructor
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+            .mvcMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight Request 허용해주기
+            .antMatchers("/api/v1/**").hasAnyAuthority(USER.name());
+    }
+}
+```
+
+Preflight Request OPTIONS 메소드 요청을 허용하는 것이다.   
+
+<br />
+<br />
+
+## `@SpringBootApplication` 동작  
+<https://www.baeldung.com/springbootconfiguration-annotation>  
+
+SpringBoot의 MainApplication 코드에 `@SpringBootApplication` 어노테이션이 있다.      
+
+* `DemoApplication.java`  
+```java
+@SpringBootApplication
+public class DemoApplication {
+   public static void main(String[] args) {
+      SpringApplication.run(Demo1Application.class, args);
+   }
+} 
+```
 
 
+* `@SpringBootApplication`  
+
+```java
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(excludeFilters = { @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+      @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
+public @interface SpringBootApplication {
+
+    ...
+
+}
+```
+
+`@SpringBootApplication` 내부에서 주된 3가지 어노테이션은 다음과 같다.  
+
+* `@SpringBootConfiguration`  
+* `@EnableAutoConfiguration`  
+* `@ComponentScan`  
 
 
+스프링 부트 어플리케이션은 Bean을 2번 등록한다.     
+처음에 ComponentScan으로 등록하고, 그 후에 EnableAutoConfiguration으로 추가적인 Bean들을 읽어서 등록한다.     
 
+<br />
 
+#### `@SpringBootConfiguration`   
+* 기존 `@Configuration`과 마찬가지로 해당 클래스가 `@Bean` 메서드를 정의하고 있음을 Spring 컨테이너에 알려주는 역할을 한다.     
+* `@Configuration`과 차이점은 `@SpringBootConfiguration`을 사용하면 구성을 자동으로 찾는다는 것이다.   
+    - 위 차이점으로 단위, 통합 테스트를 쉽게 해준다. 
+    - SpringBootApplication에 존재하는 SpringBootConfiguration을 통해서 SpringBootTest를 실행할 때 설정 관련 파일들을 읽어오는데 자동화한다.   
+  
+<br />
 
+#### `@EnableAutoConfiguration`
+* `@ComponentScan`에서 먼저 스캔, Bean으로 등록하고 tomcat 등 스프링이 정의한 외부 의존성을 갖는 class들을 스캔해서 Bean으로 등록한다. 
+* AutoConfiguration은 결국 Configuration이다. 즉, Bean을 등록하는 자바 설정 파일이다.  
+* spring.factories 내부에 여러 Configuration 들이 있고, 조건에 따라 Bean을 등록한다. 
+    - `@ConditionalOnProperty`, `@ConditionalOnClass`, `@ConditionalOnBean` 등   
+* 메인 클래스(`@SpringBootApplication`)를 실행하면, `@EnableAutoConfiguration`에 의해     
+  spring.factories 안에 들어있는 수많은 자동 설정들이 조건에 따라 적용이 되어 수 많은 Bean들이 생성되고       
+  스프링 부트 어플리케이션이 실행되는 것이다.   
 
+<br />
 
-
-
-
-
-
-
-
+#### `@ComponentScan`  
+* `@ComponentScan`은 해당 어노테이션 하위에 있는 객체들 중 `@ComponentScan`가 서넝ㄴ된 클래스들을 찾아 Bean으로 등록하는 역할을 한다.     
+* `@ComponentScan`가 선언되어 있는 `@Service`, `@Repository` 등도 포함된다.   
+* `@EnableAutoConfiguration`이 스캔하기 전에 먼저 `@ComponentScan`이 진행된다.   
 
 
 
