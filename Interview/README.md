@@ -78,9 +78,9 @@
 * [싱글톤 패턴(Singleton pattern)](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#싱글톤-패턴singleton-pattern)
 * [`@Transactional` Propagation](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#transactional-propagation)  
 * [Spring에서 CROS]()
-
-
-
+* [`@SpringBootApplication` 동작]()
+* [스프링 프레임워크 안의 디자인 패턴]()
+* [`@Controller`와 `@RestController` 차이]()
 
 
 <br />
@@ -99,8 +99,11 @@
 
 <br />
 
-# Server 
+# [Server]() 
 * [was & web server](https://github.com/hyerin6/TIL/tree/main/Interview/Server#was--web-server)
 
 <br />
 
+# [Web]()
+* [HttpSession 동작]()
+* [Servlet(서블릿)]()
