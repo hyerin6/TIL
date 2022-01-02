@@ -77,10 +77,10 @@
 * [MVC 패턴](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#mvc-패턴)
 * [싱글톤 패턴(Singleton pattern)](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#싱글톤-패턴singleton-pattern)
 * [`@Transactional` Propagation](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#transactional-propagation)  
-* [Spring에서 CROS]()
-* [`@SpringBootApplication` 동작]()
-* [스프링 프레임워크 안의 디자인 패턴]()
-* [`@Controller`와 `@RestController` 차이]()
+* [Spring에서 CROS](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#spring에서-cors)
+* [`@SpringBootApplication` 동작](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#springbootapplication-동작)
+* [스프링 프레임워크 안의 디자인 패턴](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#)
+* [`@Controller`와 `@RestController` 차이](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#)
 
 
 <br />
@@ -104,6 +104,6 @@
 
 <br />
 
-# [Web]()
-* [HttpSession 동작]()
-* [Servlet(서블릿)]()
+# [Web](https://github.com/hyerin6/TIL/tree/main/Interview/Web)
+* [HttpSession 동작](https://github.com/hyerin6/TIL/tree/main/Interview/Web#httpsession-동작)
+* [Servlet(서블릿)](https://github.com/hyerin6/TIL/tree/main/Interview/Web#)
