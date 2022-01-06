@@ -651,3 +651,22 @@ public @interface SpringBootApplication {
 * `@ComponentScan`은 해당 어노테이션 하위에 있는 객체들 중 `@ComponentScan`가 서넝ㄴ된 클래스들을 찾아 Bean으로 등록하는 역할을 한다.
 * `@ComponentScan`가 선언되어 있는 `@Service`, `@Repository` 등도 포함된다.
 * `@EnableAutoConfiguration`이 스캔하기 전에 먼저 `@ComponentScan`이 진행된다.
+
+
+
+## JWT 토큰이 탈취된다면?
+
+
+## JWT 토큰이 클라이언트에서 어떻게 저장되는가?
+
+
+## Spring에서 FactoryBean과 BeanFactory의 차이
+
+
+## redirect와 forward 사용 시 필터와 인터셉터가 어떻게 동작할까?
+
+
+## JPA Query Cache
+
+
+## Controller에서 Exception 처리

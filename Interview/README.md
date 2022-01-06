@@ -96,6 +96,10 @@
 * [쿠키와 세션](https://github.com/hyerin6/TIL/tree/main/Interview/Network#쿠키와-세션)    
 * [REST와 RESTful](https://github.com/hyerin6/TIL/tree/main/Interview/Network#rest와-restful)
 * [Forward와 Redirect 차이](https://github.com/hyerin6/TIL/tree/main/Interview/Network#forward와-redirect-차이)
+* [DNS]()
+* [Gateway]()
+* [Proxy]()
+
 
 <br />
 
