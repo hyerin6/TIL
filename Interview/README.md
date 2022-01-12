@@ -39,6 +39,12 @@
 * [객체지향](https://github.com/hyerin6/TIL/tree/main/Interview/Java#객체지향)
 * [객체지향 특징](https://github.com/hyerin6/TIL/tree/main/Interview/Java#객체지향-특징)
 * [람다에서 사용되는 지역 변수가 final 혹은 effectively final 이어야 하는 이유](https://github.com/hyerin6/TIL/tree/main/Interview/Java#람다에서-사용되는-지역-변수가-final-혹은-effectively-final-이어야-하는-이유)
+* [Optional에서 orElseGet와 orElse 차이](https://github.com/hyerin6/TIL/tree/main/Interview/Java#optional에서-orelseget와-orelse-차이--원리)  
+* [Vector와 List](https://github.com/hyerin6/TIL/tree/main/Interview/Java#vector%EC%99%80-list)
+* [ArrayList와 LinkedList](https://github.com/hyerin6/TIL/tree/main/Interview/Java#arraylist%EC%99%80-linkedlist)    
+* [HashMap vs. HashTable vs. ConcurrentHashMap](https://github.com/hyerin6/TIL/tree/main/Interview/Java#hashmap-vs-hashtable-vs-concurrenthashmap)
+* [Overloading과 Overriding](https://github.com/hyerin6/TIL/tree/main/Interview/Java#overloading%EA%B3%BC-overriding)  
+* [박싱과 언박싱](https://github.com/hyerin6/TIL/tree/main/Interview/Java#%EB%B0%95%EC%8B%B1%EA%B3%BC-%EC%96%B8%EB%B0%95%EC%8B%B1)
 
 <br />
 
@@ -79,9 +85,6 @@
 * [`@Transactional` Propagation](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#transactional-propagation)  
 * [Spring에서 CROS](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#spring에서-cors)
 * [`@SpringBootApplication` 동작](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#springbootapplication-동작)
-* [스프링 프레임워크 안의 디자인 패턴](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#)
-* [`@Controller`와 `@RestController` 차이](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#)
-
 
 <br />
 
@@ -96,29 +99,26 @@
 * [쿠키와 세션](https://github.com/hyerin6/TIL/tree/main/Interview/Network#쿠키와-세션)    
 * [REST와 RESTful](https://github.com/hyerin6/TIL/tree/main/Interview/Network#rest와-restful)
 * [Forward와 Redirect 차이](https://github.com/hyerin6/TIL/tree/main/Interview/Network#forward와-redirect-차이)
-* [DNS]()
-* [Gateway]()
-* [Proxy]()
-
+* [DNS](https://github.com/hyerin6/TIL/tree/main/Interview/Network#dns)
+* [Gateway](https://github.com/hyerin6/TIL/tree/main/Interview/Network#gateway)
+* [Proxy](https://github.com/hyerin6/TIL/tree/main/Interview/Network#proxy)
 
 <br />
 
-# [Server]() 
+# [Server](https://github.com/hyerin6/TIL/tree/main/Interview/Server#server) 
 * [was & web server](https://github.com/hyerin6/TIL/tree/main/Interview/Server#was--web-server)
 
 <br />
 
-# [Web](https://github.com/hyerin6/TIL/tree/main/Interview/Web)
-* [HttpSession 동작](https://github.com/hyerin6/TIL/tree/main/Interview/Web#httpsession-동작)
+# [Web](https://github.com/hyerin6/TIL/tree/main/Interview/Web/#web) 
+* [HttpSession 동작](https://github.com/hyerin6/TIL/tree/main/Interview/Web#httpsession-동작) 
 * [Servlet(서블릿)](https://github.com/hyerin6/TIL/tree/main/Interview/Web#)
 
 <br />
 
-# [JPA]()
-
-
-
-
+# [JPA](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#jpa)
+* [ORM이란?](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#orm%EC%9D%B4%EB%9E%80)  
+* [영속성 컨텍스트란?](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EB%9E%80)  
 
 
 <br />
