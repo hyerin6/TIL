@@ -728,18 +728,10 @@ public class ThreadLocalSample {
 <br />
 
 ## `Optional`에서 `orElseGet`와 `orElse` 차이 & 원리
+<https://hyerin6.github.io/2022-01-12/optional/>  
 
-
-<br />
-
-## 우리가 주로 멀티 스레딩으로 구현하는 이유
-
-
-<br />
-
-
-## 컴파일 언어 & 인터프리터 언어
-
+`orElse`은 반환할 값을 그대로 받고, `orElseGet`은 Supplier로 랩핑한 값을 인자로 받는다.          
+즉, orElseGet은 null일 경우에만 함수가 실행되면서 인스턴스화되지만, orElse는 무조건 인스턴스화 된다.    
 
 <br />
 
@@ -798,9 +790,7 @@ ArrayList와 LinkedList 모두 Java에서 제공하는 List 인터페이스를 �
 오버라이딩은 매개변수, 리턴타입이 동일해야 하고 접근 제어자는 상위 클래스와 동일하지 않아도 되지만,         
 접근 권한이 확장되는 경우만 허용한다.        
 
-
 <br />
-
 
 ## 박싱과 언박싱 
 * 기본 자료형 → Wrapper class : Boxing   
