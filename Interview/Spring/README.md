@@ -654,10 +654,12 @@ public @interface SpringBootApplication {
 
 
 <br />
+<br />
 
 ## JWT 토큰이 탈취된다면?
 Signature을 바꾼다.
 
+<br />
 <br />
 
 ## JWT 토큰이 클라이언트에서 어떻게 저장되는가?  
@@ -691,7 +693,7 @@ Signature을 바꾼다.
   사용자의 컴퓨터에서 요청을 위조할 수 있기 때문이다.    
   공격자가 귀찮을 뿐이지 XSS가 뚫린다면 httpOnly cookie도 안전하진 않다.   
 
-
+<br />
 <br />
 
 ## Spring에서 FactoryBean과 BeanFactory의 차이
@@ -704,7 +706,7 @@ FactoryBean이란 스프링을 대신해서 오브젝트의 생성 로직을 담
 빈을 생성하고 의존관계를 설정하는 기능을 담당하는 가장 기본적인 IoC 컨테이너이자 클래스를 말한다.
 
 <br />
-
+<br />
 
 ## redirect와 forward 사용 시 필터와 인터셉터가 어떻게 동작할까?   
 <https://hyerin6.github.io/2022-01-20/forward-redirect/>    
@@ -716,6 +718,7 @@ forward는 `요청 → 서버 내에서 target URL로 요청 전달 → target U
 Interceptor는 두 URL에 대해 모두 동작하지만, DispatcherServlet 내부에서 포워딩되기 때문에            
 Filter에는 처음 요청한 URL만 걸린다. (Filter는 DispatcherServlet 바깥에 있음)   
 
+<br />
 <br />
 
 ## Controller에서 Exception 처리
