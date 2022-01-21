@@ -39,4 +39,29 @@ Object Relational Mapping의 약자로 객체와 관계형 데이터베이스의
 <br />
 
 ## JPA Query Cache  
+* 쿼리 캐시는 쿼리와 파라미터 정보를 키로 사용해서 쿼리 결과를 캐시하는 방법이다.      
+* 쿼리 캐시는 결과 집합의 식별자 값만 캐시한다.  
 
+쿼리 캐시를 적용하려면 영속성 유닛 설정에 `hibernate.cache.use_query_cache` 옵션을 `true`로 설정해야 하고   
+쿼리 캐시를 적용하려는 쿼리마다 `org.hibernate.cacheable`을 `true`로 설정하는 힌트를 주면 된다.   
+
+```java  
+// 쿼리 캐시 적용
+em.createQuery("select i from Item i", Item.class)
+	.setHint("org.hibernate.cacheable", true)
+    .getResultList();
+
+
+// NamedQuery에 쿼리 캐시 적용
+@Entity
+@NamedQuery(
+	hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"),
+    name = "Member.findByUsername",
+    query = "select m.address from Mebmer m where m.name = :username"
+)
+
+
+public class Member {
+	....
+}
+```
