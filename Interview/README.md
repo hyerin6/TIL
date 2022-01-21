@@ -84,11 +84,11 @@
 * [`@Transactional` Propagation](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#transactional-propagation)  
 * [Spring에서 CROS](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#spring에서-cors)
 * [`@SpringBootApplication` 동작](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#springbootapplication-동작)
-* [JWT 토큰이 탈취된다면?]
-* [JWT 토큰이 클라이언트에서 어떻게 저장되는가?]
-* [Spring에서 FactoryBean과 BeanFactory의 차이]
-* [redirect와 forward 사용 시 필터와 인터셉터가 어떻게 동작할까?]
-* [Controller에서 Exception 처리]
+* [JWT 토큰이 탈취된다면?](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#jwt-%ED%86%A0%ED%81%B0%EC%9D%B4-%ED%83%88%EC%B7%A8%EB%90%9C%EB%8B%A4%EB%A9%B4)
+* [JWT 토큰이 클라이언트에서 어떻게 저장되는가?](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#jwt-%ED%86%A0%ED%81%B0%EC%9D%B4-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8%EC%97%90%EC%84%9C-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%A0%80%EC%9E%A5%EB%90%98%EB%8A%94%EA%B0%80)
+* [Spring에서 FactoryBean과 BeanFactory의 차이](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#spring%EC%97%90%EC%84%9C-factorybean%EA%B3%BC-beanfactory%EC%9D%98-%EC%B0%A8%EC%9D%B4)
+* [redirect와 forward 사용 시 필터와 인터셉터가 어떻게 동작할까?](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#redirect%EC%99%80-forward-%EC%82%AC%EC%9A%A9-%EC%8B%9C-%ED%95%84%ED%84%B0%EC%99%80-%EC%9D%B8%ED%84%B0%EC%85%89%ED%84%B0%EA%B0%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%A0%EA%B9%8C)
+* [Controller에서 Exception 처리](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#controller%EC%97%90%EC%84%9C-exception-%EC%B2%98%EB%A6%AC)
 
 <br />
 
@@ -122,7 +122,7 @@
 
 # [JPA](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#jpa)
 * [ORM이란?](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#orm%EC%9D%B4%EB%9E%80)  
-* [영속성 컨텍스트란?](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EB%9E%80)  
-* [JPA Query Cache]
+* [영속성 컨텍스트란?](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EB%9E%80) 
+* [JPA Query Cache](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#jpa-query-cache)
 
 <br />
