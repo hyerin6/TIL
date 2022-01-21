@@ -656,26 +656,70 @@ public @interface SpringBootApplication {
 <br />
 
 ## JWT 토큰이 탈취된다면?
+Signature을 바꾼다.
 
 <br />
 
-## JWT 토큰이 클라이언트에서 어떻게 저장되는가?
+## JWT 토큰이 클라이언트에서 어떻게 저장되는가?  
+클라이언트에 저장해야 한다고 가정했을 때 선택할 수 있는 저장장소는 두 가지이다.
+
+참고: <https://velog.io/@0307kwon/JWT는-어디에-저장해야할까-localStorage-vs-cookie>
+
+<br />  
+
+#### localStorage
+* CSRF 공격에는 안전하다.     
+  그 이유는 자동으로 request에 담기는 쿠키와는 다르게  
+  js 코드에 의해 헤더에 담기므로 XSS를 뚫지 않는 이상  
+  공격자가 정상적인 사용자인 척 request를 보내기가 어렵다.  
+<br />
+* XSS에 취약하다.  
+  공격자가 localStorage에 접근하는 Js 코드 한 줄만 주입하면  
+  localStorage를 공격자가 내 집처럼 드나들 수 있다.    
+
+<br />
+
+#### cookie
+* XSS 공격으로부터 localStorage에 비해 안전하다.       
+  쿠키의 httpOnly 옵션을 사용하면 Js에서 쿠키에 접근 자체가 불가능하다.   
+  그래서 XSS 공격으로 쿠키 정보를 탈취할 수 없다.  
+  (httpOnly 옵션은 서버에서 설정할 수 있음)  
+<br />
+* XSS 공격으로부터 완전히 안전한 것은 아니다.     
+  httpOnly 옵션으로 쿠키의 내용을 볼 수 없다 해도     
+  js로 request를 보낼 수 있으므로 자동으로 request에 실리는 쿠키의 특성 상  
+  사용자의 컴퓨터에서 요청을 위조할 수 있기 때문이다.    
+  공격자가 귀찮을 뿐이지 XSS가 뚫린다면 httpOnly cookie도 안전하진 않다.   
+
 
 <br />
 
 ## Spring에서 FactoryBean과 BeanFactory의 차이
 
+#### FactoryBean
+FactoryBean이란 스프링을 대신해서 오브젝트의 생성 로직을 담당하도록 만들어진 특별한 빈이다.  
+<br />  
+
+#### BeanFactory 
+빈을 생성하고 의존관계를 설정하는 기능을 담당하는 가장 기본적인 IoC 컨테이너이자 클래스를 말한다.
+
 <br />
 
 
-## redirect와 forward 사용 시 필터와 인터셉터가 어떻게 동작할까?
+## redirect와 forward 사용 시 필터와 인터셉터가 어떻게 동작할까?   
+<https://hyerin6.github.io/2022-01-20/forward-redirect/>    
 
-<br />
+redirect는 `요청` → [`302 응답`](https://developer.mozilla.org/ko/docs/Web/HTTP/Status/302) → `Location에 대한 요청` → `Location에 대한 응답` 으로 동작하기 때문에       
+필터에는 처음 요청한 URL과 리다이렉션된 URL 모두가 Filter와 Interceptor에 걸린다.                
 
-## JPA Query Cache
+forward는 `요청 → 서버 내에서 target URL로 요청 전달 → target URL에 대한 응답` 이므로,             
+Interceptor는 두 URL에 대해 모두 동작하지만, DispatcherServlet 내부에서 포워딩되기 때문에            
+Filter에는 처음 요청한 URL만 걸린다. (Filter는 DispatcherServlet 바깥에 있음)   
 
 <br />
 
 ## Controller에서 Exception 처리
+<https://hyerin6.github.io/2021-08-16/spring-exception/>  
+
 
 <br />

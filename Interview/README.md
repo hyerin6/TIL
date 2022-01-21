@@ -48,7 +48,6 @@
 
 <br />
 
-
 # [Database](https://github.com/hyerin6/TIL/tree/main/Interview/Database) 
 * [정규화(1~3차, BCNF)](https://github.com/hyerin6/TIL/tree/main/Interview/Database#정규화13차-bcnf)
 * [트랜잭션이란?](https://github.com/hyerin6/TIL/tree/main/Interview/Database#트랜잭션이란) 
@@ -85,6 +84,11 @@
 * [`@Transactional` Propagation](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#transactional-propagation)  
 * [Spring에서 CROS](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#spring에서-cors)
 * [`@SpringBootApplication` 동작](https://github.com/hyerin6/TIL/tree/main/Interview/Spring#springbootapplication-동작)
+* [JWT 토큰이 탈취된다면?]
+* [JWT 토큰이 클라이언트에서 어떻게 저장되는가?]
+* [Spring에서 FactoryBean과 BeanFactory의 차이]
+* [redirect와 forward 사용 시 필터와 인터셉터가 어떻게 동작할까?]
+* [Controller에서 Exception 처리]
 
 <br />
 
@@ -119,6 +123,6 @@
 # [JPA](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#jpa)
 * [ORM이란?](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#orm%EC%9D%B4%EB%9E%80)  
 * [영속성 컨텍스트란?](https://github.com/hyerin6/TIL/tree/main/Interview/JPA#%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EB%9E%80)  
-
+* [JPA Query Cache]
 
 <br />

@@ -38,3 +38,5 @@ Object Relational Mapping의 약자로 객체와 관계형 데이터베이스의
 <br />
 <br />
 
+## JPA Query Cache  
+
