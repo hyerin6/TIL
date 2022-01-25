@@ -724,5 +724,77 @@ Filter에는 처음 요청한 URL만 걸린다. (Filter는 DispatcherServlet 바
 ## Controller에서 Exception 처리
 <https://hyerin6.github.io/2021-08-16/spring-exception/>  
 
+<br />
+<br />
 
+
+## Spring 동일한 Bean에서 `@Transactional` 동작 방식   
+
+* [stackoverflow: Spring Transactional method not work on separated Thread](https://stackoverflow.com/questions/27182157/spring-transactional-method-not-work-on-separated-thread/27184785#27184785)     
+* 트랜잭션이 프록시 생성과 함께 작동함: <https://spring.io/blog/2012/05/23/transactions-caching-and-aop-understanding-proxy-usage-in-spring>      
+* 프록시 절차 : <https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop>    
+  
+<br />
+
+
+어떤 Controller에서 Servier의 `something()` 호출, `something()` 메서드에서 `save()`를 차례대로 호출하고 있다.     
+`save()` 메서드에서 특정 경우 RuntimeException을 발생시키고 있고     
+`@Transactional` 어노테이션은 `save()` 메서드에만 붙어있다.     
+`save()` 메서드에서 반복해서 DB에 데이터를 저장하고 있어 예외가 발생하면   
+반복문 전체가 트랜잭션에 묶여 롤백될거라고 예상할 수 있겠지만 전체가 롤백되지 않고 commit 된다.   
+즉 트랜잭션으로 묶이지 않고 SimpleJpaRepository 아래의 `save()` 메서드를 통해서 단일 트랜잭션으로 진행되는 것이다.      
+
+위와 같은 경우에 동일한 Bean(Class)에서 Spring AOP CGLIB이 동작하지 않는다.  
+
+그렇다면 외부에서 Bean 호출 시 `@Transactional`으로 시작하고 동일한 Bean에서 this 호출 시 `@Transactional`은 어떻게 동작할까?    
+
+```
+(1) saveOrder() - @Transactional
+(2) savePayment() - @Tansactional(propagation = Propagation.REQUIRES_NEW)
+(3) saveCoupon() - @Transactional 
+```
+
+`savePayment()` 메서드에서 `REQUIRES_NEW` 설정을 했기 때문에 (1), (3)은 롤백이 진행되고   
+(2)는 commit 될거라 예상할 수 있지만 결과적으로 모두 롤백된다.   
+
+**Bean 내부에서 `this.xxx()` 메서드 호출 시 Proxy를 통해서 `@Transactional` 설정이 동작하지 않는다.**      
+Proxy Default Mode는 외부 메서드에서 호출하는 경우에만 프록시를 타고 Self 호출하는 경우 런타임에 `@Transactional`가 동작하지 않는다.      
+
+```
+Spring Framework는 내부적으로 AOP를 통해 해당 어노테이션을 인지하여 프록시를 생성해 트랜잭션을 자동 관리하기 때문에   
+같은 Bean 내에서 @Transactional이 명시된 다른 메서드를 호출해도 동작하지 않는다. 
+```
+
+
+<br />
+<br />
+
+## Lombok  
+#### 1) `@Data`는 지양하자. 
+toString, equalsAndHashCode, getter, setter, requredArgsConstruct를 한 번에 사용하는 강력한 어노테이션이다.   
+그렇기 때문에 무분별한 Setter 남용, toString으로 인한 양방향 연관관계 순환 참조 문제가 발생할 수 있다. 
+
+#### 2) NoArgsConstructor 접근 권한을 최소화하자.   
+JPA에서 프록시 생성을 위해 기본 생성자를 반드시 하나 생성해야 한다.   
+접근 권한은 protected 이면 충분하다.   
+
+#### 3) Builder 사용 시 매개변수를 최소화하자.     
+`@Builder` 사용 시 `@AllArgsConstructor` 어노테이션과 마찬가지로 모든 멤버 필드에 대해서 매개변수로 받는 기본 생성자를 만든다.      
+예) 전체 필드가 id, name, email인 경우 매개변수로 name, email만 작성하면 id를 제외한 필요한 매개변수로만 생성자를 만들 수 있다.    
+
+<br />
+<br />
+
+## ThreadLocal  
+ThreadLocal은 스레드 영역에 변수를 설정할 수 있는 것으로 특정 스레드가 실행되는 모든 코드에서 그 스레드에 설정된 변수 값을 사용할 수 있게 된다.    
+
+#### ThreadLocal 활용   
+* 사용자 인증 정보 전파: Spring Security에서는 ThreadLocal을 이용해서 사용자 인증 정보를 전파한다.   
+* 트랜잭션 컨텍스트 전파: 트랜잭션 매니저는 트랜잭션 컨텍스트를 전파하는데 ThreadLocal을 사용한다.   
+
+#### ThreadLocal 사용 시 주의사항 
+스레드 풀 환경에서 ThreadLocal을 사용하는 경우 ThreadLocal 변수에 보관된 데이터의 사용이 끝나면 반드시 해당 데이터를 삭제해야 한다.   
+재사용되는 경우 스레드가 올바르지 않은 데이터를 참조할 수 있다.   
+
+<br />
 <br />
