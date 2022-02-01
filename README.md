@@ -1,6 +1,6 @@
 <br />       
 
-# Today I Learned.💡     
+# Today I Learned     
 
 :octocat: 해당 Repository는 [Issue와 Projects의 칸반보드](https://github.com/hyerin6/TIL/projects/1)를 활용하여 관리되고 있습니다.                    
 
