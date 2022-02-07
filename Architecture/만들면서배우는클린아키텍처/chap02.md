@@ -66,20 +66,20 @@ D → E
 
 <br />
 
-<img width="550" src="https://user-images.githubusercontent.com/33855307/152629273-d01451ca-638a-4c08-8f97-9e8a9fb5423c.png">
+<img width="600" src="https://user-images.githubusercontent.com/33855307/152629273-d01451ca-638a-4c08-8f97-9e8a9fb5423c.png">
 
 
 엔티티는 도메인 객체를 표현하고 도메인 코드는 이 엔티티들의 상태를 변경하는 일을 중심으로 하기 때문에 먼저 엔티티를 도메인 계층으로 올린다.    
 
 
-<img width="300" src="https://user-images.githubusercontent.com/33855307/152629418-a99844f8-cce3-4bc9-ac6e-fdbd00877469.png">
+<img width="400" src="https://user-images.githubusercontent.com/33855307/152629418-a99844f8-cce3-4bc9-ac6e-fdbd00877469.png">
 
 순환 의존성이 생겼다. 이 부분이 바로 DIP를 적용하는 부분이다.     
 
 도메인 계층에 Repository에 대한 인터페이스를 만들고, 실제 Repository는 영속성 계층에서 구현하게 하는 것이다.  
 
 
-<img width="550" src="https://user-images.githubusercontent.com/33855307/152629423-31775026-e8fe-4b8e-b1a6-656f1c7c465b.png">
+<img width="600" src="https://user-images.githubusercontent.com/33855307/152629423-31775026-e8fe-4b8e-b1a6-656f1c7c465b.png">
 
 
 영속성 코드에 있는 의존성으로부터 도메인 로직을 해방시켰다.
@@ -88,8 +88,7 @@ D → E
 <br />
 
 ### 클린 아키텍처    
-<img width="550" src="https://user-images.githubusercontent.com/33855307/152630332-b612ae4c-bff9-4356-b890-388c5cc9fc9d.jpeg">
-
+<img width="600" src="https://user-images.githubusercontent.com/53366407/150670907-d02e23be-f3e8-4b42-9dc2-218bed86bc9a.png">
 
 클린 아키텍처   
 ➡️ 비즈니스 규칙의 테스트를 용이하게, 비즈니스 규칙이 독립적일 수 있게한다.    
@@ -119,7 +118,7 @@ D → E
 ### 육각형 아키텍처 (헥사고날 아키텍처)  
 클린 아키텍처에서 좀 더 일반적인 용어로 동일한 원칙을 적용한다.   
 
-<img width="550" src="https://user-images.githubusercontent.com/33855307/152630914-a623df44-7575-4364-947b-fcc5105cbab5.png">
+<img width="600" src="https://user-images.githubusercontent.com/53366407/150670896-9a968565-1721-4cb1-bdba-b33d465cd671.png">
 
 육각형 안에는 도메인 엔티티와 이와 상호작용하는 유스케이스가 있다.    
 육각형에서 외부로 향하는 의존성이 없기 때문에 클린 아키텍처의 의존성 규칙이 그대로 적용된다.   
