@@ -608,3 +608,114 @@ JDBC(Java Database Connectivity)는 DB에 접근할 수 있도록 Java에서 제
 
 <br />
 <br />
+
+## Clustering vs. Replication vs. Sharding  
+<img width="200" src="https://user-images.githubusercontent.com/33855307/153710545-906783c2-b952-4c8d-a213-d118df2fdef2.jpeg">   
+
+DB 서버와 디스크 역할을 하는 DB 스토리지가 한 구성으로 되어있다.    
+이렇게 구성한 경우 DB 서버가 죽으면 관련된 서비스 전체가 중단되게 된다.     
+
+이에 대한 가장 간단한 방법 중 하나는 DB 클러스터이다.   
+<br />  
+
+### Cluster  
+<img width="344" src="https://user-images.githubusercontent.com/33855307/153710663-f8711fdc-7f01-4c6f-a96e-9bb7b47ff6e0.png">   
+
+동일한 DB 서버를 두 대 묶고 두 DB 서버를 Active-Active 상태로 운영하면  
+하나의 DB 서버가 죽더라도 나머지 DB 서버가 살아있기 때문에 정상적으로 서비스가 가능해진다.   
+하나의 서버가 부담하던 부하를 두 개의 DB가 나눠서 감당하므로 CPU, Memory 자원의 부하도 적어진다.   
+
+❗️ 문제점   
+DB 스토리지를 두 DB 서버가 공유하기 때문에 병목이 생길 수 있다.    
+이전보다 많은 비용이 투자되어야 한다.  
+<br />    
+
+
+
+<img width="334" alt="스크린샷 2022-02-12 오후 9 07 36" src="https://user-images.githubusercontent.com/33855307/153710664-06de7c67-185c-40fd-8f8e-44901db0ab40.png">
+
+
+이 문제점을 해결하기 위한 방안으로 DB 서버 중 한 대를 Stand-by로 두는 것이다.   
+Stand-by는 준비 상태로 두고 Active 상태의 DB 서버에 문제가 생겼을 때   
+Fail over를 통해 두 서버가 상태를 상호전환하면서 장애를 대응할 수 있다.  
+→ Active-Active 문제점이었던 DB 스토리지 병목 현상 해결   
+
+
+❗️ 문제점    
+Fail over가 이뤄지는 시간 동안 영업 손실이 필연적으로 발생한다.    
+DB 서버 2대 비용은 이전과 동일하지만 효율은 1/2 밖에 안 나온다.  
+<br />  
+
+DB 스토리지는 하나만 둬도 될까?    
+하나뿐인 DB 스토리지에 문제가 생기면 데이터를 복구할 수 없게 된다.     
+이 문제를 해결하는 방법이 레플리케이션(replication)이다.   
+
+<br /> 
+
+### Replication    
+
+
+* 단순 백업 
+
+<img width="400" src="https://user-images.githubusercontent.com/33855307/153712913-4d3fb8c5-a5e0-4d2f-90b4-3dfc0a28caaf.jpeg">
+
+위 그림을 보면 Slave인 DB가 노는 것을 확인할 수 있다.   
+이 문제는 Master에서 Insert, Update, Delete 작업을 하고    
+Slave에서 Select 작업을 함으로써 부하를 분산할 수 있다.   
+
+
+* 부하 분산 
+
+<img width="400" src="https://user-images.githubusercontent.com/33855307/153713449-987eb15f-e9ef-4f97-bcbf-72bd2559c8a2.jpeg">
+
+
+
+❗️ Replication 아쉬운 점     
+만약 테이블에 데이터가 엄청나게 많다고 가정해보자.      
+이 상황에서 Slave DB 서버를 n대로 늘려도 원하는 데이터를 찾는데 많은 시간이 소요될 것이다.    
+이때 활용이 가능한 것이 샤딩(Sharding)이다.   
+
+샤딩은 테이블을 기준으로 나눠서 저장 및 검색하는 것을 말한다.    
+샤딩 핵심은 데이터를 어떻게 잘 분산시켜 저장하고, 어떻게 읽을 것인지에 대한 결정이다.  
+ 
+
+<details>
+<summary>Shard Key</summary>
+<div markdown="1">
+
+
+#### 1. Hash Sharding   
+샤드 수 만큼 Hash 함수를 사용해서 결과에 따라 DB 서버에 저장하는 방식    
+
+<img width="632" alt="스크린샷 2022-02-12 오후 10 23 17" src="https://user-images.githubusercontent.com/33855307/153713153-fbe2ec3c-743e-4980-bec4-2c92cccc94f9.png">
+
+구현이 간단하다는 장점이 있으나 확장성이 낮다.   
+DB 서버를 추가할 경우 해시 함수가 변경되어야 하므로 기존에 저장되던 데이터의 정합성이 깨진다.   
+
+<br />
+
+#### 2. Dynamic Sharding   
+확장성 문제를 해결하기 위해 나온 방식으로 로케이터 서비스는 테이블 형식의 데이터를 바탕으로 샤드를 결정해서 적절히 저장하는 방식이다.     
+해시 샤딩과 달리 단순히 키만 추가해주면 되기 때문에 확장도 쉽다.    
+
+
+<img width="758" alt="스크린샷 2022-02-12 오후 10 23 26" src="https://user-images.githubusercontent.com/33855307/153713158-2d2530ef-aaae-4759-91a8-fba77882e0e8.png">
+
+그러나 로케이터 서비스가 단일 장애점이 되므로 로케이터 서비스에 장애가 발생하면 나머지 샤드 또한 문제가 발생하게 된다.   
+ 
+<br />
+
+#### 3. Entity Group 
+
+<img width="455" alt="스크린샷 2022-02-12 오후 10 23 09" src="https://user-images.githubusercontent.com/33855307/153713162-7bf848e1-58a8-40d1-bc61-8e2e5b5cdd8e.png">
+
+엔티티 그룹은 연관성이 있는 엔티티를 한 샤드에 두는 방식이다.   
+같은 샤드에 있는 데이터를 조회할 때는 효과적이지만 다른 샤드에 있는 데이터를 함께 조회할 때는 오히려 성능이 떨어지는 단점이 있다.   
+
+<br />  
+
+</div>
+</details>
+
+<br />   
+
