@@ -65,6 +65,8 @@
 * [샤딩(Sharding)](https://github.com/hyerin6/TIL/tree/main/Interview/Database#샤딩sharding)
 * [ORM](https://github.com/hyerin6/TIL/tree/main/Interview/Database#orm)
 * [JDBC](https://github.com/hyerin6/TIL/tree/main/Interview/Database#jdbc)
+* [Clustering vs. Replication vs. Sharding](https://github.com/hyerin6/TIL/tree/main/Interview/Database#clustering-vs-replication-vs-sharding)  
+
 
 <br />
 
