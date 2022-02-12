@@ -449,7 +449,8 @@ PreparedStatement는 처음 한 번만 세 단계를 거친 후 캐시에 담아
 | 종류 |                                   Active - Active, Active - Standby                                   |                                                                                                                                                                                    단순 백업, 부하 분산                                                                                                                                                                                    |
 | 장점 |                         일관성, 1개의 서버가 고장나도 시스템은 계속 사용 가능                         |                                                                                                                                                                                     시간 지연 거의 없음                                                                                                                                                                                    |
 | 단점 |                                            동기화 시간 소요                                           |                                                                                                                                                                           일관성 없음,  Master 오류시 복구 어려움                                                                                                                                                                          |
-| 구조 | <img width="400" src="https://blog.kakaocdn.net/dn/RzlBm/btqE5eTAFqI/Tj4FXxRUGG6l8JnvPkxclk/img.png"> | <img width="420" src="https://lh3.googleusercontent.com/proxy/0Mmh0N8UWQk6VOw0_0p-8PZA_GQ5R8rAPbDrvRWgt85XvhscuUJHVo0G6-6G7rdV2pfRMkGYMYNgxH4sedOYim1EXomoM910XHQhs9z8dE8WTFmYZvSrKX-n3Lo9uAM_D2lsGrM9fhcE3Ebx2q2CZvKhaOUQTSW4ULdXYpcL4J9K274zXV1GoZgfJ2zDqrvkFHGn6SNXA1c3zOWN1gSoqHeFFeeWQ-R6gNR5-Oc6SzuAiQhK_M3CYKdXwCmFbfTQq7FSuyYl_TK6vYJdOlluFZ3glr1U-oYtcbOrCLz71Dvq-FJTDFA3Tp5c6A"> |
+| 구조 | <img width="400" src="https://blog.kakaocdn.net/dn/RzlBm/btqE5eTAFqI/Tj4FXxRUGG6l8JnvPkxclk/img.png"> | <img width="400" src="https://user-images.githubusercontent.com/33855307/153713449-987eb15f-e9ef-4f97-bcbf-72bd2559c8a2.jpeg">
+ |
 
 
 
@@ -517,7 +518,7 @@ PreparedStatement는 처음 한 번만 세 단계를 거친 후 캐시에 담아
 * 수직 파티셔닝
 
 
-<img width="500" src="https://user-images.githubusercontent.com/33855307/146133645-2f0b0a74-c2cd-437d-ab0f-762e80cec915.jpg">
+<img width="1000" src="https://user-images.githubusercontent.com/33855307/146133645-2f0b0a74-c2cd-437d-ab0f-762e80cec915.jpg">
 
 
 #### Partition을 사용하는 대표적인 예 
