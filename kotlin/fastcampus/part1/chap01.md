@@ -171,22 +171,55 @@ public record Person(String name, int age) { ... }
 <br />
 
 
+#### 3. 문자열 템플릿 
+* 문자열에 변수를 사용하거나 여러 행으로 된 텍스트 블록을 만들 수 있다. 
+
+```kotlin
+val text = "World"
+val greeting = "Hello, ${text}"
+
+println(greeting) // Hello, World
 
 
+// 문자열 템플릿 기반의 다이나믹 쿼리
+fun sql(nameIncluded: Boolean) = 
+    """
+        SELECT id, name, email, age
+        FROM users
+        WHERE id = :id
+        ${
+            if (nameIncluded) {
+                """
+                AND name = :name
+                """
+            } else ""
+       }
+    """
+```
 
 
+<br />
 
+#### 4. 널 안정성 
+* 자바에서 가장 많이 발생하는 예외: `NullPointerException`
+* 자바의 Optional은 값을 래핑하기 때문에 객체 생성에 따른 오버헤드가 발생하고, 컴파일 단계에서 Null 가능성을 검사하지 않음 
+* 코틀린은 언어적 차원에서 NPE가 발생할 가능성을 제거한다. 
 
+```kotlin
+val a : String = null // 컴파일 오류 
 
+var b : String = "aabbcc"
 
+b = null // 컴파일 오류 
+```
 
+* Nullable 참조는 컴파일 단계에서 널 안정성을 제공한다.
 
-
-
-
-
-
-
-
-
+```kotlin 
+var a : String? = null
+ 
+a.length // 컴파일 오류 
+a?.length // safe-call 정상 
+a!!.length // Null이 아니라고 확신하는 경우 
+```
 
