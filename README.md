@@ -1,10 +1,8 @@
 <br />       
 
-# Today I Learned     
+# :octocat: Today I Learned     
 
-:octocat: 해당 Repository는 [Issue와 Projects의 칸반보드](https://github.com/hyerin6/TIL/projects/1)를 활용하여 관리되고 있습니다.                    
-
-commit에 집착하지 않고 다음 내용들을 문서화합니다.           
+잔디에 집착하지 않고 다음 내용들을 문서화합니다.           
 * 개발 도서 요약     
 * 학습 내용 문서화     
 * Q&A 학습         
@@ -14,13 +12,14 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
  
 
 ## Tech Blog       
-블로그와 함께 기록되며 카테코리와 태그별로 원하는 포스팅을 쉽게 찾아볼 수 있습니다.
+블로그와 함께 기록되며 태그별로 원하는 포스팅을 쉽게 찾아볼 수 있습니다.
 
 :mag:  &nbsp;  [블로그 바로가기](https://hyerin6.github.io/)          
 
   
 <br />       
 
+# 분류
 
 ## 객체지향 설계      
 * [오브젝트](https://github.com/hyerin6/TIL/tree/main/Object/Object)         
@@ -40,18 +39,13 @@ commit에 집착하지 않고 다음 내용들을 문서화합니다.
 
 <br /> 
 
-## Interview
+## Interview 연습 
 * [Q&A](https://github.com/hyerin6/TIL/tree/main/Interview)
 
 <br />
 
 ## Architecture 
-* [Systems Design](https://github.com/hyerin6/TIL/tree/main/Architecture)    
-
-<br /> 
-
-## Spring      
-* [토비의 스프링 3.1](https://github.com/hyerin6/toby-spring)  
+* [Systems Design](https://github.com/hyerin6/TIL/tree/main/Architecture)
 
 <br />     
 
