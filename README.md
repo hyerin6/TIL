@@ -2,6 +2,8 @@
 
 # :octocat: Today I Learned     
 
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fhyerin6%2FTIL&count_bg=%236D7686&title_bg=%23404B88&icon=github.svg&icon_color=%23FFFFFF&title=TIL&edge_flat=false)](https://hits.seeyoufarm.com)
+
 잔디에 집착하지 않고 다음 내용들을 문서화합니다.           
 * 개발 도서 요약     
 * 학습 내용 문서화     
