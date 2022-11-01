@@ -1,6 +1,6 @@
 # 1장 안정성   
 왜 기업에서 코틀린을 사용하려고 할까?  
-그 이유는 코틀린의 **안정성(safety)**이다.  
+그 이유는 코틀린의 **안정성(safety)** 이다.  
 
 코틀린은 다양한 설계 지원을 통해서 애플리케이션의 잠재적인 오류를 줄여준다.   
 크래시(crash)가 적으면 사용자와 개발자 모두에게 좋고, 상당한 비즈니스 가치가 제공된다.   
@@ -219,52 +219,169 @@ mutable.add(4)
 
 #### 방법3) 데이터 클래스의 copy   
 String이나 Int처럼 내부의 상태를 변경하지 않는 immutable 객체를 많이 사용하는 데 이유가 있다.   
+<br />  
 
-immutable 객체 사용 장점   
-* 한 번 정의된 상태가 유지되므로 코드를 이해하기 쉽다.  
-* immutable 객체는 공유했을 때도 충돌이 따로 이루어지지 않으므로, 병렬 처리를 안전하게 할 수 있다.   
-* immutable 객체에 대한 참조는 변경되지 않으므로, 쉽게 캐시할 수 있다.   
-* immutable 객체는 방어적 복사본(defensive copy)을 만들 필요가 없다.   
+**immutable 객체 장점**     
+1) 한 번 정의된 상태가 유지되므로 코드를 이해하기 쉽다.  
+2) 공유했을 때 충돌이 따로 이루어지지 않으므로, 병렬 처리를 안전하게 할 수 있다.   
+3) immutable 객체에 대한 참조는 변경되지 않으므로, 쉽게 캐시할 수 있다.   
+4) 방어적 복사본(defensive copy)을 만들 필요가 없다.   
   또한, 깊은 복사를 따로 하지 않아도 된다. 
-* immutable 객체는 다른 객체를 만들 때 활용하기 좋다. 
-* immutable 객체는 set 또는 map의 key로 사용할 수 있다.   
+5) 다른 객체를 만들 때 활용하기 좋다. 
+6) set 또는 map의 key로 사용할 수 있다.   
+
+<br />
+
+**immutable 객체 단점**   
+immutable 객체는 변경할 수 없다.  
+따라서 immutable 객체는 자신의 일부를 수정한 새로운 객체를 만들어내는 메서들 가져야 한다.   
+<br />  
+
+* 수정 방법1) 자신을 수정한 새로운 객체를 만드는 메서드 
+
+````kotlin
+class User (val name:String, val surname: String) {
+	fun withSurname(surname: String) = User(name, usrname)
+}
+
+var user = User("AAA", "BBB")
+user = user.withSurname("CCC")
+print(user) // User(name="AAA", surname="CCC")
+````
+
+이런 함수를 하나하나 만드는 것은 굉장히 귀찮다.   
+<br />  
+
+* 수정 방법2) data 한정자 사용  
+
+`data` 한정자는 `copy` 라는 이름의 메서드를 만들어 준다.   
+copy 메서드를 활용하면, 모든 기본 생성자 프로퍼티가 같은 새로운 객체를 만들어 낼 수 있다.   
+
+```kotlin
+data class User (val name:String, val surname: String)
+
+var user = User("AAA", "BBB")
+user = user.copy("CCC")
+print(user) // User(name="AAA", surname="CCC")
+```
+
+코틀린에서는 이와 같은 형태로 immutable 특성을 가지는 데이터 모델 클래스를 만든다.
+
+<br />
+<br />
+
+### 다른 종류의 변경 가능 지점   
+변경할 수 있는 리스트를 만들어야 한다고 가정해보자. 두 선택지가 있다.     
+1. 하나의 mutable 컬렉션을 만든다.   
+2. var로 읽고 쓸 수 있는 프로퍼티를 만든다.     
+
+```kotlin
+val list1: MutableList<Int> = mutableListOf()
+var list2: List<Int> = listOf()
+
+lsit1.add(1)
+list2 = list2 + 1
+
+list1 += 1 // list1.plusAssign(1)로 변경
+list2 += 1 // list2 = list2.plus(1)로 변경 
+```
+
+1. 첫 번째 코드는 리스트 구현 내부에 변경 가능 지점이 있다.  
+멀티스레드 처리가 이루어질 경우, 내부적으로 적절한 동기화가 되어 있는지 확실하게 알 수 없으므로 위험하다.   
 
 
+2. 두 번째 코드는 프로퍼티 자체가 변경 가능 지점이기 때문에 멀티스레드 안전성이 더 좋다고 할 수 있다. 
 
 
+<br />
+
+* mutable 리스트 대신 mutable프로퍼티를 사용하는 형태는 사용자 정의 세터를 활용해서 변경을 추적할 수 있다.   
+
+```kotlin
+var names by Delegates.observable(listOf<String>()) { _, old, new -> 
+	println("Names changed from $old to $new")
+}
+
+names += "Fabio" // Names changed from [] to [Fabio]
+names += "Bill" // Names changed from [Fabio] to [Fabio, Bill]
+```
+
+<br />   
+
+* 프로퍼티와 컬렉션을 모두 변경 가능한 지점으로 만드는 건 최악의 방식이다.   
+
+```kotlin
+// ❌ 이렇게 하지 마세요.
+var list3 = mutableListOf<Int>()
+```
+
+<br />
+<br />
+
+### 변경 가능 지점 노출하기 말기 
+상태를 나타내는 mutable 객체를 외부에 노출하는 것은 굉장히 위험하다.   
+
+```kotlin
+data class User(val name: String) 
+
+class UserRepository {
+	private val storedUsers: MuatableMap<Int, String> = mutableMapOf()
+
+	fun loadAll(): MutableMap<Int,String> {
+		return storedUsers
+	}
+
+	//...
+}
+```
 
 
+loadAll을 사용해서 private 상태인 UserRepository를 수정할 수 있다. 
 
+```kotlin
+val userRepository = UserRepository()
 
+val storedUsers = userRepository.loadAll() 
+storedUsers[4] = "AAA"
+//...
 
+print(userRepository.loadAll()) // {4=AAA}
+```
 
+이러한 코드는 돌발적인 수정이 일어날 때 위험할 수 있다.   
 
+처리하는 방법은 두 가지이다.         
+<br />         
 
+#### 방법1) 리턴되는 mutable 객체를 복제하는 것 
+이를 방어적 복제(defensive copying)라고 부른다.    
+이때 data 한정자로 만들어지는 copy 메서드를 활용하면 좋다.   
 
+```kotlin
+class UserHolder {
+	private val user: MutableUser()
 
+	fun get(): MutableUser {
+		return user.copy()
 
+		//...
+}
+```
 
+#### 방법2) 가변성 제한 
+컬렉션은 객체를 읽기 전용 슈퍼타입으로 업캐스트하여 가변성을 제한할 수도 있다.    
 
+```kotlin
+class UserRepository {
+	private val storedUsers: MuatableMap<Int, String> = mutableMapOf()
 
+	fun loadAll(): Map<Int,String> {
+		return storedUsers
+	}
 
+	//...
+}
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<br />
 
