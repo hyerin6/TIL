@@ -642,32 +642,107 @@ class MyButton : View {
 
 * 클래스에 주 생성자가 없다면 모든 부 생성자는 반드시 상위 클래스를 초기화하거나 다른 생성자에게 생성을 위힘해야 한다.   
 
+* 부 생성자가 필요한 주된 이유 
+     - 자바 상호운용 
+     - 클래스 인스턴스를 생성할 때 파라미터 목록이 다른 생성 방법이 여러 개 존재하는 경우 부 생성자를 여럿 둘 수 밖에 없다. 
 
 
+<br />
+<br />
+
+### 4.2.3 인터페이스에 선언된 프로퍼티 구현 
+코틀린에서는 인터페이스 추상 프로퍼티 선언을 넣을 수 있다.   
+
+```kotlin 
+interface User {
+    val nickname: String
+}
+```
+
+* User 인터페이스를 구현하는 클래스가 nickname의 값을 얻을 수 있는 방법을 제공해야 한다.  
+
+* 인터페이스에 있는 프로퍼티 선언에는 Backing Field나 getter 등의 정보가 없다.   
+
+* 상태를 저장할 필요가 있다면 인터페이스를 구현한 하위 클래스에서 상태 저장을 위한 프로퍼티 등을 만들어야 한다. 
+
+<br />
+
+#### 인터페이스의 프로퍼티 구현 
+
+```kotlin 
+// 주 생성자에 있는 프로퍼티
+class PrivateUser(override val nickname: String) : User 
+
+// 커스텀 getter
+class Subscribing(val email: String) : User {
+    override val nickname: String
+        get() = email.substringBefore('@') 
+}
+
+// 프로퍼티 초기화 식
+class FacebookUser(val accountId: Int) : User {
+    override val nickname = getFacebookName(accountId) 
+}
+```
+
+* PrivateUser는 주 생성자 안에 프로퍼티를 직접 선언, User의 추상 프로퍼티를 구현하므로 override를 표시해야 한다.   
+  
+* Subscribing는 커스텀 getter로 프로퍼티 설정, 필드에 값을 저장하지 않고 매번 로직을 통해 값을 반환 
+
+* FacebookUser는 초기화 식, getFacebookName은 페이스북에 접속해 인증을 거친 후 데이터를 가져오기 때문에 비용이 많이들 수 있음. 
+  때문에 객체를 초기화하는 단계에 한 번만 getFacebookName을 호출하게 설계함
+
+<br />
+
+#### 인터페이스의 getter/setter
+
+인터페이스에는 추상 프로퍼티뿐 아니라 getter/setter가 있는 프로퍼티를 선언할 수도 있다.    
+단, getter/setter는 필드를 참조할 수는 없다. 
+
+```kotlin 
+interface User {
+    val email: String 
+
+    /*
+    프로퍼티에 Backing Field 필드가 없다. 
+    대신 매번 결과를 계산해 돌려준다. 
+    */
+    val nickname: String
+        get() = email.substringBefore('@') 
+}
+```
+
+* 하위 클래스는 추상 프로퍼티인 email을 반드시 오버라이드해야 한다.   
+
+* 반면 nickname은 오버라이드하지 않고 상속할 수 있다.   
 
 
+인터페이스에 선언된 프로퍼티와 달리 클래스에 구현된 프로퍼티는 Backing Field를 원하는 대로 사용할 수 있다.   
+
+<br />
+<br />
+
+### 4.2.4 getter/setter에서 Backing Field에 접근 
+* 값을 저장하는 프로퍼티 
+* 커스텀 접근자에서 매번 값을 계산하는 프로퍼티
+ 
+값을 저장하는 동시에 로직을 실행할 수 있게 하기 위해서는 접근자 안에서 프로퍼티를 Backing Field에 접근할 수 있어야 한다. 
+
+<br />
+
+#### setter에서 Backing Field 접근 
+
+```kotlin 
+class User(val name: String) {
+    var address: String = "unspecified"
+        set(value: String) {
+            println("""
+                Address was changed for $name:
+                "$field" -> "$value".""".trimIndent()) // Backing Field 값 읽기 
+            field = value // Backing Field 값 변경
+        }
+}
+```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* 코틀린 프로퍼티 값을 바꿀 때 `user.address = "new value"` 처럼 필드 설정 구문을 사용하면 내부적으로 address의 setter를 호출한다. 
