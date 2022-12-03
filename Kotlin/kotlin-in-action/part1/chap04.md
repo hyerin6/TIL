@@ -746,3 +746,185 @@ class User(val name: String) {
 
 
 * 코틀린 프로퍼티 값을 바꿀 때 `user.address = "new value"` 처럼 필드 설정 구문을 사용하면 내부적으로 address의 setter를 호출한다. 
+
+* 접근자의 본문에서는 field 라는 식별자를 통해 Backing Field에 접근할 수 있다.   
+  
+* 변경 가능 프로퍼티의 getter/setter 중 하나만 직접 정의해도 된다.   
+
+<br />
+
+
+#### Backing Field 가 있는 프로퍼티와 없는 프로퍼티의 차이점은?
+* 클래스의 프로퍼티를 사용하는 쪽에서 프로퍼티를 읽는 방법, 쓰는 방법은 Backing Field의 유무와 관계가 없다.
+
+
+* 컴파일러는 디폴트, 커스텀 관계없이 field를 사용하는 프로퍼티에 Backing Field를 생성해준다. 
+
+
+* 단, field를 사용하지 않는 커스텀 접근자 구현을 정의하면 Backing Field는 존재하지 않는다. 
+    - val인 경우 getter에 field가 없으면 된다. 
+    - var인 경우 getter/setter 모두 field가 없어야 한다. 
+
+<br />
+<br />
+
+### 4.2.5 접근자의 가시성 변경 
+접근자의 가시성은 기본적으로 프로퍼티의 가시성과 같다.    
+
+
+```kotlin 
+class LengthCounter {
+    var counter: Int = 0
+        private set
+    
+    fun addWord(word: String) {
+        counter += word.length
+    }
+}
+```
+
+
+* 클래스의 내부에서 길이를 변경하도록 만들고 싶다. 
+  
+* 기본 가시성을 가진 getter를 컴파일러가 생성하게 내버려 두는 대신 setter의 가시성을 private으로 지정한다. 
+
+<br />
+
+```kotlin 
+val lengthCounter = LengthCounter()
+lengthCounter.addWord("Hi!")
+println(lengthCounter.counter) // 3
+```
+
+<br />
+
+> 프로퍼티에 대해서 나중에 다룰 내용   
+> * lateinit 변경자를 not null 프로퍼티에 지정하면 프로퍼티를 생성자가 호출된 다음에 초기화한다는 뜻이다.     
+>   일부 프레임워크에서는 이런 특성이 꼭 필요하다.   
+>
+> * 요청이 들어오면 비로소 초기화되는 지연 초기화 프로퍼티는 더 일반적인 위임 프로퍼티의 일종이다.  
+>
+> * 자바 프레임워크와의 호환성을 위해 자바의 특징을 코틀린에서 에뮬레이션하는 어노테이션을 활용할 수 있다.     
+>   예) `@JvmField` 어노테이션을 프로퍼티에 붙이면 접근자가 없는 public 필드를 노출시켜준다.     
+>   const 변경자를 사용하면 어노테이션을 더 편리하게 다룰 수 있고,  
+>   원시 타입이나 String 타입인 값을 어노테이션의 인자로 활용할 수 있다.   
+
+<br />
+<br />
+
+## 4.3 컴파일러가 생성한 메서드: 데이터 클래스와 클래스 위임 
+### 4.3.1 모든 클래스가 정의해야 하는 메서드 
+
+```kotlin 
+class Client(val name: String, val postalCode: Int)
+```
+
+위 클래스의 인스턴스를 어떻게 문자열로 표현할 수 있을까?  
+
+<br />
+
+#### 문자열 표현: `toString()`
+기본 제공되는 객체의 문자열 표현은 Client@5e9fjs34 같은 방식인데, 이는 유용하지 않다.    
+기본 구현을 바꾸려면 toString 메서드를 오버라이드해야 한다.   
+
+```kotlin 
+class Client(val name: String, val postalCode: Int) {
+    override fun toString() = "Client(name=$name, postalCode=$postalCode)"
+}
+```
+
+<br />
+
+#### 객체의 동등성: `equals()`
+* 코틀린에서 `==` 연산자는 참조 동일성을 검사하지 않고 객체의 도등성을 검사한다.   
+  따라서 `==` 연산은 equals를 호출하는 식으로 컴파일된다. 
+
+<br />
+
+> 동등성 연산에서 `==` 를 사용하면?
+> - 자바
+>   * 원시 타입: 값이 같은지 비교 
+>   * 참조 타입: 주소가 같은지 비교 
+>
+> - 코틀린
+>   * `==`: 내부적으로 equals를 호출해서 비교한다. 
+>     즉 equals 를 오버라이드하면 안전하게 비교할 수 있다.  
+>   * `===`: 자바에서 참조 타입을 비교할 때 사용하는 `==` 과 같다.  
+
+<br />
+
+```kotlin 
+class Client(val name: String, val postalCode: Int) {
+    override fun equals(other: Any?): Boolean {
+        if(other == null || other !is Client)
+            return false
+        return name == other.name &&
+            postalCode == other.postalCode
+    }
+
+    ...
+
+}
+```
+
+* `Any?` 는 java.lang.Object에 대응하는 클래스이다.      
+  코틀린의 모든 클래스의 최상위 클래스로 "other"는 null일 수 있다. 
+
+
+* 코틀린의 `is` 는 자바의 `instanceof` 와 같다. 
+
+
+<br />
+
+equals를 오버라이드 하고 나서 더 복잡한 작업을 수행하다보면 제대로 작동하지 않을 때가 있다.   
+이때 hashCode 정의를 빠뜨려서 그렇다고 생각할 수 있는데,    
+이 예제에서는 실제 hashCode가 없다는 점이 원인이다.   
+
+<br />
+
+#### 해시 컨테이너: `hashCode()`
+* JVM 언어에서는 hashCode가 지켜야 하는     
+'equals()가 true를 반환하는 두 객체는 반드시 같은 hashCode()를 반환해야 한다.'     
+라는 제약이 있는데 Client는 이를 어기고 있다.    
+
+
+* processed 집합은 HashSet이다.   
+
+* HashSet은 원소를 비교할 때 비용을 줄이기 위해 먼저 객체의 해시 코드를 비교하고 해시 코드가 같은 경우에만 실제 값을 비교한다.   
+
+* 즉, 원소 객체들이 코드에 대한 규칙을 지키지 않는 경우 HashSet은 제대로 작동할 수 없다.   
+
+
+<br />
+
+```kotlin 
+override fun hashCode(): Int = name.hashCode() * 31 + postalCode
+```
+
+
+<br />
+<br />
+
+### 4.3.2 데이터 클래스: 모든 클래스가 정의해야 하는 메서드 자동 생성 
+* `data` 변경자를 클래스 앞에 붙이면 필요한 메서드를 컴파일러가 자동으로 만들어준다.    
+  - equals
+  - hashCode
+  - toString 
+
+<br />
+
+#### 데이터 클래스의 불변성: `copy()` 메서드
+* 데이터 클래스의 프로퍼티가 꼭 val 일 필요는 없다.   
+* 하지만 데이터 클래스의 모든 프로퍼티를 읽기 전용으로 만들어서 데이터 클래스를 불변으로 만들라고 권장한다.   
+* HashMap 등의 컨테이너에 데이터 클래스 객체를 담는 경우엔 불변성이 필수적이다.   
+
+
+
+
+
+
+
+
+
+
+
