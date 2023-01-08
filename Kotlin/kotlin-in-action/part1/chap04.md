@@ -619,7 +619,7 @@ class MyButton : View {
 }
 ```
 
-![img3](../../img/img3.png)
+<img width="646" alt="스크린샷 2023-01-08 오후 10 09 01" src="https://user-images.githubusercontent.com/33855307/211197739-5a80cd50-a0a9-49af-abc8-bfe5a2cb5f39.png">
 
 <br /> 
 
@@ -637,7 +637,8 @@ class MyButton : View {
 }
 ```
 
-![img4](../../img/img4.png)
+
+<img width="638" alt="스크린샷 2023-01-08 오후 10 09 22" src="https://user-images.githubusercontent.com/33855307/211197741-815b1dfc-cc27-4d2e-85d0-905b559d7942.png">
 
 
 * 클래스에 주 생성자가 없다면 모든 부 생성자는 반드시 상위 클래스를 초기화하거나 다른 생성자에게 생성을 위힘해야 한다.   
@@ -1130,7 +1131,7 @@ But! 최상위 함수는 private 으로 표시된 클래스 비공개 멤버에 
 
 <br />
 
-<img src="/Users/hyerin/Documents/TIL/Kotlin/img/img3.png" width="70%">    
+<img width="486" alt="img3" src="https://user-images.githubusercontent.com/33855307/211196847-227b3c88-f54d-4d99-81b9-776a77d3fbb4.png">
 
 클래스 밖에 있는 최상위 함수는 비공개 멤버를 사용할 수 없다. ⤴      
 
