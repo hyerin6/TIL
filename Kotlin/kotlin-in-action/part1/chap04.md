@@ -914,17 +914,547 @@ override fun hashCode(): Int = name.hashCode() * 31 + postalCode
 <br />
 
 #### 데이터 클래스의 불변성: `copy()` 메서드
-* 데이터 클래스의 프로퍼티가 꼭 val 일 필요는 없다.   
+* 데이터 클래스의 프로퍼티가 꼭 val 일 필요는 없다. var 프로퍼티 사용 가능     
 * 하지만 데이터 클래스의 모든 프로퍼티를 읽기 전용으로 만들어서 데이터 클래스를 불변으로 만들라고 권장한다.   
-* HashMap 등의 컨테이너에 데이터 클래스 객체를 담는 경우엔 불변성이 필수적이다.   
+* HashMap 등의 컨테이너에 데이터 클래스 객체를 담는 경우엔 불변성이 필수적이다.  
+  why? 데이터 클래스 객체를 key로 담았는데 key 데이터 객체의 프로퍼티를 변경하면 컨테이너 상태가 잘못될 수 있다.   
+* 불변 객체를 주로 사용하는 프로그램 > 스레드가 사용 중인 데이터를 다른 스레드가 변경 x > 스레드 동기화할 필요가 줄어든다. 
+
+<br />  
+
+코틀린은 데이터 클래스 인스턴스를 불변 객체로 더 쉽게 활용할 수 있게 copy 메서드를 제공한다.  
+* 객체를 복사하면서 일부 프로퍼티를 바꿀 수 있게 해주는 copy 메서드이다.         
+* 객체를 메모리상에서 직접 바꾸는 대신 복사본을 만드는 편이 더 낫다.         
+* 복사본은 원본과 다른 생명주기를 가지며, 복사를 하면서 일부 프로퍼티 값을 바꾸거나 복사본을 제거해도            
+  프로그램에서 원본을 참조하는 다른 부분에 전혀 영향을 끼치지 않는다.
+
+<br />
+<br />
+
+### 4.3.3 클래스 위임: `by` 키워드 사용 
+대규모 객체지향 시스템을 설계할 때 시스템을 취약하게 만드는 문제는 보통 구현 상속에 의해 발생한다. (implementation inheritance)
+
+상위 클래스의 구현이 바뀌거나 새로운 메서드가 추가되면 하위 클래스에 영향을 미칠 수 있다.   
+
+이런 문제를 인식하고 코틀린에서 기본적으로 클래스를 `final`로 취급하기로 했다.
+
+* 모든 클래스를 기본적으로 final로 취급, 상속을 염두에 두고 open 변경자로 열어둔 클래스만 확장  
+
+* but 종종 상속을 허용하지 않는 클래스에 새로운 동작을 추가해야 할 때가 있다.   
+
+* 이럴 때 사용하는 일반적인 방법이 데코레이터 패턴이다.
+    - 상속을 허용하지 않는 클래스(기존 클래스) 대신 사용할 수 있는 새로운 클래스를 만들되 기존 클래스와 같은 인터페이스를 데코레이터가 제공하게 만들고,   
+      기존 클래스를 데코레이터 내부에 필드로 유지하는 것이다. 
+    - 이때 데코레이터 패턴의 메서드에 새로 정의하고 (기존 클래스의 메서드나 필드를 활용) 기존 기능이 그대로 필요한 부분은   
+      데코레이터의 메서드가 기존 클래스의 메서드에게 요청을 전달(forwarding)한다.   
+  
+* 위 접근 방법의 단점은 준비 코드가 상당히 많이 필요하다는 점이다.   
+    - 예) Collection 같이 비교적 단순한 인터페이스를 구현하면서 아무 동작도 변경하지 않는 데코레이터를 만들 때조차 복잡한 코드를 작성해야 한다. 
+
+
+#### Collection 데코레이터 
+
+```kotlin
+class DelegatingCollection<T> : Collection<T> {
+  private val innerList = arrayListOf<T>()
+  
+  override val size: Int get() = innerList.size
+  override fun isEmpty(): Boolean = innerList.isEmpty()
+  ...
+}
+```
+
+
+* 이런 위임을 언어가 제공하는 일급 시민 기능으로 지원한다는 점이 코틀린의 장점이다.
+* 인터페이스를 구현할 때 `by` 키워드를 통해 그 인터페이스에 대한 구현을 다른 객테에 위임 중이라는 사실을 명시할 수 있다. 
+
+#### 위임을 사용한 Collection 데코레이터 
+```kotlin
+class DelefatingCollection<T> (
+  innerList: Collection<T> = ArrayList<T>()
+) : Collection<T> by innerList {}
+```
+
+* 클래스 안에 있던 모든 메서드를 컴파일러가 자동으로 생성한다. 
+* 메서드 중 일부의 동작을 변경하고 싶은 경우 메서드를 오버라이드하면 컴파일러가 생성한 메서드 대신 오버라이드한 메서드가 쓰인다.   
+
+<br />
+<br />
+
+## 4.4 `object` 키워드: 클래스 선언과 인스턴스 생성 
+코틀린에서는 `object` 키워드는 모든 경우 클래스를 정의하면서 동시에 인스턴스(객체)를 생성한다는 공통점이 있다.   
+
+* 객체 선언(object declaration): 싱글턴을 정의하는 방법 중 하나다.       
+
+
+* 동반 객체(companion object): 인스턴스 메서드는 아니지만 어떤 클래스와 관련 있는 메서드와 팩토리 메서드를 담을 때 쓰인다.     
+  동반 객체 메서드에 접근할 때는 동반 객체가 포함된 클래스의 이름을 사용할 수 있다.   
+ 
+
+* 객체 식은 자바의 익명 내부 클래스(anonymous inner class) 대신 쓰인다.       
+
+<br />
+<br />
+
+### 4.4.1 객체 선언: 싱글턴을 쉽게 만들기 
+자바에서는 보통 클래스의 생성자를 private으로 제한하고 정적인 필드에 그 클래스의 유일한 객체를 저장하는 싱클턴 패턴을 통해 이를 구현한다.   
+
+코틀린은 객체 선언 기능을 통해 싱글턴을 언어에서 기본 지원한다.   
+
+객체 선언은 클래스 선언과 그 클래스에 속한 단일 인스턴스의 선언을 합친 선언이다.   
+
+예) 객체 선언을 사용한 회사 급여 대장 - 한 회사에 여러 대장이 필요하지 않아 싱글턴을 쓰는 게 맞아 보인다.  
+
+```kotlin
+object Payroll {
+  val allEmployee = arrayListOf<Person>()
+  
+  fun calculateSalary() {
+    for (person in allEmployee) {
+      ...
+    }
+  }
+}
+```
+
+
+* 객체 선언은 object 키워드로 시작한다.
+
+* 클래스와 마찬가지로 객체 선언 안에도 프로퍼티, 메서드, 초기화 블록 등이 들어갈 수 있다.
+    - but 생성자는 객체 선언에 쓸 수 없다. 
+    - 일반 클래스 인스턴스와 달리 싱글턴 객체는 객체 선언문이 있는 위치에서 생성자 호출 없이 즉시 만들어진다. 
+    - 따라서 객체 선언에는 생성자 정의가 필요 없다. 
+  
+* 변수와 마찬가지로 객체 선언에 사용한 이름 뒤에 마침표(`.`)를 붙이면 객체에 속한 메서드나 프로퍼티에 접근할 수 있다.
+
+```kotlin
+Payroll.allEmployee.add(Person(...))
+Payroll.calculateSalary()
+```
+
+* 객체 선언도 클래스나 인터페이스를 상속할 수 있다.
+    - 프레임워크 사용을 위해 인터페이스를 구현해야 하는데, 구현 내부에 다른 상태가 필요하지 않은 경우 유용한 기능이다.  
+    - 예) java.util.Comparator 인터페이스 
+    - Comparator 안에는 데이터를 저장할 필요가 없다. 따라서 Comparator 인스턴스를 만드는 방법으로 객체 선언이 가장 좋은 방법이다. 
+
+<br />  
+
+#### 객체 선언을 사용해 Comparator 구현하기 
+```kotlin
+object CaseInsentiveFileComparator : Comparator<File> {
+  override fun compre(file1: FIle, file2: File) : Int {
+    return file1.path.compareTo(file2.path, ignoreCase = true)
+  }
+}
+
+>>> println(CaseInsentiveFileComparator.compare(
+...   File("/User"), File("/user")))
+0
+```
+
+일반 객체(클래스 인스턴스)를 사용할 수 있는 곳에서는 항상 싱글턴 객체를 사용할 수 있다. 
+예) Comparator 를 인자로 받는 함수에게 인자로 넘길 수 있다. 
+
+```kotlin
+>>> val files = listOf(File("/Z"), File("/a"))
+>>> println(files.sortedWith(CaseInsentiveFileComparator))
+[/a, /Z]
+```
+
+전달받은 Comparator에 따라 리스트를 정렬하는 sortedWith 함수를 사용한다. 
+
+
+> **싱글톤과 의존관계 주입**    
+> 싱글톤 패턴과 마찬가지 이유로 대규모 소프트웨어 시스템에서는 객체 선언이 항상 적합하지는 않다.           
+> * 대규모 컴포넌트에서는 다양한 구성 요소와 상호작용이 있다.   
+>     - 싱글톤이 적합하지 않다.
+>     - 객체 생성을 제어할 수 없고 생성자 파라미터를 지정할 수 없기 때문이다.
+> * 생성 제어 x, 생성자 파라미터 지정 x 
+>     - 단위 테스트가 어렵다.
+>     - 설정이 달라질 때 객체를 대체하거나 객체의 의존관계를 바꿀 수 없다.
+>
+> 따라서 그런 기능이 필요하다면 의존 관계 주입 프레임워크와 코틀린 클래스를 함께 사용해야 한다.   
+
+<br />
+
+클래스 안에서 객체를 선언할 수도 있다.   
+그런 객체도 인스턴스는 단 하나뿐이다. (바깥 클래스의 인스턴스마다 중첩 객체 선언에 해당하는 인스턴스가 하나씩 따로 생기는 것이 아니다.)   
+
+#### 중첩 객체를 사용해 Comparator 구현하기 
+```kotlin
+data class Person(val name: String) {
+  object NameComparator : Comparator<Person> {
+    override fun compare(p1: Person, p2: Person) : Int = 
+      p1.name.compareTo(p2.name)
+  } 
+}
+
+>>> val persons = listOf(Person("Bob"), Person("Alice"))
+>>> println(persons.sortedWith(Person.NameComparator))
+[Person(name=Alice), Person(name=Bob)]
+```
+
+<br />
+
+> **코틀린 객체를 자바에서 사용하기**      
+> 코틀린 객체 선언은 유일한 인스턴스에 대한 정적인 필드가 있는 자바 클래스로 컴파일된다.   
+> 이때 인스턴스 필드의 이름은 항상 `INSTANCE`다.   
+> 싱글톤 패턴을 자바에서 구현해도 비슷한 필드가 필요하다.   
+> 자바 코드에서 코틀린 싱글톤 객체를 사용하려면 정적인 `INSTANCE` 필드를 통하면 된다.   
+> 
+> ```java
+> /* 자바 */
+> caseInsensitiveFileComparator.INSTANCE.compare(file1, file2);
+> ```
+> 
+> 이 예제에서 `INSTANCE` 필드의 타입은 `caseInsensitiveFileComparator` 이다. 
+
+
+<br />
+<br />
+
+### 4.4.2 동반 객체: 팩토리 메서드와 정적 멤버가 들어갈 장소  
+* 코틀린 클래스 안에는 정적인 멤버가 없다. 
+    - 코틀린 언어는 자바 `static` 키워드를 지원하지 않는다. 
+
+
+* 코틀린에서는 패키지 수준의 최상위 함수와 객체 선언을 활용한다. 
+    - 최상위 함수: 자바의 정적 메서드 역할을 거의 대신 할 수 있다. 
+    - 객체 선언: 자바의 정적 메서드 역할 중 코틀린 최상위 함수가 대신할 수 없는 역할이나 정적 필드를 대신할 수 있다.  
+
+
+* 대부분의 경우 최상위 함수를 활용하는 편을 더 권장한다.   
+But! 최상위 함수는 private 으로 표시된 클래스 비공개 멤버에 접근할 수 없다.   
+그래서 클래스의 인스턴스와 관계없이 호출해야 하지만, 클래스 내부 정보에 접근해야 하는 함수가 필요할 때는   
+클래스에 중첩된 객체 선언의 멤버 함수로 정의해야 한다.  
+
+<br />
+
+<img src="/Users/hyerin/Documents/TIL/Kotlin/img/img3.png" width="70%">    
+
+클래스 밖에 있는 최상위 함수는 비공개 멤버를 사용할 수 없다. ⤴      
+
+<br />
+
+클래스 안에 정의된 객체 중 하나에 `companion` 이라는 특별한 표시를 붙이면 그 클래스의 동받 객체로 만들 수 있다.    
+
+* 동반 객체의 프로퍼티나 메서드에 접근하려면 그 동받 객체가 정의된 클래스 이름을 사용한다. 
+* 객체의 이름을 따로 지정할 필요가 없다.  
+* 동반 객체의 멤버를 사용하는 구문은 자바의 정적 메서드 호출이나 정적 필드 사용 구문과 같아진다.   
+
+```kotlin
+class A {
+  companion object {
+    fun bar() {
+      println("Companion object called")
+    }
+  }
+}
+
+>>> A.bar()
+Companion object called
+```
+
+
+동반 객체는 `private` 생성자를 호출하기 좋은 위치이다.    
+
+* 동반 객체는 자신을 둘러싼 클래스의 모든 private 멤버에 접근할 수 있다. 
+* 동반 객체는 바깥쪽 클래스의 private 생성자도 호출할 수 있다. 
+* 동반 객체는 팩토리 패턴을 구현하기 가장 적합한 위치다.   
+
+<br />
+
+#### 부 생성자가 여럿 있는 클래스 정의하기 
+```kotlin  
+class User {
+  val nickname: String 
+  
+  constructor(email: String) { // 부 생성자 
+    nickname = email.substringBefore('@)
+  }
+  
+  constructor(facebookAccountId: Int) { // 부 생성자 
+    nickname = getFacebookName(facebookAccountId)
+  }
+  
+}
+```
+
+이런 로직을 표현하는 더 유용한 방법으로 클래스의 인스턴스를 생성하는 팩토리 메서드가 있다.   
+
+<br />  
+
+#### 부 생성자를 팩토리 메서드로 대신하기
+```kotlin 
+class User private constructor(val nickname: String) { // 주 생성자를 비공개로 만든다. 
+  companion object { // 동반 객체를 선언한다. 
+    fun newSubscribingUser(email: String) = 
+      User(email.substringBefore('@'))
+    fun newFacebookUser(accountId: Int) = // 페이스북 사용자 ID로 사용자를 만드는 팩토리 메서드 
+      User(getFacebookName(accountId))
+  }
+}
+```
+
+클래스 이름을 사용해 그 클래스에 속한 동반 객체의 메서드를 호출할 수 있다. 
+
+```text 
+>>> val subscribingUser = User.newSubscribingUser("bob@gmail.com")
+>>> val facebookUser = User.newFacebookUser(4)
+>>> println(subscribingUser.nickname)
+bob 
+```
+
+* 목적에 따라 팩토리 메서드 이름을 정할 수 있다. 
+
+
+* 팩토리 메서드는 그 팩토리 메서드가 선언된 클래스의 하위 클래스 객체를 반환할 수 있다.   
+
+
+* 팩토리 메서드는 생성할 필요가 없는 객체를 생성하지 않을 수도 있다.   
+    - 예) 이미 존재하는 인스턴스에 해당하는 이메일 주소를 전달받으면 캐시에 있는 인스턴스를 반환할 수 있다.
+  
+
+* 클래스를 확장해야만 하는 경우, 동반 객체 멤버를 하위 클래스에서 오버라이드할 수 없으므로 여러 생성자를 사용하는 편이 더 나은 해법이다.   
+
+<br />  
+<br />  
+
+### 4.4.3 동반 객체를 일반 객체처럼 사용 
+* 동반 객체는 클래스 안에 정의된 일반 객체다. 
+    - 동반 객체에 이름을 붙이기 가능 
+    - 인터페이스 상속 가능 
+    - 동반 객체 안에 확장 함수와 프로퍼티를 정의 가능 
+
+<br /> 
+
+#### 예시 상황) 회사의 급여 명부를 제공하는 웹 서비스 만들기 
+서비스에서 사용하지 위해 객체를 JSON으로 직렬화 or 역직렬화를 해야 한다.    
+직렬화 로직을 동반 객체 안에 넣을 수 있다.
+
+<br /> 
+
+#### 동반 객체에 이름 붙이기 
+```kotlin
+class Person(val name: String) {
+  companion object Loader {
+    fun fromJSON(jsonText: String): Person = ... // 동반 객체에 이름을 붙인다. 
+  }
+}
+
+>>> person = Person.Loader.fromJSON("{name: 'Dmitry'}") // 방법 (1)
+>>> person.name
+Dmitry
+>>> person2 = Person.fromJSON("{name: 'Brent'}") // 방법 (2)
+>>> person2.name
+Brent
+
+// 두 방법 모두 제대로 fromJSON을 호출할 수 있다.  
+```
+
+<br />
+
+#### 동반 객체에서 인터페이스 구현 
+
+(1) 동반 객체도 인터페이스를 구현할 수 있다.  
+(2) 인터페이스를 구현하는 동반 객체를 참조할 때 객체를 둘러싼 클래스의 이름을 바로 사용할 수 있다.   
+
+
+* 동반 객체에서 인터페이스 구현 
+```kotlin
+interface JSONFactory<T> {
+  fun fromJSON(jsonText: string): T
+}
+
+class Person(val name: string) {
+  companion object: JSONFactory<Person> {
+    override fun fromJSON(jsonText: String): Person = ... // 동반 객체가 인터페이스를 구현 
+  }
+}
+```
+
+* 동반 객체가 구현한 JSONFactory의 인스턴스를 넘길 때 Person 클래스 이름을 사용한다. 
+
+```kotlin
+fun loadFromJSON<T>(factory: JSONFactory<T>): T {
+  ...
+}
+
+loadFromJSON(Person) // 동반 객체의 인스턴스를 함수에 넘긴다. 
+```
+
+<br />  
+
+> **코틀린 동반 객체와 정적 멤버**   
+> 클래스의 동반 객체는 일반 객체와 비슷한 방식으로, 클래스에 정의된 인스턴스를 가리키는 정적 필드로 컴파일된다.   
+> 동반 객체에 이름을 붙이지 않았다면 자바 쪽에서 Companion 이라는 이름으로 그 참조에 접근할 수 있다.   
+> 
+> ```
+> /* 자바 */
+> Person.Companion.fromJSON("...");
+> ```  
+> 동반 객체에 이름을 붙였다면 Companion 대신 그 이름이 쓰인다. 
+> 
+> 때로 자바에서 사용하기 위해 코틀린 클래스의 멤버를 정적인 멤버로 만들어야 할 필요가 있다.   
+> 그런 경우 `@JvmStatic` 어노테이션을 코틀린 멤버에 붙이면 된다.   
+> 정적 필드가 필요하다면 `@JvmField` 어노테이션을 최상위 프로퍼티나 객체에서 선언된 프로퍼티 앞에 붙인다.   
+> 이 기능은 자바와의 상호운용성을 위해 존재하며, 정확히 말하자면 코틀린 핵심 언어가 제공하는 기능은 아니다.   
+>
+> 코틀린에서도 자바의 정적 필드나 메서드를 사용할 수 있다. 그런 경우 자바와 똑같은 구문을 사용한다. 
+
+<br /> 
+
+#### 동반 객체 확장
+확장 함수를 사용해 코드 기반의 다른 곳에서 정의된 클래스의 인스턴스에 대해 새로운 메서드를 정의할 수 있다.     
+
+그렇다면 자바의 정적 메서드나 코틀린의 동반 객체 메서드처럼 기존 클래스에 대해 호출할 수 있는 새로운 함수를 정의하고 싶다면?  
+클래스에 동반 객체가 있으면 그 객체 안에 함수를 정의함으로써 클래스에 대해 호출할 수 있는 확장 함수를 만들 수 있다.   
+
+```text
+C 라는 클래스 안에 동반객체가 있고 그 동반객체 (C.companion) 안에 func를 정의하면 외부에서는 func() 를 C.func()로 호출할 수 있다.    
+```
+
+<br />
+
+
+위 Person 예제에서 관심사를 좀 더 명확히 분리하려면?   
+* Person 클래스는 핵심 비즈니스 로직 모듈의 일부이다.   
+* 비즈니스 로직 모듈이 특정 타입에 의존하기를 원치 않는다.   
+* 확장 함수를 사용하면 다음과 같이 클라이언트-서버 통신을 담당하는 모듈 안에 역직렬화 함수를 포함시킬 수 있다. 
 
 
 
+**동반 객체에 대한 확장 함수 정의**   
+
+```kotlin
+// 비즈니스 로직 모듈 
+class Person(val firstName: String, val lastName: String) {
+  companion object { // 비어있는 동반 객체를 선언한다. 
+  }
+}
+
+// 클라이언트-서버 통신 모듈
+fun Person.Companion.fromJSON(json: String): Person { // 확장 함수 선언
+  ...
+} 
+
+val p = Person.fromJSON(json)
+```
+
+동반 객체 안에서 fromJSON 함수를 정의한 것처럼 fromJSON을 호출할 수 있다.    
+그러나 실제로 fromJSON은 클래스 밖에서 정의한 확장 함수다.   
+여기서 동반 객체에 대한 확장 함수를 작성할 수 있으려면 원래 클래스에 동반 객체가 꼭 선언되어 있어야 한다.   
+설령 빈 객체라도 동반 객체가 꼭 있어야 한다.   
+
+<br />
+<br />
 
 
+### 4.4.4 객체 식: 무명 내부 클래스를 다른 방식으로 작성 
+* 익명 객체를 정의할 때도 object 키워드를 쓴다.   
+* 익명 객체는 자바의 익명 내부 클래스를 대신한다. 
+
+**익명 객체로 이벤트 리스너 구현**  
+```kotlin
+window.addMouseListener(
+  object : MouseAdapter() { // MouseAdapter를 확장하는 익명 객체를 선언한다. 
+    
+    // MouseAdapter의 메서드를 오버라이드 한다. 
+    override fun mouseClicked(e: MouseEvent) {
+      ...
+    }
+    // MouseAdapter의 메서드를 오버라이드 한다. 
+    override fun mouseEntered(e: MouseEvent) {
+      ...
+    }
+    
+  }
+)
+```
 
 
+객체 식은 클래스를 정의하고 그 클래스에 속한 인스턴스를 생성하지만 그 클래스나 인스턴스에 이름을 붙이지는 않는다.     
+이런 경우 보통 함수를 호출하면서 인자로 무명 객체를 넘기기 때문에 클래스와 인스턴스 모두 이름이 필요하지 않다.   
+<br />  
 
+한 인터페이스만 구현하거나 한 클래스만 확장할 수 있는 자바의 익명 내부 클래스와 달리   
+코틀린 익명 클래스는 여러 인터페이스를 구현하거나 클래스를 확장하면서 인터페이스를 구현할 수 있다.     
+<br />  
+
+> 객체 선언과 달리 익명 객체는 싱글턴이 아니다.   
+> 객체 식이 쓰일 때마다 새로운 인스턴스가 생성된다.  
+
+<br />
+
+* 자바의 익명 클래스와 같이 객체 식 안의 코드는 그 식이 포함된 함수의 변수에 접근 가능 
+    - 그러나 자바와 달리 final이 아닌 변수도 객체 식 안에서 사용 가능   
+* 따라서 객체 식 안에서 그 변수의 값 변경 가능 
+* 예) 윈도우가 호출된 횟수를 리스너에서 누적하게 구현 가능 
+
+```kotlin
+fun countClicks(window: Window) {
+  var clickCount = 0 // 로컬 변수 정의 
+  window.addMouseListener(object: MouseAdapter() {
+    override fun mouseClicked(e: MouseEvent) {
+      clickCount++ // 로컬 변수의 값 변경 
+    }
+  })
+  // ...
+}
+```
+
+
+> 객체 식은 익명 객체 안에서 여러 메서드를 오버라이드해야 하는 경우에 훨씬 더 유용하다.   
+> 메서드가 하나뿐인 인터페이스(Runnable 등의 인터페이스)를 구현해야 한다면 코틀린의 SAM 변환 지원을 활용하는 편이 낫다.
+
+<br />
+<br />
+
+## 요약 
+* 코틀린의 인터페이스는 자바 인터페이스와 비슷하지만 디폴트 구현을 포함 할 수 있고 (자바8부터 가능) 프로퍼티도 포함할 수 있다. (자바에서 불가능)
+
+
+* 모든 코틀린 선언은 기본적으로 final이며 public이다. 
+
+
+* 선언이 final이 되지 않게 만들려면(상속과 오버라이딩이 가능하게 하려면) 앞에 open을 붙여야 한다. 
+
+
+* internal 선언은 같은 모듈 안에서만 볼 수 있다. 
+
+
+* 중첩 클래스는 기본적으로 내부 클래스가 아니다. 
+  바깥쪽 클래스에 대한 참조를 중첩 클래스 안에 포함시키려면 inner 키워드를 줄첩 클래스 선언 앞에 붙여서 내부 클래스로 만들어야 한다.   
+
+
+* sealed 클래스를 상속하는 클래스를 정의하려면 반드시 부모 클래스 정의 안에 중첩 클래스로 정의해야 한다. 
+    - 코틀린 1.1 부터는 같은 파일 안에만 있으면 된다.   
+
+
+* 초기화 블록과 부 생성자를 활용해 클래스 인스턴스를 더 유연하게 초기화할 수 있다.   
+
+
+* field 식별자를 통해 프로퍼티 접근자(getter/setter) 안에서 프로퍼티의 데이터를 저장하는 데 쓰이는 Backing Field 를 참조할 수 있다.   
+
+
+* 데이터 클래스를 사용하면 컴파일러가 equals, hashCode, toString, copy 등의 메서드를 자동으로 생성해준다.   
+
+
+* 클래스 위임을 사용하면 위임 패턴을 구현할 때 필요한 수많은 성가신 준비 코드를 줄일 수 있다.  
+
+
+* 객체 선언을 사용하면 코틀린 답게 싱글턴 클래스를 정의할 수 있다.  
+
+
+* (패키지 수준 함수와 프로퍼티 및 동반 객체와 더불어) 동반 객체는 자바의 정적 메서드와 필드 정의를 대신한다. 
+
+
+* 동반 객체도 다른 (싱글턴) 객체와 마찬가지로 인터페이스를 구현할 수 있다.   
+외부에서 동반 객체에 대한 확장 함수와 프로퍼티를 정의할 수 있다.  
+
+
+* 코틀린의 객체 식은 자바의 익명 내부 클래스를 대신한다.     
+하지만 코틀린 객체 식은 여러 인스턴스를 구현하거나 객체가 포함된 영역(scope)에 있는 변수의 값을 변경할 수 있는 등 자바 익명 내부 클래스보다 더 많은 기능을 제공한다.    
 
 
 
